@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         HandleInputs();
+        HandleCoyote();
         GroundCheck();
     }
     void FixedUpdate()
@@ -34,13 +35,15 @@ public class PlayerMovement : MonoBehaviour
 
     bool jumpDown;
     bool jumpHeld;
+    bool jumpUp;
     private bool jumpAvail;
     void HandleInputs()
     {
         moveHorizontal = Input.GetAxis("Horizontal");
         
         jumpDown = Input.GetButtonDown("Jump");
-        jumpHeld = Input.GetButton("Jump");
+        jumpHeld = Input.GetButton("Jump"); 
+        jumpUp = Input.GetButtonUp("Jump");
         
         if (jumpDown)
         {
@@ -49,6 +52,11 @@ public class PlayerMovement : MonoBehaviour
             if (jumpBufferCoroutine != null) {StopCoroutine(jumpBufferCoroutine);}
             
             jumpBufferCoroutine = StartCoroutine(JumpBuffer());
+        }
+
+        if (jumpUp && rb.velocity.y > 0)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
         }
     }
     
@@ -74,24 +82,57 @@ public class PlayerMovement : MonoBehaviour
     
     [SerializeField] Collider2D groundCheck;
     [SerializeField] LayerMask groundLayer;
+    
     bool isGrounded;
+    bool isCoyote;
+    bool canCoyote;
+    bool didJump;
 
     void GroundCheck()
     {
-        isGrounded = Physics2D.OverlapArea(groundCheck.bounds.min, groundCheck.bounds.max, groundLayer); 
+        isGrounded = Physics2D.OverlapArea(groundCheck.bounds.min, groundCheck.bounds.max, groundLayer);
+
+        if (isGrounded && rb.velocity.y == 0)
+        {
+            didJump = false;
+            canCoyote = true;
+        }
     }
     bool CanJump()
     {
         if(!jumpAvail) {return false;}
 
-        if (!isGrounded) {return false;}
+        if (!isGrounded && !isCoyote) {return false;}
 
         return true;
     }
 
+    void HandleCoyote()
+    {
+        if (!didJump && !isGrounded && canCoyote)
+        {
+            isCoyote = true;
+            canCoyote = false;
+            
+            if(coyoteCoroutine != null) {StopCoroutine(coyoteCoroutine);}
+
+            coyoteCoroutine = StartCoroutine(CoyoteTimer());
+        }
+    }
+
+    Coroutine coyoteCoroutine;
+    IEnumerator CoyoteTimer()
+    {
+        yield return new WaitForSeconds(coyoteTime);
+        isCoyote = false;
+    }
+    
+    
+
     [Header("Jump")]
     [SerializeField] float jumpForce = 5f;
     [SerializeField] float jumpBufferTime = 0.2f;
+    [SerializeField] float coyoteTime = 0.1f;
     
     
     void HandleJump()
@@ -99,9 +140,9 @@ public class PlayerMovement : MonoBehaviour
         if (CanJump())
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            didJump = true;
             
             jumpAvail = false;
-            didFastFall = false;
         }
 
        
@@ -125,23 +166,23 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float fastGravity = 1;
     
     [SerializeField] float maxFallSpeed = 20f;
+    [SerializeField] float apexThreshHold = 3f;
     
     float currentGravity;
     
     void HandleGravity()
     {
-        if (isGrounded && rb.velocity.y == 0)
-        {
-            didFastFall = false;
-        }
         
-        if (CanFastFall())
+        
+        if (!jumpHeld || rb.velocity.y < -apexThreshHold)
         {
-            rb.velocity = new Vector2(rb.velocity.x, 0.4f * rb.velocity.y);
             currentGravity = fastGravity;
-            didFastFall = true;
         }
-        else if (!didFastFall)
+        else if (MathF.Abs(rb.velocity.y) < apexThreshHold && jumpHeld)
+        {
+            currentGravity = defaultGravity * 0.5f;
+        }
+        else
         {
             currentGravity = defaultGravity;
         }
@@ -151,15 +192,7 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -maxFallSpeed, Mathf.Infinity));
     }
     
-    bool didFastFall;
-    bool CanFastFall()
-    {
-        if (rb.velocity.y > 0.1 && !jumpHeld && !didFastFall)
-        {
-            return true;
-        }
-        return false;
-    }
+  
 
     #endregion
 
