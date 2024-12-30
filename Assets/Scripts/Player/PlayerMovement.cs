@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         HandleInputs();
+        GroundCheck();
     }
     void FixedUpdate()
     {
@@ -32,16 +33,22 @@ public class PlayerMovement : MonoBehaviour
     float moveHorizontal;
 
     bool jumpDown;
+    bool jumpHeld;
     private bool jumpAvail;
     void HandleInputs()
     {
         moveHorizontal = Input.GetAxis("Horizontal");
         
         jumpDown = Input.GetButtonDown("Jump");
-
+        jumpHeld = Input.GetButton("Jump");
+        
         if (jumpDown)
         {
             jumpAvail = true;
+            
+            if (jumpBufferCoroutine != null) {StopCoroutine(jumpBufferCoroutine);}
+            
+            jumpBufferCoroutine = StartCoroutine(JumpBuffer());
         }
     }
     
@@ -68,12 +75,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Collider2D groundCheck;
     [SerializeField] LayerMask groundLayer;
     bool isGrounded;
+
+    void GroundCheck()
+    {
+        isGrounded = Physics2D.OverlapArea(groundCheck.bounds.min, groundCheck.bounds.max, groundLayer); 
+    }
     bool CanJump()
     {
         if(!jumpAvail) {return false;}
-        
-        isGrounded = Physics2D.OverlapArea(groundCheck.bounds.min, groundCheck.bounds.max, groundLayer);
-        
+
         if (!isGrounded) {return false;}
 
         return true;
@@ -82,6 +92,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("Jump")]
     [SerializeField] float jumpForce = 5f;
     [SerializeField] float jumpBufferTime = 0.2f;
+    
+    
     void HandleJump()
     {
         if (CanJump())
@@ -89,14 +101,20 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             
             jumpAvail = false;
+            didFastFall = false;
         }
+
+       
     }
 
+    Coroutine jumpBufferCoroutine;
     IEnumerator JumpBuffer()
     {
         yield return new WaitForSeconds(jumpBufferTime);
         jumpAvail = false;
     }
+
+   
 
     #endregion
 
@@ -104,15 +122,43 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Gravity")]
     [SerializeField] float defaultGravity = 1;
-    [SerializeField] float apexGravity = 1;
+    [SerializeField] float fastGravity = 1;
+    
+    [SerializeField] float maxFallSpeed = 20f;
     
     float currentGravity;
     
     void HandleGravity()
     {
-        currentGravity = Physics2D.gravity.y * defaultGravity * Time.fixedDeltaTime;
+        if (isGrounded && rb.velocity.y == 0)
+        {
+            didFastFall = false;
+        }
         
-        rb.velocity += new Vector2(rb.velocity.x,currentGravity);
+        if (CanFastFall())
+        {
+            rb.velocity = new Vector2(rb.velocity.x, 0.4f * rb.velocity.y);
+            currentGravity = fastGravity;
+            didFastFall = true;
+        }
+        else if (!didFastFall)
+        {
+            currentGravity = defaultGravity;
+        }
+        
+        
+        rb.velocity += new Vector2(rb.velocity.x, currentGravity * Physics2D.gravity.y * Time.fixedDeltaTime);
+        rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -maxFallSpeed, Mathf.Infinity));
+    }
+    
+    bool didFastFall;
+    bool CanFastFall()
+    {
+        if (rb.velocity.y > 0.1 && !jumpHeld && !didFastFall)
+        {
+            return true;
+        }
+        return false;
     }
 
     #endregion
