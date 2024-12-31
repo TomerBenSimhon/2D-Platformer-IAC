@@ -231,6 +231,7 @@ GameObject:
   - component: {fileID: 2952773011058670532}
   - component: {fileID: 7171000956354568572}
   - component: {fileID: 3880716392854803099}
+  - component: {fileID: 80624616600947535}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -302,12 +303,24 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1536
   jumpForce: 18
-  jumpBufferTime: 0.15
+  jumpBufferTime: 0.1
   coyoteTime: 0.07
   defaultGravity: 4
   fastGravity: 6
   maxFallSpeed: 25
   apexThreshHold: 3
+--- !u!114 &80624616600947535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5409484533724600042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcdab2926a26c9e4088f00187e910ae9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &207665261464874677
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -386,6 +399,10 @@ PrefabInstance:
     - target: {fileID: -2253911629886400664, guid: 84761c2478c79c24291bf716402d537a, type: 3}
       propertyPath: m_Name
       value: Sword
+      objectReference: {fileID: 0}
+    - target: {fileID: 3626916397498700004, guid: 84761c2478c79c24291bf716402d537a, type: 3}
+      propertyPath: m_SortingOrder
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 84761c2478c79c24291bf716402d537a, type: 3}
       propertyPath: m_LocalPosition.x

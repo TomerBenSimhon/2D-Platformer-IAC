@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -22,6 +23,8 @@ public class PlayerMovement : MonoBehaviour
         HandleInputs();
         HandleCoyote();
         GroundCheck();
+        HandleAnimations();
+        HandleSpriteFlip();
     }
     void FixedUpdate()
     {
@@ -74,6 +77,12 @@ public class PlayerMovement : MonoBehaviour
     void HandleMovement()
     {
         rb.velocity = new Vector2(moveHorizontal * moveSpeed, rb.velocity.y);
+    }
+
+    void HandleSpriteFlip()
+    {
+        if(rb.velocity.x == 0) {return;}
+        transform.localScale = new Vector3(Mathf.Sign(rb.velocity.x), 1, 1);
     }
     
     #endregion
@@ -199,6 +208,38 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion
 
+    #region Animations
+
+    void HandleAnimations()
+    {
+        if (isGrounded)
+        {
+            playerAnimator.speed = 1;
+            swordAnimator.speed = 1;
+            if (Mathf.Abs(moveHorizontal) > 0)
+            {
+                playerAnimator.Play("Run");
+                swordAnimator.Play("Run");
+            }
+            else
+            {
+                playerAnimator.Play("Idle");
+                swordAnimator.Play("Idle");
+            }
+        }
+        else
+        {
+            float time = Helpers.MapValue(rb.velocity.y, -jumpForce, jumpForce, 0, 1f);
+            
+            playerAnimator.Play("Jump", 0, 0.99f - time);
+            swordAnimator.Play("Jump", 0, 0.99f - time);
+            playerAnimator.speed = 0;
+            swordAnimator.speed = 0;
+        }
+        
+    }
+
+    #endregion
    
 }
 
