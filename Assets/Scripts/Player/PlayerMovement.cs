@@ -6,6 +6,8 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 { 
     Rigidbody2D rb;
+    [SerializeField] Animator playerAnimator;
+    [SerializeField] Animator swordAnimator;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -117,6 +119,7 @@ public class PlayerMovement : MonoBehaviour
             if(coyoteCoroutine != null) {StopCoroutine(coyoteCoroutine);}
 
             coyoteCoroutine = StartCoroutine(CoyoteTimer());
+            
         }
     }
 
