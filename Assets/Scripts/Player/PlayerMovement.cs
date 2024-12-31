@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody2D rb;
     [SerializeField] Animator playerAnimator;
     [SerializeField] Animator swordAnimator;
+    [SerializeField] GameObject swordVisuals;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -215,28 +216,44 @@ public class PlayerMovement : MonoBehaviour
         if (isGrounded)
         {
             playerAnimator.speed = 1;
-            swordAnimator.speed = 1;
+            if(swordVisuals.activeSelf) {swordAnimator.speed = 1;}
             if (Mathf.Abs(moveHorizontal) > 0)
             {
-                playerAnimator.Play("Run");
-                swordAnimator.Play("Run");
+                PlayAnimations("Run",  false, 0);
             }
             else
             {
-                playerAnimator.Play("Idle");
-                swordAnimator.Play("Idle");
+                PlayAnimations("Idle",false, 0);
             }
         }
         else
         {
             float time = Helpers.MapValue(rb.velocity.y, -jumpForce, jumpForce, 0, 1f);
             
-            playerAnimator.Play("Jump", 0, 0.99f - time);
-            swordAnimator.Play("Jump", 0, 0.99f - time);
-            playerAnimator.speed = 0;
-            swordAnimator.speed = 0;
+            PlayAnimations("Jump", true, 0.99f - time);
+            
         }
         
+    }
+
+    public void PlayAnimations(string name, bool isTime, float time)
+    {
+        if (!isTime)
+        {
+            playerAnimator.Play(name);
+            if(swordVisuals.activeSelf) {swordAnimator.Play(name);}
+        }
+        else
+        {
+            playerAnimator.Play(name, 0, time);
+            playerAnimator.speed = 0;
+            if (swordVisuals.activeSelf)
+            {
+                swordAnimator.Play(name, 0, time);
+                swordAnimator.speed = 0;
+            }
+        }
+       
     }
 
     #endregion
