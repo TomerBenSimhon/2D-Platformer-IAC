@@ -22,6 +22,7 @@ public class PlayerActions : MonoBehaviour
     [SerializeField] float dashForce;
     [SerializeField] float dashDelay;
     [SerializeField] float dashDuration;
+    [SerializeField] float endDashDelay;
     [SerializeField] float attackRate;
     PlayerMovement playerMovement;
     
@@ -30,6 +31,7 @@ public class PlayerActions : MonoBehaviour
     {
         playerMovement = GetComponent<PlayerMovement>();
         rb = GetComponent<Rigidbody2D>();
+        
     }
 
     
@@ -47,15 +49,26 @@ public class PlayerActions : MonoBehaviour
     bool throwInput;
     bool throwAvail;
     
-    float currentAttackTime;
+    float currentAttackTime = -10f;
     
     void HandelInputs()
     {
         attackInput = Input.GetButtonDown("Fire1");
         throwInput = Input.GetButtonDown("Fire2");
-        
-        if(attackInput && Time.time > currentAttackTime + attackRate) { attacAvail = true; }
-        if(throwInput && swordVisuals.activeSelf){ throwAvail = true; }
+
+        if (attackInput && Time.time > currentAttackTime + attackRate)
+        {
+            attacAvail = true;
+            
+            if (attackBuffer != null) {StopCoroutine(attackBuffer);}
+
+            attackBuffer = StartCoroutine(AttackBuffer());
+        }
+
+        if (throwInput && swordVisuals.activeSelf)
+        {
+            throwAvail = true;
+        }
     }
     
 
@@ -92,7 +105,7 @@ public class PlayerActions : MonoBehaviour
     
     void HandleAttack()
     {
-        if (attacAvail)
+        if (attacAvail && swordVisuals.activeSelf && !attacking)
         {
             attacAvail = false;
             currentAttackTime = Time.time;
@@ -101,6 +114,13 @@ public class PlayerActions : MonoBehaviour
             StartCoroutine(AttacDash());
             StartCoroutine(AttacDashAnim());
         }
+    }
+
+    Coroutine attackBuffer;
+    IEnumerator AttackBuffer()
+    {
+        yield return new WaitForSeconds(0.1f);
+        attacAvail = false;
     }
 
     private float elapsedTime;
@@ -130,10 +150,10 @@ public class PlayerActions : MonoBehaviour
         yield return new WaitForSeconds(dashDuration);
         elapsedTime = 0;
         
-        while(elapsedTime < 0.2f)
+        while(elapsedTime < endDashDelay)
         {
             elapsedTime += Time.deltaTime;
-            rb.velocity = Vector2.Lerp(dash, Vector2.zero, elapsedTime / 0.2f); 
+            rb.velocity = Vector2.Lerp(dash / 2, Vector2.zero, elapsedTime / endDashDelay); 
             yield return new WaitForEndOfFrame();
         }
         
