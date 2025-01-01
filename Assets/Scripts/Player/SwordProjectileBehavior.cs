@@ -19,7 +19,7 @@ public class SwordProjectileBehavior : MonoBehaviour
     
     void Update()
     {
-        RetriveToPlayer();
+        RetrieveToPlayer();
     }
 
     void MoveToMouse()
@@ -33,14 +33,14 @@ public class SwordProjectileBehavior : MonoBehaviour
         
     }
 
-    public bool isRetriving { get; protected set; }
+    public bool isRetriving;
     [SerializeField] float maxDistance = 20f; 
     [SerializeField] float retrivingAccel = 0f;
     float retrivingSpeed;
     
-    void RetriveToPlayer()
+    void RetrieveToPlayer()
     {
-        if (DistanceFromPlayer().magnitude > maxDistance && !isRetriving)
+        if (DirectionToPlayer().magnitude > maxDistance && !isRetriving)
         {
             isRetriving = true;
             rb.velocity = Vector2.zero;
@@ -49,14 +49,14 @@ public class SwordProjectileBehavior : MonoBehaviour
         
         if (isRetriving)
         {
-            rb.velocity = DistanceFromPlayer().normalized * retrivingSpeed;
+            rb.velocity = DirectionToPlayer().normalized * retrivingSpeed;
             retrivingSpeed += retrivingAccel * Time.deltaTime;
 
         }
         
     }
     
-    Vector2 DistanceFromPlayer()
+    Vector2 DirectionToPlayer()
     {
         Vector2 distance = player.transform.position - transform.position;
         
