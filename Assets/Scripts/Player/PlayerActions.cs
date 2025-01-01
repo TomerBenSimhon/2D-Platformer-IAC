@@ -15,7 +15,7 @@ public class PlayerActions : MonoBehaviour
     [SerializeField] GameObject swordVisuals;
     [SerializeField] GameObject swordProjectile;
     [SerializeField] float maxDistance;
-    SwordProjectileBehavior swordProjectileScript;
+    
     
     [Header("Sword Attack")]
    
@@ -85,18 +85,10 @@ public class PlayerActions : MonoBehaviour
             swordVisuals.SetActive(false);
             
             GameObject swordInstance = Instantiate(swordProjectile, transform.position, Quaternion.identity);
-            swordProjectileScript = swordInstance.GetComponent<SwordProjectileBehavior>();
+           
         }
     }
-
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        if (other.CompareTag("Sword") && swordProjectileScript.isRetriving)
-        {
-            swordVisuals.SetActive(true);
-            Destroy(swordProjectileScript.gameObject);
-        }
-    }
+    
 
     #endregion
 

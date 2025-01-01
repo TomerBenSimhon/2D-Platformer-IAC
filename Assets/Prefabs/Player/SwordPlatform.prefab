@@ -130,6 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19dbccbf505c2b0459c441010f8b22c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  swordProjectile: {fileID: 2016219074476896885, guid: 7f5be27a963917b4d9719eb0ac65206b, type: 3}
 --- !u!1 &3423346266557042164
 GameObject:
   m_ObjectHideFlags: 0

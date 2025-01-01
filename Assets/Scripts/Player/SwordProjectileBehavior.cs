@@ -65,7 +65,15 @@ public class SwordProjectileBehavior : MonoBehaviour
         }
         
     }
-    
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (isRetriving && other.CompareTag("Player"))
+        {
+            GameObject playerSwordVisualls = GameObject.FindWithTag("SwordVisualls");
+        }
+    }
+
     Vector2 DirectionToPlayer()
     {
         Vector2 distance = player.transform.position - transform.position;
