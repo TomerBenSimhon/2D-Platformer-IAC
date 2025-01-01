@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,8 +7,17 @@ public class SwordProjectileBehavior : MonoBehaviour
 {
    GameObject player;
    Rigidbody2D rb;
-
+   
+   [Header("Throw")]
+   [SerializeField] float maxDistance = 20f; 
+   [SerializeField] float retrivingAccel = 0f;
    [SerializeField] private float moveSpeed = 50f;
+   public bool isRetriving;
+   
+   [Header("Platform")]
+   [SerializeField] private Collider2D wallCheck;
+   [SerializeField] LayerMask walls;
+   [SerializeField] private GameObject swordPlatform;
     void Start()
     {
         player = FindObjectOfType<PlayerMovement>().gameObject;
@@ -20,6 +30,7 @@ public class SwordProjectileBehavior : MonoBehaviour
     void Update()
     {
         RetrieveToPlayer();
+        WallChecking();
     }
 
     void MoveToMouse()
@@ -33,9 +44,8 @@ public class SwordProjectileBehavior : MonoBehaviour
         
     }
 
-    public bool isRetriving;
-    [SerializeField] float maxDistance = 20f; 
-    [SerializeField] float retrivingAccel = 0f;
+    
+    
     float retrivingSpeed;
     
     void RetrieveToPlayer()
@@ -62,6 +72,24 @@ public class SwordProjectileBehavior : MonoBehaviour
         
         return distance;
         
+    }
+
+    private bool wallTouching;
+    
+    void WallChecking()
+    {
+        if (!isRetriving)
+        {
+            wallTouching = Physics2D.OverlapArea(wallCheck.bounds.min, wallCheck.bounds.max, walls);
+
+            if (wallTouching)
+            {
+                GameObject instant = Instantiate(swordPlatform, transform.position, Quaternion.identity);
+                instant.transform.localScale = new Vector3(Mathf.Sign(rb.velocity.x), 1, 1);
+                Destroy(gameObject);
+            }
+            
+        }
     }
     
    
