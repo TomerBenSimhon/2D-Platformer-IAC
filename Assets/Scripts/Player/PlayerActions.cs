@@ -12,7 +12,7 @@ public class PlayerActions : MonoBehaviour
     
     [Header("Sword Throw")]
     
-    [SerializeField] GameObject swordVisuals;
+    [SerializeField] SpriteRenderer swordVisuals;
     [SerializeField] GameObject swordProjectile;
     [SerializeField] float maxDistance;
     
@@ -65,7 +65,7 @@ public class PlayerActions : MonoBehaviour
             attackBuffer = StartCoroutine(AttackBuffer());
         }
 
-        if (throwInput && swordVisuals.activeSelf)
+        if (throwInput && swordVisuals.enabled)
         {
             throwAvail = true;
         }
@@ -82,11 +82,16 @@ public class PlayerActions : MonoBehaviour
         if (throwAvail)
         {
             throwAvail = false;
-            swordVisuals.SetActive(false);
+            swordVisuals.enabled = false;
             
-            GameObject swordInstance = Instantiate(swordProjectile, transform.position, Quaternion.identity);
+            Instantiate(swordProjectile, transform.position, Quaternion.identity);
            
         }
+    }
+
+    public void SwordVisuallsActive(bool active)
+    {
+        swordVisuals.enabled = active;
     }
     
 
@@ -97,7 +102,7 @@ public class PlayerActions : MonoBehaviour
     
     void HandleAttack()
     {
-        if (attacAvail && swordVisuals.activeSelf && !attacking)
+        if (attacAvail && swordVisuals.enabled && !attacking)
         {
             attacAvail = false;
             currentAttackTime = Time.time;

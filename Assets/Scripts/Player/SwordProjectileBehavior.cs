@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class SwordProjectileBehavior : MonoBehaviour
 {
@@ -14,10 +15,14 @@ public class SwordProjectileBehavior : MonoBehaviour
    [SerializeField] private float moveSpeed = 50f;
    public bool isRetriving;
    
+   [FormerlySerializedAs("wallCheck")]
    [Header("Platform")]
-   [SerializeField] private Collider2D wallCheck;
+   [SerializeField] private Collider2D wallCheckRight;
+   [SerializeField] private Collider2D wallCheckLeft;
    [SerializeField] LayerMask walls;
    [SerializeField] private GameObject swordPlatform;
+
+   [SerializeField] private float yOffset;
     void Start()
     {
         player = FindObjectOfType<PlayerMovement>().gameObject;
@@ -70,7 +75,8 @@ public class SwordProjectileBehavior : MonoBehaviour
     {
         if (isRetriving && other.CompareTag("Player"))
         {
-            GameObject playerSwordVisualls = GameObject.FindWithTag("SwordVisualls");
+            player.GetComponent<PlayerActions>().SwordVisuallsActive(true);
+            Destroy(gameObject);
         }
     }
 
@@ -82,18 +88,27 @@ public class SwordProjectileBehavior : MonoBehaviour
         
     }
 
-    private bool wallTouching;
+    bool wallTouchingRight;
+    bool wallTouchingLeft;
     
     void WallChecking()
     {
         if (!isRetriving)
         {
-            wallTouching = Physics2D.OverlapArea(wallCheck.bounds.min, wallCheck.bounds.max, walls);
+            wallTouchingRight = Physics2D.OverlapArea(wallCheckRight.bounds.min, wallCheckRight.bounds.max, walls);
+            wallTouchingLeft = Physics2D.OverlapArea(wallCheckLeft.bounds.min, wallCheckLeft.bounds.max, walls);
 
-            if (wallTouching)
+            if (wallTouchingRight && rb.velocity.x > 0)
             {
-                GameObject instant = Instantiate(swordPlatform, transform.position, Quaternion.identity);
-                instant.transform.localScale = new Vector3(Mathf.Sign(rb.velocity.x), 1, 1);
+                GameObject instant = Instantiate(swordPlatform, new Vector2(transform.position.x,transform.position.y + yOffset), Quaternion.identity);
+                instant.transform.localScale = new Vector3(1, 1, 1);
+                Destroy(gameObject);
+            }
+
+            if (wallTouchingLeft && rb.velocity.x < 0)
+            {
+                GameObject instant = Instantiate(swordPlatform, new Vector2(transform.position.x,transform.position.y + yOffset), Quaternion.identity);
+                instant.transform.localScale = new Vector3(-1, 1, 1);
                 Destroy(gameObject);
             }
             

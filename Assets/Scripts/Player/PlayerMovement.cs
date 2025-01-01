@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody2D rb;
     [SerializeField] Animator playerAnimator;
     [SerializeField] Animator swordAnimator;
-    [SerializeField] GameObject swordVisuals;
+    [SerializeField] SpriteRenderer swordVisuals;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -82,8 +82,8 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleSpriteFlip()
     {
-        if(rb.velocity.x == 0) {return;}
-        transform.localScale = new Vector3(Mathf.Sign(rb.velocity.x), 1, 1);
+        if(moveHorizontal == 0) {return;}
+        transform.localScale = new Vector3(Mathf.Sign(moveHorizontal), 1, 1);
     }
     
     #endregion
@@ -216,7 +216,7 @@ public class PlayerMovement : MonoBehaviour
         if (isGrounded)
         {
             playerAnimator.speed = 1;
-            if(swordVisuals.activeSelf) {swordAnimator.speed = 1;}
+            if(swordVisuals.enabled) {swordAnimator.speed = 1;}
             if (Mathf.Abs(moveHorizontal) > 0)
             {
                 PlayAnimations("Run",  false, 0);
@@ -241,13 +241,13 @@ public class PlayerMovement : MonoBehaviour
         if (!isTime)
         {
             playerAnimator.Play(name);
-            if(swordVisuals.activeSelf) {swordAnimator.Play(name);}
+            if(swordVisuals.enabled) {swordAnimator.Play(name);}
         }
         else
         {
             playerAnimator.Play(name, 0, time);
             playerAnimator.speed = 0;
-            if (swordVisuals.activeSelf)
+            if (swordVisuals.enabled)
             {
                 swordAnimator.Play(name, 0, time);
                 swordAnimator.speed = 0;
