@@ -108,8 +108,8 @@ public class PlayerActions : MonoBehaviour
             currentAttackTime = Time.time;
             
             
-            StartCoroutine(AttacDash());
-            StartCoroutine(AttacDashAnim());
+            StartCoroutine(AttackDash());
+            StartCoroutine(AttackDashAnim());
         }
     }
 
@@ -122,7 +122,7 @@ public class PlayerActions : MonoBehaviour
 
     private float elapsedTime;
     bool attacking;
-    IEnumerator AttacDash()
+    IEnumerator AttackDash()
     {
         attacking = true;
         Vector2 currentVelocity = rb.velocity;
@@ -150,7 +150,7 @@ public class PlayerActions : MonoBehaviour
         while(elapsedTime < endDashDelay)
         {
             elapsedTime += Time.deltaTime;
-            rb.velocity = Vector2.Lerp(dash / 2, Vector2.zero, elapsedTime / endDashDelay); 
+            rb.velocity = Vector2.Lerp(dash / 3, Vector2.zero, elapsedTime / endDashDelay); 
             yield return new WaitForEndOfFrame();
         }
         
@@ -159,7 +159,7 @@ public class PlayerActions : MonoBehaviour
         attacking = false;
     }
 
-    IEnumerator AttacDashAnim()
+    IEnumerator AttackDashAnim()
     {
         while (attacking)
         {
