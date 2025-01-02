@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,6 +22,11 @@ public class EnemyMain : MonoBehaviour
    {
       player = FindObjectOfType<PlayerMovement>().gameObject;
       
+     
+   }
+
+   private void Awake()
+   {
       patrolState.enabled = true;
       chaseState.enabled = false;
    }
@@ -72,7 +78,7 @@ public class EnemyMain : MonoBehaviour
       return true;
    }
 
-   bool CanSeePlayer()
+   public bool CanSeePlayer()
    {
       //checks if close enough to player
       float distanceToPlayer = Vector2.Distance(player.transform.position, transform.position);
