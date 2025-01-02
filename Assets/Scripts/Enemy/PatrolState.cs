@@ -51,6 +51,8 @@ public class PatrolState : MonoBehaviour
                 elapsedTime += Time.deltaTime;
                 HandleDirectionChange();
                 rb.velocity = new Vector2(patrolSpeed * Mathf.Sign(visuals.transform.localScale.x) , rb.velocity.y);
+                animator.Play("Run");
+                animator.speed = 0.6f;
                 yield return new WaitForEndOfFrame();
             }
         
@@ -59,6 +61,8 @@ public class PatrolState : MonoBehaviour
             {
                 elapsedTime += Time.deltaTime;
                 rb.velocity = new Vector2(0f, rb.velocity.y);
+                animator.Play("Idle");
+                animator.speed = 1f;
                 yield return new WaitForEndOfFrame();
             }
         }
