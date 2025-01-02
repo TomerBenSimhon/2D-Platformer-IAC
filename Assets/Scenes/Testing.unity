@@ -200,7 +200,7 @@ Transform:
   m_GameObject: {fileID: 82955091}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.41, z: -10}
+  m_LocalPosition: {x: -6.35, y: -0.89, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -340,7 +340,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.41, z: -10}
+  m_LocalPosition: {x: -6.35, y: -0.89, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1241,6 +1241,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SlimeEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 2783688521908548654, guid: 1bf1251ac35c4fa44a07e5425113f17a, type: 3}
+      propertyPath: chaseStateExitTime
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6354146114177326206, guid: 1bf1251ac35c4fa44a07e5425113f17a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.9083595
@@ -1296,11 +1300,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2952773011058670532, guid: f707a781ea8aa324e97626bebe46f89d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -6.35
       objectReference: {fileID: 0}
     - target: {fileID: 2952773011058670532, guid: f707a781ea8aa324e97626bebe46f89d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.41
+      value: -0.89
       objectReference: {fileID: 0}
     - target: {fileID: 2952773011058670532, guid: f707a781ea8aa324e97626bebe46f89d, type: 3}
       propertyPath: m_LocalPosition.z
