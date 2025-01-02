@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4538504706904079985}
   - component: {fileID: 2783688521908548654}
   - component: {fileID: 8458280588702501532}
+  - component: {fileID: 4662806074704699307}
   m_Layer: 0
   m_Name: SlimeEnemy
   m_TagString: Untagged
@@ -99,6 +100,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visuals: {fileID: 7452606287007091171}
+  patrolState: {fileID: 8458280588702501532}
+  chaseState: {fileID: 4662806074704699307}
   maxDetectionDistance: 10
   spottingFOV: 90
   obstacleLayer:
@@ -125,6 +128,18 @@ MonoBehaviour:
   ground:
     serializedVersion: 2
     m_Bits: 1536
+--- !u!114 &4662806074704699307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 42651091784271807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8d2737f5b286ab42aaff59e6f6b0730, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2679401903106729954
 GameObject:
   m_ObjectHideFlags: 0

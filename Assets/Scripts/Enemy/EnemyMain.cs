@@ -7,20 +7,30 @@ public class EnemyMain : MonoBehaviour
    GameObject player;
    [SerializeField] GameObject visuals;
    
+   [SerializeField] PatrolState patrolState;
+   [SerializeField] ChaseState chaseState;
+   
    [Header("Player Detection")]
    [SerializeField] float maxDetectionDistance;
    [SerializeField] float spottingFOV;
    [SerializeField] LayerMask obstacleLayer;
 
+   [SerializeField] float chaseStateExitTime;
+
    void Start()
    {
       player = FindObjectOfType<PlayerMovement>().gameObject;
+      
+      patrolState.enabled = true;
+      chaseState.enabled = false;
    }
 
    void Update()
    {
-      Debug.Log(IsPlayerSpotted());
+      StateControl();
    }
+
+   #region Player Spotting
 
    bool IsPlayerSpotted()
    {
@@ -62,7 +72,7 @@ public class EnemyMain : MonoBehaviour
       return true;
    }
 
-   public bool CanSeePlayer()
+   bool CanSeePlayer()
    {
       //checks if close enough to player
       float distanceToPlayer = Vector2.Distance(player.transform.position, transform.position);
@@ -91,4 +101,44 @@ public class EnemyMain : MonoBehaviour
       return Mathf.Approximately(Mathf.Sign(directionToPlayer), Mathf.Sign(enemyFacingDirection));
 
    }
+
+   #endregion
+
+   #region State Control
+
+   void StateControl()
+   {
+      if (patrolState.enabled && IsPlayerSpotted())
+      {
+         patrolState.enabled = false;
+         chaseState.enabled = true;
+      }
+
+      if (chaseState.enabled)
+      {
+         if (!CanSeePlayer() && chaseExitTimerRoutine == null)
+         {
+            chaseExitTimerRoutine = StartCoroutine(ChaseStateExitTimer());
+         }
+         else if (CanSeePlayer() && chaseExitTimerRoutine != null)
+         {
+            StopCoroutine(chaseExitTimerRoutine);
+            chaseExitTimerRoutine = null;
+         }
+       
+      }
+   }
+
+   Coroutine chaseExitTimerRoutine;
+   IEnumerator ChaseStateExitTimer()
+   {
+      yield return new WaitForSeconds(chaseStateExitTime);
+      chaseState.enabled = false;
+      patrolState.enabled = true;
+   }
+
+   #endregion
+  
+   
+   
 }
