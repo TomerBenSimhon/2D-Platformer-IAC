@@ -102,11 +102,12 @@ MonoBehaviour:
   visuals: {fileID: 7452606287007091171}
   patrolState: {fileID: 8458280588702501532}
   chaseState: {fileID: 4662806074704699307}
-  maxDetectionDistance: 10
+  maxDetectionDistance: 15
   spottingFOV: 90
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 1536
+  chaseStateExitTime: 3
 --- !u!114 &8458280588702501532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,11 +136,21 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 42651091784271807}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8d2737f5b286ab42aaff59e6f6b0730, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 4538504706904079985}
+  animator: {fileID: 2191958685403067074}
+  visuals: {fileID: 7452606287007091171}
+  chaseSpeed: 6
+  chaseAccel: 4
+  edgeCheckerR: {fileID: 6744228647322365287}
+  edgeCheckerL: {fileID: 3301945232633586781}
+  ground:
+    serializedVersion: 2
+    m_Bits: 1536
 --- !u!1 &2679401903106729954
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,7 +354,7 @@ Transform:
   m_GameObject: {fileID: 5041317414665975185}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.85, y: -0.5, z: 0}
+  m_LocalPosition: {x: 1.2, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -615,7 +626,7 @@ Transform:
   m_GameObject: {fileID: 8859899985263008300}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.85, y: -0.5, z: 0}
+  m_LocalPosition: {x: -1.2, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

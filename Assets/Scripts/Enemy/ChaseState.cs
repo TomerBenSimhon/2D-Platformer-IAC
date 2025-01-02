@@ -90,13 +90,15 @@ public class ChaseState : MonoBehaviour
    float HandleMoveToPlayer()
    {
       directionToPlayer = Mathf.Sign(player.transform.position.x - transform.position.x);
+      float distanceToPlayerX = player.transform.position.x - transform.position.x;
+      
       if (searchingPlayer || spottingPlayer)
       {
          target = 0;
       }
       else
       {
-         if ((directionToPlayer < 0 && BarrierDetection() == "L") || (directionToPlayer > 0 && BarrierDetection() == "R"))
+         if ((directionToPlayer < 0 && BarrierDetection() == "L") || (directionToPlayer > 0 && BarrierDetection() == "R") || Mathf.Abs(distanceToPlayerX) < 1f)
          {
             target = 0;
          }
@@ -134,7 +136,7 @@ public class ChaseState : MonoBehaviour
       {
          return "L";
       }
-      else if (noEdgeR || wallR)
+      if (noEdgeR || wallR)
       {
          return "R";
       }
