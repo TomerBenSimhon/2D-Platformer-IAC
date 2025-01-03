@@ -99,7 +99,7 @@ public class EnemyMain : MonoBehaviour
       return true;
    }
    
-   private bool IsFacingPlayer()
+   bool IsFacingPlayer()
    {
       float directionToPlayer = player.transform.position.x - transform.position.x;
       float enemyFacingDirection = visuals.transform.localScale.x;

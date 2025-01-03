@@ -10,6 +10,8 @@ public class PlayerMain : MonoBehaviour
     [SerializeField] PlayerHit playerHit;
     [SerializeField] Health health;
     
+    [SerializeField] Collider2D hitCollider;
+    
     public bool isHit = false;
     public bool isAttacking = false;
 
@@ -25,6 +27,30 @@ public class PlayerMain : MonoBehaviour
 
     void StateControl()
     {
+        if (isHit)
+        {
+            playerActions.enabled = false;
+            playerMovement.enabled = false;
+            playerHit.enabled = true;
+        }
+        else
+        {
+            playerActions.enabled = true;
+            playerMovement.enabled = true;
+            playerHit.enabled = false;
+
+            if (isAttacking)
+            {
+                playerMovement.enabled = false;
+            }
+            else
+            {
+                playerMovement.enabled = true;
+            }
+        }
+        
         
     }
+    
+    
 }

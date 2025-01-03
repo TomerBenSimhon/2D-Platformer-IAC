@@ -43,6 +43,13 @@ public class PlayerActions : MonoBehaviour
         HandleAttack();
     }
 
+    private void OnDisable()
+    {
+       StopAllCoroutines();
+       playerMain.isAttacking = false;
+       rb.velocity = Vector2.zero;
+    }
+
 
     bool attackInput;
     bool attacAvail;
@@ -109,8 +116,8 @@ public class PlayerActions : MonoBehaviour
             currentAttackTime = Time.time;
             
             
-            StartCoroutine(AttackDash());
-            StartCoroutine(AttackDashAnim());
+            attackDashRoutine = StartCoroutine(AttackDash());
+            attackAnimRoutine = StartCoroutine(AttackDashAnim());
         }
     }
 
@@ -122,6 +129,7 @@ public class PlayerActions : MonoBehaviour
     }
 
     private float elapsedTime;
+    private Coroutine attackDashRoutine;
     IEnumerator AttackDash()
     {
         playerMain.isAttacking = true;
@@ -159,6 +167,7 @@ public class PlayerActions : MonoBehaviour
         playerMain.isAttacking = false;
     }
 
+    private Coroutine attackAnimRoutine;
     IEnumerator AttackDashAnim()
     {
         while (playerMain.isAttacking)
