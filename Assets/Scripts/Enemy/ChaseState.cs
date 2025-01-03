@@ -143,6 +143,11 @@ public class ChaseState : MonoBehaviour
       }
       isAttacking = false;
    }
+
+   void AttackHitbox()
+   {
+      
+   }
    
    
 

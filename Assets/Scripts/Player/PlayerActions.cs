@@ -24,14 +24,12 @@ public class PlayerActions : MonoBehaviour
     [SerializeField] float dashDuration;
     [SerializeField] float endDashDelay;
     [SerializeField] float attackRate;
-    PlayerMovement playerMovement;
+    
     
     
     void Start()
     {
-        playerMovement = GetComponent<PlayerMovement>();
         rb = GetComponent<Rigidbody2D>();
-        
     }
 
     
@@ -121,12 +119,12 @@ public class PlayerActions : MonoBehaviour
     }
 
     private float elapsedTime;
-    bool attacking;
+    public bool attacking;
     IEnumerator AttackDash()
     {
         attacking = true;
         Vector2 currentVelocity = rb.velocity;
-        playerMovement.enabled = false;
+        
         
         elapsedTime = 0;
         while(elapsedTime < dashDelay)
@@ -155,7 +153,7 @@ public class PlayerActions : MonoBehaviour
         }
         
         rb.velocity = Vector2.zero;
-        playerMovement.enabled = true;
+        
         attacking = false;
     }
 
