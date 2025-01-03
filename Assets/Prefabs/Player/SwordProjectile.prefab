@@ -76,7 +76,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxDistance: 20
   retrivingAccel: 75
-  moveSpeed: 50
+  moveSpeed: 40
   isRetriving: 0
   wallCheckRight: {fileID: 1701775922927475659}
   wallCheckLeft: {fileID: 8028166524822390133}

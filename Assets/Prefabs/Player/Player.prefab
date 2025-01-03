@@ -303,7 +303,7 @@ MonoBehaviour:
   groundCheck: {fileID: 7663622767977409771}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 1536
+    m_Bits: 3584
   jumpForce: 18
   jumpBufferTime: 0.1
   coyoteTime: 0.07
