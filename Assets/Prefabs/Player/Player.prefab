@@ -231,8 +231,11 @@ GameObject:
   m_Component:
   - component: {fileID: 2952773011058670532}
   - component: {fileID: 7171000956354568572}
+  - component: {fileID: 2479679264051426135}
   - component: {fileID: 3880716392854803099}
   - component: {fileID: 80624616600947535}
+  - component: {fileID: 2473242210087955841}
+  - component: {fileID: 4752713709747794386}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -284,6 +287,20 @@ Rigidbody2D:
   m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &2479679264051426135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5409484533724600042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 288bd40bba24b584e9bf000487870025, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerMovement: {fileID: 3880716392854803099}
+  playerActions: {fileID: 80624616600947535}
 --- !u!114 &3880716392854803099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,6 +350,41 @@ MonoBehaviour:
   dashDuration: 0.1
   endDashDelay: 0.4
   attackRate: 1
+  attacking: 0
+--- !u!114 &2473242210087955841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5409484533724600042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0149f295d76415e45abb97ade4bb0aa5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4752713709747794386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5409484533724600042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c09883e3ea56a54f8a67296ba052472, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  objectsDestroyOnDeath:
+  - {fileID: 5549558310623312729}
+  - {fileID: 742879944119804926}
+  componentsDestroyOnDeath:
+  - {fileID: 2473242210087955841}
+  - {fileID: 80624616600947535}
+  - {fileID: 3880716392854803099}
+  - {fileID: 2479679264051426135}
+  isDead: 0
 --- !u!1 &5549558310623312729
 GameObject:
   m_ObjectHideFlags: 0

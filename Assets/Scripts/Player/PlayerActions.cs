@@ -7,6 +7,8 @@ using UnityEngine;
 public class PlayerActions : MonoBehaviour
 { 
     Rigidbody2D rb;
+    PlayerMain playerMain;
+    
     [SerializeField] Animator playerAnimator;
     [SerializeField] Animator swordAnimator;
     
@@ -30,6 +32,7 @@ public class PlayerActions : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        playerMain = GetComponent<PlayerMain>();
     }
 
     
@@ -100,7 +103,7 @@ public class PlayerActions : MonoBehaviour
     
     void HandleAttack()
     {
-        if (attacAvail && swordVisuals.enabled && !attacking)
+        if (attacAvail && swordVisuals.enabled && !playerMain.isAttacking)
         {
             attacAvail = false;
             currentAttackTime = Time.time;
@@ -119,10 +122,9 @@ public class PlayerActions : MonoBehaviour
     }
 
     private float elapsedTime;
-    public bool attacking;
     IEnumerator AttackDash()
     {
-        attacking = true;
+        playerMain.isAttacking = true;
         Vector2 currentVelocity = rb.velocity;
         
         
@@ -154,12 +156,12 @@ public class PlayerActions : MonoBehaviour
         
         rb.velocity = Vector2.zero;
         
-        attacking = false;
+        playerMain.isAttacking = false;
     }
 
     IEnumerator AttackDashAnim()
     {
-        while (attacking)
+        while (playerMain.isAttacking)
         {
             playerAnimator.Play("Attack");
             playerAnimator.speed = 1;
