@@ -15,6 +15,7 @@ public class ChaseState : MonoBehaviour
 
    bool spottingPlayer = false;
    bool searchingPlayer = false;
+   bool isAttacking = false;
    
    [Header("Chase Movement")]
    [SerializeField] float chaseSpeed = 5f;
@@ -24,6 +25,9 @@ public class ChaseState : MonoBehaviour
    [SerializeField] Collider2D edgeCheckerR;
    [SerializeField] Collider2D edgeCheckerL;
    [SerializeField] LayerMask ground;
+
+   [Header("Attack")] 
+   [SerializeField] float attackRange;
 
 
    void Start()
@@ -42,11 +46,11 @@ public class ChaseState : MonoBehaviour
    void Update()
    {
       HandleAnimation();
+      HandleAttack();
    }
    private void FixedUpdate()
    {
       ChasePlayer();
-      Debug.Log(BarrierDetection());
    }
 
    
@@ -56,15 +60,13 @@ public class ChaseState : MonoBehaviour
    IEnumerator SpotPlayer()
    {
       spottingPlayer = true;
-      animator.Play("Shock");
-      animator.speed = 1f;
       
       float elapsedTime = 0;
       while (elapsedTime < animator.GetCurrentAnimatorStateInfo(0).length)
       {
          elapsedTime += Time.deltaTime;
-         animator.Play("Shock");
-         yield return null;
+        
+         yield return new WaitForEndOfFrame();
       }
       spottingPlayer = false;
    }
@@ -92,7 +94,7 @@ public class ChaseState : MonoBehaviour
       directionToPlayer = Mathf.Sign(player.transform.position.x - transform.position.x);
       float distanceToPlayerX = player.transform.position.x - transform.position.x;
       
-      if (searchingPlayer || spottingPlayer)
+      if (searchingPlayer || spottingPlayer || isAttacking)
       {
          target = 0;
       }
@@ -112,6 +114,37 @@ public class ChaseState : MonoBehaviour
       
       return moveAxisToPlayer;
    }
+
+   void HandleAttack()
+   {
+      if (Vector2.Distance(transform.position, player.transform.position) < attackRange && !isAttacking && !searchingPlayer && !spottingPlayer)
+      {
+         if (attackCoroutine != null)
+         {
+            StopCoroutine(attackCoroutine);
+         }
+         attackCoroutine = StartCoroutine(Attack());
+      }
+   }
+
+
+   Coroutine attackCoroutine;
+   //handles attack animation as well because we need the animation duration
+   IEnumerator Attack()
+   {
+      isAttacking = true;
+      
+      float elapsedTime = 0;
+      while (elapsedTime < animator.GetCurrentAnimatorStateInfo(0).length)
+      {
+         elapsedTime += Time.deltaTime;
+         
+         yield return new WaitForEndOfFrame();
+      }
+      isAttacking = false;
+   }
+   
+   
 
    void HandleVisualsFlip()
    {
@@ -145,7 +178,17 @@ public class ChaseState : MonoBehaviour
 
    void HandleAnimation()
    {
-      if (rb.velocity.x != 0 && !searchingPlayer && !spottingPlayer)
+      if (spottingPlayer)
+      {
+         animator.Play("Shock");
+         animator.speed = 1f;
+      }
+      else if (isAttacking)
+      {
+         animator.Play("Attack");
+         animator.speed = 1f;
+      }
+      else if (Mathf.Abs(rb.velocity.x) > 0.1f)
       {
          animator.Play("Run");
          animator.speed = 1.2f;
