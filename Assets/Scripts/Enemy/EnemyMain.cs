@@ -3,6 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EnemyState
+{
+   Patrol, Chase, Hit, Stun, Dead
+}
+
 public class EnemyMain : MonoBehaviour
 {
    GameObject player;
@@ -11,12 +16,20 @@ public class EnemyMain : MonoBehaviour
    [SerializeField] PatrolState patrolState;
    [SerializeField] ChaseState chaseState;
    
+   [Header("State")]
+   public EnemyState currentState;
+   
    [Header("Player Detection")]
    [SerializeField] float maxDetectionDistance;
    [SerializeField] float spottingFOV;
    [SerializeField] LayerMask obstacleLayer;
 
    [SerializeField] float chaseStateExitTime;
+   
+   [Header("Player Damage")]
+   [SerializeField] LayerMask playerLayer;
+
+   
 
    void Start()
    {
@@ -110,17 +123,27 @@ public class EnemyMain : MonoBehaviour
 
    #endregion
 
+   #region Damage Player
+
+   public void DamagePlayerOnTouch()
+   {
+      
+   }
+
+   #endregion
+
    #region State Control
 
    void StateControl()
    {
-      if (patrolState.enabled && IsPlayerSpotted())
+      if (currentState == EnemyState.Patrol && IsPlayerSpotted())
       {
          patrolState.enabled = false;
          chaseState.enabled = true;
+         currentState = EnemyState.Chase;
       }
 
-      if (chaseState.enabled)
+      if (currentState == EnemyState.Chase)
       {
          if (!CanSeePlayer() && chaseExitTimerRoutine == null)
          {
@@ -141,6 +164,7 @@ public class EnemyMain : MonoBehaviour
       yield return new WaitForSeconds(chaseStateExitTime);
       chaseState.enabled = false;
       patrolState.enabled = true;
+      currentState = EnemyState.Patrol;
    }
 
    #endregion

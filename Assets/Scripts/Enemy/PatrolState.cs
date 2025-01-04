@@ -7,6 +7,8 @@ public class PatrolState : MonoBehaviour
 {
     Rigidbody2D rb;
     Animator animator;
+    EnemyMain enemyMain;
+    
     [SerializeField] private GameObject visuals;
     
     [Header("Patrol Settings")]
@@ -23,6 +25,7 @@ public class PatrolState : MonoBehaviour
     {
        rb = GetComponent<Rigidbody2D>(); 
        animator = GetComponent<Animator>();
+       enemyMain = GetComponent<EnemyMain>();
     }
 
     
@@ -30,7 +33,6 @@ public class PatrolState : MonoBehaviour
     private void OnEnable()
     {
         if (patrolRoutine != null) {StopCoroutine(patrolRoutine);}
-        
         patrolRoutine = StartCoroutine(Patrol());
     }
 

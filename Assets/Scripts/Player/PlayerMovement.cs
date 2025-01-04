@@ -10,12 +10,19 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Animator playerAnimator;
     [SerializeField] Animator swordAnimator;
     [SerializeField] SpriteRenderer swordVisuals;
-    void Start()
+    
+    PlayerMain playerMain;
+    void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         if (rb == null) {Debug.LogError("rb is null in PlayerMovement");}
         
-        
+        playerMain = GetComponent<PlayerMain>();
+    }
+
+    void OnEnable()
+    {
+        playerMain.currentState = PlayerState.Regular;
     }
 
     // Update is called once per frame
@@ -219,42 +226,24 @@ public class PlayerMovement : MonoBehaviour
             if(swordVisuals.enabled) {swordAnimator.speed = 1;}
             if (Mathf.Abs(moveHorizontal) > 0)
             {
-                PlayAnimations("Run",  false, 0);
+                playerMain.PlayAnimations("Run",  false, 0);
             }
             else
             {
-                PlayAnimations("Idle",false, 0);
+                playerMain.PlayAnimations("Idle",false, 0);
             }
         }
         else
         {
             float time = Helpers.MapValue(rb.velocity.y, -jumpForce, jumpForce, 0, 1f);
             
-            PlayAnimations("Jump", true, 0.99f - time);
+            playerMain.PlayAnimations("Jump", true, 0.99f - time);
             
         }
         
     }
 
-    public void PlayAnimations(string name, bool isTime, float time)
-    {
-        if (!isTime)
-        {
-            playerAnimator.Play(name);
-            if(swordVisuals.enabled) {swordAnimator.Play(name);}
-        }
-        else
-        {
-            playerAnimator.Play(name, 0, time);
-            playerAnimator.speed = 0;
-            if (swordVisuals.enabled)
-            {
-                swordAnimator.Play(name, 0, time);
-                swordAnimator.speed = 0;
-            }
-        }
-       
-    }
+    
 
     #endregion
    

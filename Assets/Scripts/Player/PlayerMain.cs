@@ -3,6 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum PlayerState 
+{
+    Hit, Attacking, Regular, Dead
+}
+
+
+
 public class PlayerMain : MonoBehaviour
 {
     [SerializeField] PlayerMovement playerMovement;
@@ -10,14 +18,14 @@ public class PlayerMain : MonoBehaviour
     [SerializeField] PlayerHit playerHit;
     [SerializeField] Health health;
     
-    [SerializeField] Collider2D hitCollider;
+    [SerializeField] Animator playerAnimator;
+    [SerializeField] Animator swordAnimator;
+    [SerializeField] SpriteRenderer swordVisuals;
     
-    public bool isHit = false;
-    public bool isAttacking = false;
-
+    public PlayerState currentState;
     private void Start()
     {
-        
+        currentState = PlayerState.Regular;
     }
 
     void Update()
@@ -27,7 +35,7 @@ public class PlayerMain : MonoBehaviour
 
     void StateControl()
     {
-        if (isHit)
+        if (currentState == PlayerState.Hit)
         {
             playerActions.enabled = false;
             playerMovement.enabled = false;
@@ -36,10 +44,8 @@ public class PlayerMain : MonoBehaviour
         else
         {
             playerActions.enabled = true;
-            playerMovement.enabled = true;
             playerHit.enabled = false;
-
-            if (isAttacking)
+            if (currentState == PlayerState.Attacking)
             {
                 playerMovement.enabled = false;
             }
@@ -47,10 +53,33 @@ public class PlayerMain : MonoBehaviour
             {
                 playerMovement.enabled = true;
             }
+            
         }
         
         
+        
     }
-    
-    
+
+    public void PlayAnimations(string name, bool isTime, float time)
+    {
+        if (!isTime)
+        {
+            playerAnimator.Play(name);
+            if (swordVisuals.enabled)
+            {
+                swordAnimator.Play(name);
+            }
+        }
+        else
+        {
+            playerAnimator.Play(name, 0, time);
+            playerAnimator.speed = 0;
+            if (swordVisuals.enabled)
+            {
+                swordAnimator.Play(name, 0, time);
+                swordAnimator.speed = 0;
+            }
+        }
+    }
+
 }

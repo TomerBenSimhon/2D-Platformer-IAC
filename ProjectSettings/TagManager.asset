@@ -14,13 +14,13 @@ TagManager:
   - Water
   - UI
   - GeneralCollider
-  - HitCollider
+  - 
   - AttackCollider
   - Ground
   - Wall
   - SwordPlatform
-  - 
-  - 
+  - Player
+  - Enemy
   - 
   - 
   - 

@@ -108,6 +108,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1536
   chaseStateExitTime: 3
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  currentState: 0
 --- !u!114 &8458280588702501532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,7 +199,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6958713212921236896}
   - component: {fileID: 3173399971916265605}
-  m_Layer: 7
+  m_Layer: 13
   m_Name: HitCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}

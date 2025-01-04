@@ -46,7 +46,6 @@ public class PlayerActions : MonoBehaviour
     private void OnDisable()
     {
        StopAllCoroutines();
-       playerMain.isAttacking = false;
        rb.velocity = Vector2.zero;
     }
 
@@ -110,7 +109,7 @@ public class PlayerActions : MonoBehaviour
     
     void HandleAttack()
     {
-        if (attacAvail && swordVisuals.enabled && !playerMain.isAttacking)
+        if (attacAvail && swordVisuals.enabled && playerMain.currentState == PlayerState.Regular)
         {
             attacAvail = false;
             currentAttackTime = Time.time;
@@ -132,7 +131,7 @@ public class PlayerActions : MonoBehaviour
     private Coroutine attackDashRoutine;
     IEnumerator AttackDash()
     {
-        playerMain.isAttacking = true;
+        playerMain.currentState = PlayerState.Attacking;
         Vector2 currentVelocity = rb.velocity;
         
         
@@ -164,13 +163,13 @@ public class PlayerActions : MonoBehaviour
         
         rb.velocity = Vector2.zero;
         
-        playerMain.isAttacking = false;
+        playerMain.currentState = PlayerState.Regular;
     }
 
     private Coroutine attackAnimRoutine;
     IEnumerator AttackDashAnim()
     {
-        while (playerMain.isAttacking)
+        while (playerMain.currentState == PlayerState.Attacking)
         {
             playerAnimator.Play("Attack");
             playerAnimator.speed = 1;

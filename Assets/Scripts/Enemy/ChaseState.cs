@@ -32,10 +32,15 @@ public class ChaseState : MonoBehaviour
 
    void Start()
    {
-      player = FindObjectOfType<PlayerMovement>().gameObject;
-      enemyMain = GetComponent<EnemyMain>();
+      
    }
-   
+
+   private void Awake()
+   {
+      player = FindObjectOfType<PlayerMovement>().gameObject;
+      enemyMain = GetComponent<EnemyMain>();  
+   }
+
    private void OnEnable()
    {
       if(spotCoroutine != null) {StopCoroutine(spotCoroutine);}
