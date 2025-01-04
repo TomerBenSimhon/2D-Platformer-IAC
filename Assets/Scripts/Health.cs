@@ -33,7 +33,7 @@ public class Health : MonoBehaviour
 
     public void TakeKnockback(Vector2 direction, float knockbackForce)
     {
-        rb.velocity = direction * knockbackForce;
+        rb.velocity = direction * knockbackForce; 
     }
 
     void Die()

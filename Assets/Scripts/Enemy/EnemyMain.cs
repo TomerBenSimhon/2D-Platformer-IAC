@@ -11,6 +11,10 @@ public enum EnemyState
 public class EnemyMain : MonoBehaviour
 {
    GameObject player;
+   PlayerMain playerMain;
+   Health playerHealth;
+   PlayerHit playerHitScripts;
+   Transform playerTransform;
    [SerializeField] GameObject visuals;
    
    [SerializeField] PatrolState patrolState;
@@ -27,6 +31,7 @@ public class EnemyMain : MonoBehaviour
    [SerializeField] float chaseStateExitTime;
    
    [Header("Player Damage")]
+   [SerializeField] CircleCollider2D hitCollider;
    [SerializeField] LayerMask playerLayer;
 
    
@@ -34,7 +39,10 @@ public class EnemyMain : MonoBehaviour
    void Start()
    {
       player = FindObjectOfType<PlayerMovement>().gameObject;
-      
+      playerMain = player.GetComponent<PlayerMain>();
+      playerHealth = player.GetComponent<Health>();
+      playerHitScripts = player.GetComponent<PlayerHit>();
+      playerTransform = player.transform;
      
    }
 
@@ -47,6 +55,7 @@ public class EnemyMain : MonoBehaviour
    void Update()
    {
       StateControl();
+      DamagePlayerOnTouch();
    }
 
    #region Player Spotting
@@ -125,9 +134,24 @@ public class EnemyMain : MonoBehaviour
 
    #region Damage Player
 
+   private Collider2D playerHit;
    public void DamagePlayerOnTouch()
    {
-      
+      playerHit = Physics2D.OverlapCircle(hitCollider.bounds.center, hitCollider.radius, playerLayer);
+
+      if (playerHit)
+      {
+
+         if (currentState == EnemyState.Chase && playerMain.currentState != PlayerState.Hit)
+         {
+            float directionToPlayer = Mathf.Sign(playerTransform.position.x - transform.position.x);
+            
+            playerHitScripts.knockbacDirection = new Vector2(directionToPlayer, 1);
+            playerMain.currentState = PlayerState.Hit;
+            playerHealth.TakeDamage(10);
+            
+         }
+      }
    }
 
    #endregion

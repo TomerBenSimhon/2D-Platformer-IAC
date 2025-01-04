@@ -102,16 +102,17 @@ MonoBehaviour:
   visuals: {fileID: 7452606287007091171}
   patrolState: {fileID: 8458280588702501532}
   chaseState: {fileID: 4662806074704699307}
+  currentState: 0
   maxDetectionDistance: 15
   spottingFOV: 90
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 1536
   chaseStateExitTime: 3
+  hitCollider: {fileID: 3173399971916265605}
   playerLayer:
     serializedVersion: 2
-    m_Bits: 0
-  currentState: 0
+    m_Bits: 4096
 --- !u!114 &8458280588702501532
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -303,7 +303,6 @@ MonoBehaviour:
   playerActions: {fileID: 80624616600947535}
   playerHit: {fileID: 2473242210087955841}
   health: {fileID: 4752713709747794386}
-  hitCollider: {fileID: 5525028664311299251}
   playerAnimator: {fileID: 1367880062298235773}
   swordAnimator: {fileID: 5940477011508567067}
   swordVisuals: {fileID: 8088426165872214327}
@@ -364,12 +363,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5409484533724600042}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0149f295d76415e45abb97ade4bb0aa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerAnimator: {fileID: 1367880062298235773}
+  swordAnimator: {fileID: 5940477011508567067}
+  knockbacDirection: {x: 0, y: 0}
 --- !u!114 &4752713709747794386
 MonoBehaviour:
   m_ObjectHideFlags: 0
