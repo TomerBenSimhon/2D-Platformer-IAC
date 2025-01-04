@@ -72,7 +72,7 @@ public class PlayerHit : MonoBehaviour
 
     void HandleGravity()
     {
-        rb.velocity += new Vector2(rb.velocity.x, gravityForce * Time.fixedDeltaTime);
+        rb.velocity += new Vector2(0, gravityForce * Physics2D.gravity.y * Time.fixedDeltaTime);
         rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -maxFallVelocity, Mathf.Infinity));
     }
 

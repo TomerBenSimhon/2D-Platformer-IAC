@@ -370,6 +370,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerAnimator: {fileID: 1367880062298235773}
   swordAnimator: {fileID: 5940477011508567067}
+  gravityForce: 2
+  maxFallVelocity: 25
   knockbacDirection: {x: 0, y: 0}
 --- !u!114 &4752713709747794386
 MonoBehaviour:
