@@ -33,13 +33,7 @@ public class PlayerHit : MonoBehaviour
         hitRoutine = StartCoroutine(HitRoutine());
         playerHealth.TakeKnockback(knockbacDirection, 10f);
     }
-
-   
-
-    private void Update()
-    {
-        Debug.Log(elapsedTime);
-    }
+    
 
     private void FixedUpdate()
     {
