@@ -19,6 +19,8 @@ public class EnemyMain : MonoBehaviour
    
    [SerializeField] PatrolState patrolState;
    [SerializeField] ChaseState chaseState;
+   [SerializeField] EnemyHit enemyHit;
+   [SerializeField] EnemyStunned enemyStunned;
    
    [Header("State")]
    public EnemyState currentState;
@@ -57,8 +59,7 @@ public class EnemyMain : MonoBehaviour
 
    void Update()
    {
-      
-      
+      SwitchState();
       StateControl();
       DamagePlayerOnTouch();
    }
@@ -201,8 +202,6 @@ public class EnemyMain : MonoBehaviour
    {
       if (currentState == EnemyState.Patrol && IsPlayerSpotted())
       {
-         patrolState.enabled = false;
-         chaseState.enabled = true;
          currentState = EnemyState.Chase;
       }
 
@@ -221,12 +220,38 @@ public class EnemyMain : MonoBehaviour
       }
    }
 
+   void SwitchState()
+   {
+      switch (currentState)
+      {
+         case EnemyState.Chase:
+            patrolState.enabled = false;
+            enemyStunned.enabled = false;
+            
+            chaseState.enabled = true;
+            break;
+           
+         case EnemyState.Patrol:
+            chaseState.enabled = false;
+            enemyStunned.enabled = false;
+            
+            patrolState.enabled = true;
+            break;
+         
+         case EnemyState.Stun:
+            chaseState.enabled = false;
+            patrolState.enabled = false;
+
+            enemyStunned.enabled = true;
+            break;
+      }
+   }
+   
+   
    Coroutine chaseExitTimerRoutine;
    IEnumerator ChaseStateExitTimer()
    {
       yield return new WaitForSeconds(chaseStateExitTime);
-      chaseState.enabled = false;
-      patrolState.enabled = true;
       currentState = EnemyState.Patrol;
    }
 

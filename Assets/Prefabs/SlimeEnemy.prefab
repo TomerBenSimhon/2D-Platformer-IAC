@@ -14,9 +14,11 @@ GameObject:
   - component: {fileID: 2783688521908548654}
   - component: {fileID: 8458280588702501532}
   - component: {fileID: 4662806074704699307}
+  - component: {fileID: 3968668631837231016}
+  - component: {fileID: 5295781657835196903}
   m_Layer: 0
   m_Name: SlimeEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -102,6 +104,8 @@ MonoBehaviour:
   visuals: {fileID: 7452606287007091171}
   patrolState: {fileID: 8458280588702501532}
   chaseState: {fileID: 4662806074704699307}
+  enemyHit: {fileID: 0}
+  enemyStunned: {fileID: 0}
   currentState: 0
   maxDetectionDistance: 15
   spottingFOV: 90
@@ -160,6 +164,31 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1536
   attackRange: 3
+--- !u!114 &3968668631837231016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 42651091784271807}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0919e38fb47abc34888924b2cd1a7bf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5295781657835196903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 42651091784271807}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1cb8a2f7799c1f499901c234c391769, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stunDuration: 2
 --- !u!1 &2679401903106729954
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,7 +234,7 @@ GameObject:
   - component: {fileID: 3173399971916265605}
   m_Layer: 13
   m_Name: HitCollider
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

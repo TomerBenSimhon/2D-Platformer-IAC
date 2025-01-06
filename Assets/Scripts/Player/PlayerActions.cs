@@ -74,7 +74,7 @@ public class PlayerActions : MonoBehaviour
             attackBuffer = StartCoroutine(AttackBuffer());
         }
 
-        if (throwInput && swordVisuals.enabled && playerMain.currentState == PlayerState.Default)
+        if (throwInput && swordVisuals.enabled && (playerMain.currentState == PlayerState.Default || playerMain.currentState == PlayerState.God))
         {
             throwAvail = true;
         }
@@ -92,6 +92,7 @@ public class PlayerActions : MonoBehaviour
         {
             throwAvail = false;
             swordVisuals.enabled = false;
+            playerMain.currentState = PlayerState.Default;
             
             Instantiate(swordProjectile, transform.position, Quaternion.identity);
            
@@ -158,7 +159,9 @@ public class PlayerActions : MonoBehaviour
         while (elapsedTime < dashDuration)
         {
             elapsedTime += Time.deltaTime;
+            rb.velocity = dash;
             AttackHitBox();
+            yield return new WaitForEndOfFrame();
         }
         
         

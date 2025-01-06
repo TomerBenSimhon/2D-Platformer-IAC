@@ -15,7 +15,6 @@ public class SwordProjectileBehavior : MonoBehaviour
    [SerializeField] private float moveSpeed = 50f;
    public bool isRetriving;
    
-   [FormerlySerializedAs("wallCheck")]
    [Header("Platform")]
    [SerializeField] private Collider2D wallCheckRight;
    [SerializeField] private Collider2D wallCheckLeft;
@@ -23,6 +22,10 @@ public class SwordProjectileBehavior : MonoBehaviour
    [SerializeField] private GameObject swordPlatform;
 
    [SerializeField] private float yOffset;
+   
+   
+   
+   
     void Start()
     {
         player = FindObjectOfType<PlayerMovement>().gameObject;
@@ -71,6 +74,8 @@ public class SwordProjectileBehavior : MonoBehaviour
         
     }
 
+    
+    //Collisions
     private void OnTriggerStay2D(Collider2D other)
     {
         if (isRetriving && other.CompareTag("Player"))
@@ -78,6 +83,29 @@ public class SwordProjectileBehavior : MonoBehaviour
             player.GetComponent<PlayerActions>().SwordVisuallsActive(true);
             Destroy(gameObject);
         }
+
+        if (!isRetriving && other.CompareTag("Enemy"))
+        {
+            EnemyMain enemyMain = other.transform.parent.parent.GetComponent<EnemyMain>();
+
+            if (enemyMain.currentState == EnemyState.Stun)
+            {
+                StartCoroutine(ReStuneEnemy(enemyMain));
+            }
+            else
+            {
+                enemyMain.currentState = EnemyState.Stun; 
+            }
+            
+            isRetriving = true;
+        }
+    }
+
+    IEnumerator ReStuneEnemy(EnemyMain enemyMain)
+    {
+        enemyMain.currentState = EnemyState.Chase;
+        yield return null;
+        enemyMain.currentState = EnemyState.Stun;
     }
 
     Vector2 DirectionToPlayer()
