@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnEnable()
     {
-        playerMain.currentState = PlayerState.Default;
+        //playerMain.currentState = PlayerState.Default;
     }
 
     // Update is called once per frame

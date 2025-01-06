@@ -145,9 +145,11 @@ public class EnemyMain : MonoBehaviour
       
       playerHitTouch = Physics2D.OverlapCircle(hitCollider.bounds.center, hitCollider.radius, playerLayer);
       
-      if (playerHitTouch)
+      if (playerHitTouch && 
+          currentState != EnemyState.Dead && 
+          playerMain.currentState != PlayerState.Hit && playerMain.currentState != PlayerState.God)
       {
-         if (currentState == EnemyState.Chase && playerMain.currentState != PlayerState.Hit && playerMain.currentState != PlayerState.God)
+         void DamagePlayer()
          {
             float directionToPlayer = Mathf.Sign(playerTransform.position.x - transform.position.x);
             
@@ -156,7 +158,18 @@ public class EnemyMain : MonoBehaviour
             
             playerMain.currentState = PlayerState.Hit;
             playerHealth.TakeDamage(10);
-            
+         }
+
+         if (playerMain.currentState == PlayerState.Attacking)
+         {
+            if (currentState != EnemyState.Stun)
+            {
+               DamagePlayer();
+            }
+         }
+         else
+         {
+            DamagePlayer();
          }
       }
    }
@@ -168,7 +181,7 @@ public class EnemyMain : MonoBehaviour
    {
       playerHitAttack = Physics2D.OverlapArea(attackCollider.bounds.min, attackCollider.bounds.max, playerLayer);
       
-      if (playerHitAttack && playerMain.currentState != PlayerState.Hit)
+      if (playerHitAttack && playerMain.currentState != PlayerState.Hit && playerMain.currentState != PlayerState.God)
       {
          float directionToPlayer = Mathf.Sign(playerTransform.position.x - transform.position.x);
             

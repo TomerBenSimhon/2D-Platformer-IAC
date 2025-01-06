@@ -57,11 +57,11 @@ public class PlayerMain : MonoBehaviour
 
             if (currentState == PlayerState.God)
             {
-                playerMovement.enabled = true;
+                playerInvincable.enabled = true;
             }
             else
             {
-                playerMovement.enabled = false;
+                playerInvincable.enabled = false;
             }
             
         }

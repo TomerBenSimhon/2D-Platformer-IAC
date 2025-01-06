@@ -21,6 +21,8 @@ public class PlayerInvincable : MonoBehaviour
     void OnDisable()
     {
         StopAllCoroutines();
+        playerSprite.color = Color.white;
+        swordSprite.color = Color.white;
     }
 
 
@@ -43,9 +45,9 @@ public class PlayerInvincable : MonoBehaviour
     {
         while (true)
         {
-            playerColor.a = 0.7f;
+            playerColor.a = 1;
             playerSprite.color = playerColor;
-            playerSprite.color = playerColor;
+            swordSprite.color = playerColor;
         
             yield return new WaitForSeconds(visableTime);
         

@@ -8,7 +8,8 @@ public class PlayerActions : MonoBehaviour
 { 
     Rigidbody2D rb;
     PlayerMain playerMain;
-    
+
+    [SerializeField] Collider2D attackCollider;
     [SerializeField] Animator playerAnimator;
     [SerializeField] Animator swordAnimator;
     
@@ -26,6 +27,7 @@ public class PlayerActions : MonoBehaviour
     [SerializeField] float dashDuration;
     [SerializeField] float endDashDelay;
     [SerializeField] float attackRate;
+    [SerializeField] LayerMask enemyLayer;
     
     
     
@@ -109,7 +111,7 @@ public class PlayerActions : MonoBehaviour
     
     void HandleAttack()
     {
-        if (attacAvail && swordVisuals.enabled && playerMain.currentState == PlayerState.Default)
+        if (attacAvail && swordVisuals.enabled && (playerMain.currentState == PlayerState.Default || playerMain.currentState == PlayerState.God))
         {
             attacAvail = false;
             currentAttackTime = Time.time;
@@ -151,13 +153,23 @@ public class PlayerActions : MonoBehaviour
 
         Vector2 dash = new Vector2(dashForce * Mathf.Sign(transform.localScale.x), 0);
         rb.velocity = dash;
-        yield return new WaitForSeconds(dashDuration);
+        elapsedTime = 0;
+
+        while (elapsedTime < dashDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            AttackHitBox();
+        }
+        
+        
         elapsedTime = 0;
         
         while(elapsedTime < endDashDelay)
         {
             elapsedTime += Time.deltaTime;
             rb.velocity = Vector2.Lerp(dash / 3, Vector2.zero, elapsedTime / endDashDelay); 
+            AttackHitBox();
+            
             yield return new WaitForEndOfFrame();
         }
         
@@ -179,6 +191,12 @@ public class PlayerActions : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    bool enemyHit;
+    void AttackHitBox()
+    {
+        enemyHit = Physics2D.OverlapArea(attackCollider.bounds.min, attackCollider.bounds.max, enemyLayer);
     }
 
     #endregion
