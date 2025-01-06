@@ -13,7 +13,7 @@ public class EnemyMain : MonoBehaviour
    GameObject player;
    PlayerMain playerMain;
    Health playerHealth;
-   PlayerHit playerHitScripts;
+   PlayerHit playerHitScript;
    Transform playerTransform;
    [SerializeField] GameObject visuals;
    
@@ -32,7 +32,10 @@ public class EnemyMain : MonoBehaviour
    
    [Header("Player Damage")]
    [SerializeField] CircleCollider2D hitCollider;
+   [SerializeField] Collider2D attackCollider;
    [SerializeField] LayerMask playerLayer;
+   [SerializeField] float onTouchKnockback;
+   [SerializeField] float attackKnockback;
 
    
 
@@ -41,7 +44,7 @@ public class EnemyMain : MonoBehaviour
       player = FindObjectOfType<PlayerMovement>().gameObject;
       playerMain = player.GetComponent<PlayerMain>();
       playerHealth = player.GetComponent<Health>();
-      playerHitScripts = player.GetComponent<PlayerHit>();
+      playerHitScript = player.GetComponent<PlayerHit>();
       playerTransform = player.transform;
      
    }
@@ -54,6 +57,8 @@ public class EnemyMain : MonoBehaviour
 
    void Update()
    {
+      
+      
       StateControl();
       DamagePlayerOnTouch();
    }
@@ -134,23 +139,44 @@ public class EnemyMain : MonoBehaviour
 
    #region Damage Player
 
-   private Collider2D playerHit;
-   public void DamagePlayerOnTouch()
+   private Collider2D playerHitTouch;
+   void DamagePlayerOnTouch()
    {
-      playerHit = Physics2D.OverlapCircle(hitCollider.bounds.center, hitCollider.radius, playerLayer);
-
-      if (playerHit)
+      
+      playerHitTouch = Physics2D.OverlapCircle(hitCollider.bounds.center, hitCollider.radius, playerLayer);
+      
+      if (playerHitTouch)
       {
-
-         if (currentState == EnemyState.Chase && playerMain.currentState != PlayerState.Hit)
+         if (currentState == EnemyState.Chase && playerMain.currentState != PlayerState.Hit && playerMain.currentState != PlayerState.God)
          {
             float directionToPlayer = Mathf.Sign(playerTransform.position.x - transform.position.x);
             
-            playerHitScripts.knockbacDirection = new Vector2(directionToPlayer, 1);
+            playerHitScript.knockbacDirection = new Vector2(directionToPlayer, 1);
+            playerHitScript.knockbackForce = onTouchKnockback;
+            
             playerMain.currentState = PlayerState.Hit;
             playerHealth.TakeDamage(10);
             
          }
+      }
+   }
+
+   private bool playerHitAttack;
+   
+   //used in an event in the attack animation
+   void AttackHitBox()
+   {
+      playerHitAttack = Physics2D.OverlapArea(attackCollider.bounds.min, attackCollider.bounds.max, playerLayer);
+      
+      if (playerHitAttack && playerMain.currentState != PlayerState.Hit)
+      {
+         float directionToPlayer = Mathf.Sign(playerTransform.position.x - transform.position.x);
+            
+         playerHitScript.knockbacDirection = new Vector2(directionToPlayer, 1);
+         playerHitScript.knockbackForce = attackKnockback;
+         
+         playerMain.currentState = PlayerState.Hit;
+         playerHealth.TakeDamage(50);
       }
    }
 

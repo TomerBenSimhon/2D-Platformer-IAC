@@ -128,14 +128,15 @@ public class ChaseState : MonoBehaviour
          {
             StopCoroutine(attackCoroutine);
          }
-         attackCoroutine = StartCoroutine(Attack());
+         attackCoroutine = StartCoroutine(AttackVisuals());
       }
    }
 
 
    Coroutine attackCoroutine;
-   //handles attack animation as well because we need the animation duration
-   IEnumerator Attack()
+   /*Handles the visuals of attacking
+   the attack hit box method is in enemyMain and is called in the attack animation in an event*/
+   IEnumerator AttackVisuals()
    {
       isAttacking = true;
       
@@ -144,15 +145,12 @@ public class ChaseState : MonoBehaviour
       {
          elapsedTime += Time.deltaTime;
          
-         yield return new WaitForEndOfFrame();
+         yield return null;
       }
       isAttacking = false;
    }
 
-   void AttackHitbox()
-   {
-      
-   }
+  
    
    
 

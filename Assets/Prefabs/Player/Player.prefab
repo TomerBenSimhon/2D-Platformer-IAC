@@ -64,7 +64,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.03799489, y: -0.499007}
+  m_Offset: {x: 0, y: -0.499007}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -75,7 +75,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5030702, y: 0.0558424}
+  m_Size: {x: 0.5, y: 0.0558424}
   m_EdgeRadius: 0
 --- !u!1 &1109427148022137556
 GameObject:
@@ -102,7 +102,7 @@ Transform:
   m_GameObject: {fileID: 1109427148022137556}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.03, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -208,7 +208,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.03764838, y: -0.23687768}
+  m_Offset: {x: 0, y: -0.23687768}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -235,6 +235,7 @@ GameObject:
   - component: {fileID: 3880716392854803099}
   - component: {fileID: 80624616600947535}
   - component: {fileID: 2473242210087955841}
+  - component: {fileID: 7920703477536067125}
   - component: {fileID: 4752713709747794386}
   m_Layer: 0
   m_Name: Player
@@ -370,9 +371,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerAnimator: {fileID: 1367880062298235773}
   swordAnimator: {fileID: 5940477011508567067}
-  gravityForce: 2
+  groundCheck: {fileID: 7663622767977409771}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 1536
+  groundFriction: 40
+  gravityForce: 4
   maxFallVelocity: 25
   knockbacDirection: {x: 0, y: 0}
+  knockbackForce: 0
+--- !u!114 &7920703477536067125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5409484533724600042}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53f2e7c698d17c5409dfca3f51f22bae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4752713709747794386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -385,7 +404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c09883e3ea56a54f8a67296ba052472, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
+  health: 100000
   objectsDestroyOnDeath:
   - {fileID: 5549558310623312729}
   - {fileID: 742879944119804926}
@@ -459,7 +478,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.03764838, y: -0.23687768}
+  m_Offset: {x: 0, y: -0.23687768}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}

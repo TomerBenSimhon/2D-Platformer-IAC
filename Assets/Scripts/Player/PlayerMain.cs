@@ -6,7 +6,7 @@ using UnityEngine;
 
 public enum PlayerState 
 {
-    Hit, Attacking, Regular, Dead
+    Hit, Attacking, Default, God, Dead
 }
 
 
@@ -16,6 +16,7 @@ public class PlayerMain : MonoBehaviour
     [SerializeField] PlayerMovement playerMovement;
     [SerializeField] PlayerActions playerActions;
     [SerializeField] PlayerHit playerHit;
+    [SerializeField] PlayerInvincable playerInvincable;
     [SerializeField] Health health;
     
     [SerializeField] Animator playerAnimator;
@@ -25,7 +26,7 @@ public class PlayerMain : MonoBehaviour
     public PlayerState currentState;
     private void Start()
     {
-        currentState = PlayerState.Regular;
+        currentState = PlayerState.Default;
     }
 
     void Update()
@@ -53,6 +54,15 @@ public class PlayerMain : MonoBehaviour
             {
                 playerMovement.enabled = true;
             }
+
+            if (currentState == PlayerState.God)
+            {
+                playerMovement.enabled = true;
+            }
+            else
+            {
+                playerMovement.enabled = false;
+            }
             
         }
         
@@ -65,20 +75,14 @@ public class PlayerMain : MonoBehaviour
         if (!isTime)
         {
             playerAnimator.Play(name);
-            if (swordVisuals.enabled)
-            {
-                swordAnimator.Play(name);
-            }
+            swordAnimator.Play(name);
         }
         else
         {
             playerAnimator.Play(name, 0, time);
             playerAnimator.speed = 0;
-            if (swordVisuals.enabled)
-            {
-                swordAnimator.Play(name, 0, time);
-                swordAnimator.speed = 0;
-            }
+            swordAnimator.Play(name, 0, time);
+            swordAnimator.speed = 0;
         }
     }
 

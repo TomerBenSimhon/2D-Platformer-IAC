@@ -110,9 +110,12 @@ MonoBehaviour:
     m_Bits: 1536
   chaseStateExitTime: 3
   hitCollider: {fileID: 3173399971916265605}
+  attackCollider: {fileID: 9191839510910176242}
   playerLayer:
     serializedVersion: 2
     m_Bits: 4096
+  onTouchKnockback: 8
+  attackKnockback: 16
 --- !u!114 &8458280588702501532
 MonoBehaviour:
   m_ObjectHideFlags: 0

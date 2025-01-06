@@ -72,7 +72,7 @@ public class PlayerActions : MonoBehaviour
             attackBuffer = StartCoroutine(AttackBuffer());
         }
 
-        if (throwInput && swordVisuals.enabled)
+        if (throwInput && swordVisuals.enabled && playerMain.currentState == PlayerState.Default)
         {
             throwAvail = true;
         }
@@ -109,7 +109,7 @@ public class PlayerActions : MonoBehaviour
     
     void HandleAttack()
     {
-        if (attacAvail && swordVisuals.enabled && playerMain.currentState == PlayerState.Regular)
+        if (attacAvail && swordVisuals.enabled && playerMain.currentState == PlayerState.Default)
         {
             attacAvail = false;
             currentAttackTime = Time.time;
@@ -163,7 +163,7 @@ public class PlayerActions : MonoBehaviour
         
         rb.velocity = Vector2.zero;
         
-        playerMain.currentState = PlayerState.Regular;
+        playerMain.currentState = PlayerState.Default;
     }
 
     private Coroutine attackAnimRoutine;
@@ -177,7 +177,7 @@ public class PlayerActions : MonoBehaviour
             swordAnimator.Play("Attack");
             swordAnimator.speed = 1;
 
-            yield return new WaitForEndOfFrame();
+            yield return null;
         }
     }
 
