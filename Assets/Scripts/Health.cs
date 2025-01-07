@@ -10,8 +10,7 @@ public class Health : MonoBehaviour
     private Rigidbody2D rb;
     Animator animator;
 
-    [SerializeField] GameObject[] objectsDestroyOnDeath;
-    [SerializeField] MonoBehaviour[] componentsDestroyOnDeath;
+    
     
     public bool isDead = false;
 
@@ -27,21 +26,9 @@ public class Health : MonoBehaviour
         if (health <= 0)
         {
             isDead = true;
-            Die();
         }
     }
     
 
-    void Die()
-    {
-        foreach (GameObject obj in objectsDestroyOnDeath)
-        {
-            obj.SetActive(false);
-        }
-
-        foreach (MonoBehaviour mono in componentsDestroyOnDeath)
-        {
-            mono.enabled = false;
-        }
-    }
+  
 }

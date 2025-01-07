@@ -15,6 +15,9 @@ public class EnemyMain : MonoBehaviour
    Health playerHealth;
    PlayerHit playerHitScript;
    Transform playerTransform;
+
+   Health enemyHealth;
+   
    [SerializeField] GameObject visuals;
    
    [SerializeField] PatrolState patrolState;
@@ -22,6 +25,7 @@ public class EnemyMain : MonoBehaviour
    [SerializeField] EnemyHit enemyHit;
    [SerializeField] EnemyStunned enemyStunned;
    [SerializeField] EnemyShocked enemyShocked;
+   [SerializeField] EnemyDeath enemyDeath;
    
    [Header("State")]
    public EnemyState currentState;
@@ -49,6 +53,8 @@ public class EnemyMain : MonoBehaviour
       playerHealth = player.GetComponent<Health>();
       playerHitScript = player.GetComponent<PlayerHit>();
       playerTransform = player.transform;
+      
+      enemyHealth = GetComponent<Health>();
      
    }
 
@@ -201,24 +207,33 @@ public class EnemyMain : MonoBehaviour
 
    void StateControl()
    {
-      if (currentState == EnemyState.Patrol && IsPlayerSpotted())
+      if (!enemyHealth.isDead)
       {
-         currentState = EnemyState.Shocked;
-      }
+         if (currentState == EnemyState.Patrol && IsPlayerSpotted())
+         {
+            currentState = EnemyState.Shocked;
+         }
 
-      if (currentState == EnemyState.Chase)
-      {
-         if (!CanSeePlayer() && chaseExitTimerRoutine == null)
+         if (currentState == EnemyState.Chase)
          {
-            chaseExitTimerRoutine = StartCoroutine(ChaseStateExitTimer());
-         }
-         else if (CanSeePlayer() && chaseExitTimerRoutine != null)
-         {
-            StopCoroutine(chaseExitTimerRoutine);
-            chaseExitTimerRoutine = null;
-         }
+            if (!CanSeePlayer() && chaseExitTimerRoutine == null)
+            {
+               chaseExitTimerRoutine = StartCoroutine(ChaseStateExitTimer());
+            }
+            else if (CanSeePlayer() && chaseExitTimerRoutine != null)
+            {
+               StopCoroutine(chaseExitTimerRoutine);
+               chaseExitTimerRoutine = null;
+            }
        
+         }
       }
+      else
+      {
+         currentState = EnemyState.Dead;
+      }
+      
+      
    }
 
    void SwitchState()
@@ -269,6 +284,16 @@ public class EnemyMain : MonoBehaviour
 
             enemyHit.enabled = true;
             break;
+         
+         case EnemyState.Dead:
+            chaseState.enabled = false;
+            patrolState.enabled = false;
+            enemyStunned.enabled = false;
+            enemyShocked.enabled = false;
+            enemyHit.enabled = false;
+            
+            enemyDeath.enabled = true;
+            break;
       }
    }
    
@@ -279,6 +304,7 @@ public class EnemyMain : MonoBehaviour
       yield return new WaitForSeconds(chaseStateExitTime);
       currentState = EnemyState.Patrol;
    }
+   
 
    #endregion
   
