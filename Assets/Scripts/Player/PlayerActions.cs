@@ -196,10 +196,11 @@ public class PlayerActions : MonoBehaviour
         }
     }
 
-    bool enemyHit;
+    Collider2D isEnemyHit;
+    List<Collider2D> hitEnemies = new List<Collider2D>();
     void AttackHitBox()
     {
-        enemyHit = Physics2D.OverlapArea(attackCollider.bounds.min, attackCollider.bounds.max, enemyLayer);
+        isEnemyHit = Physics2D.OverlapArea(attackCollider.bounds.min, attackCollider.bounds.max, enemyLayer);
     }
 
     #endregion

@@ -36,7 +36,7 @@ public class PlayerMain : MonoBehaviour
 
     void StateControl()
     {
-        if (currentState == PlayerState.Hit)
+        /*if (currentState == PlayerState.Hit)
         {
             playerActions.enabled = false;
             playerMovement.enabled = false;
@@ -64,10 +64,42 @@ public class PlayerMain : MonoBehaviour
                 playerInvincable.enabled = false;
             }
             
+        }*/
+
+        switch (currentState)
+        {
+            case PlayerState.Default:
+                playerHit.enabled = false;
+                playerInvincable.enabled = false;
+                
+                playerActions.enabled = true;
+                playerMovement.enabled = true;
+                break;
+
+            case PlayerState.Attacking:
+                playerMovement.enabled = false;
+                playerHit.enabled = false;
+                playerInvincable.enabled = false;
+                
+                playerActions.enabled = true;
+                break;
+
+            case PlayerState.Hit:
+                playerActions.enabled = false;
+                playerMovement.enabled = false;
+                playerInvincable.enabled = false;
+                
+                playerHit.enabled = true;
+                break;
+
+            case PlayerState.God:
+                playerHit.enabled = false;
+                
+                playerInvincable.enabled = true;
+                playerActions.enabled = true;
+                playerMovement.enabled = true;
+                break;
         }
-        
-        
-        
     }
 
     public void PlayAnimations(string name, bool isTime, float time)
