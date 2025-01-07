@@ -11,9 +11,8 @@ public class ChaseState : MonoBehaviour
    [SerializeField] GameObject visuals;
    
    GameObject player;
-   private EnemyMain enemyMain;
-
-   bool spottingPlayer = false;
+   EnemyMain enemyMain;
+   
    bool searchingPlayer = false;
    bool isAttacking = false;
    
@@ -64,8 +63,6 @@ public class ChaseState : MonoBehaviour
    Coroutine spotCoroutine;
    IEnumerator SpotPlayer()
    {
-      spottingPlayer = true;
-      
       float elapsedTime = 0;
       while (elapsedTime < animator.GetCurrentAnimatorStateInfo(0).length)
       {
@@ -73,7 +70,6 @@ public class ChaseState : MonoBehaviour
         
          yield return new WaitForEndOfFrame();
       }
-      spottingPlayer = false;
    }
 
 
@@ -99,7 +95,7 @@ public class ChaseState : MonoBehaviour
       directionToPlayer = Mathf.Sign(player.transform.position.x - transform.position.x);
       float distanceToPlayerX = player.transform.position.x - transform.position.x;
       
-      if (searchingPlayer || spottingPlayer || isAttacking)
+      if (searchingPlayer || isAttacking)
       {
          target = 0;
       }
@@ -122,7 +118,7 @@ public class ChaseState : MonoBehaviour
 
    void HandleAttack()
    {
-      if (Vector2.Distance(transform.position, player.transform.position) < attackRange && !isAttacking && !searchingPlayer && !spottingPlayer)
+      if (Vector2.Distance(transform.position, player.transform.position) < attackRange && !isAttacking && !searchingPlayer)
       {
          if (attackCoroutine != null)
          {
@@ -186,12 +182,7 @@ public class ChaseState : MonoBehaviour
 
    void HandleAnimation()
    {
-      if (spottingPlayer)
-      {
-         animator.Play("Shock");
-         animator.speed = 1f;
-      }
-      else if (isAttacking)
+      if (isAttacking)
       {
          animator.Play("Attack");
          animator.speed = 1f;

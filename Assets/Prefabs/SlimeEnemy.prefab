@@ -11,8 +11,10 @@ GameObject:
   - component: {fileID: 6354146114177326206}
   - component: {fileID: 2191958685403067074}
   - component: {fileID: 4538504706904079985}
+  - component: {fileID: 7149097709723304482}
   - component: {fileID: 2783688521908548654}
   - component: {fileID: 8458280588702501532}
+  - component: {fileID: 5410578949667744132}
   - component: {fileID: 4662806074704699307}
   - component: {fileID: 3968668631837231016}
   - component: {fileID: 5295781657835196903}
@@ -89,6 +91,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &7149097709723304482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 42651091784271807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c09883e3ea56a54f8a67296ba052472, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 1000
+  objectsDestroyOnDeath: []
+  componentsDestroyOnDeath: []
+  isDead: 0
 --- !u!114 &2783688521908548654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,8 +122,9 @@ MonoBehaviour:
   visuals: {fileID: 7452606287007091171}
   patrolState: {fileID: 8458280588702501532}
   chaseState: {fileID: 4662806074704699307}
-  enemyHit: {fileID: 0}
-  enemyStunned: {fileID: 0}
+  enemyHit: {fileID: 3968668631837231016}
+  enemyStunned: {fileID: 5295781657835196903}
+  enemyShocked: {fileID: 5410578949667744132}
   currentState: 0
   maxDetectionDistance: 15
   spottingFOV: 90
@@ -141,6 +160,18 @@ MonoBehaviour:
   ground:
     serializedVersion: 2
     m_Bits: 1536
+--- !u!114 &5410578949667744132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 42651091784271807}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 573d12ae68a527642b9cfcbd647f0dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4662806074704699307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,6 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0919e38fb47abc34888924b2cd1a7bf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stopTime: 20
 --- !u!114 &5295781657835196903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,6 +221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stunDuration: 2
+  stopTime: 20
 --- !u!1 &2679401903106729954
 GameObject:
   m_ObjectHideFlags: 0

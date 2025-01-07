@@ -49,6 +49,7 @@ public class PlayerActions : MonoBehaviour
     {
        StopAllCoroutines();
        rb.velocity = Vector2.zero;
+       hitEnemies.Clear();
     }
 
 
@@ -177,6 +178,7 @@ public class PlayerActions : MonoBehaviour
         }
         
         rb.velocity = Vector2.zero;
+        hitEnemies.Clear();
         
         playerMain.currentState = PlayerState.Default;
     }
@@ -196,11 +198,30 @@ public class PlayerActions : MonoBehaviour
         }
     }
 
-    Collider2D isEnemyHit;
+    Collider2D[] isEnemyHit;
     List<Collider2D> hitEnemies = new List<Collider2D>();
+    
     void AttackHitBox()
     {
-        isEnemyHit = Physics2D.OverlapArea(attackCollider.bounds.min, attackCollider.bounds.max, enemyLayer);
+        isEnemyHit = Physics2D.OverlapAreaAll(attackCollider.bounds.min, attackCollider.bounds.max, enemyLayer);
+
+        foreach (Collider2D enemy in isEnemyHit)
+        {
+            if (!hitEnemies.Contains(enemy))
+            {
+                hitEnemies.Add(enemy);
+                
+                EnemyMain enemyMain = enemy.transform.parent.parent.GetComponent<EnemyMain>();
+
+                if (enemyMain.currentState == EnemyState.Stun || enemyMain.currentState == EnemyState.Patrol)
+                {
+                    Health enemyHealth = enemyMain.GetComponent<Health>();
+                    
+                    enemyMain.currentState = EnemyState.Hit;
+                    enemyHealth.TakeDamage(50);
+                }
+            }
+        }
     }
 
     #endregion

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum EnemyState
 {
-   Patrol, Chase, Hit, Stun, Dead
+   Patrol, Chase, Shocked, Hit, Stun, Dead
 }
 
 public class EnemyMain : MonoBehaviour
@@ -21,6 +21,7 @@ public class EnemyMain : MonoBehaviour
    [SerializeField] ChaseState chaseState;
    [SerializeField] EnemyHit enemyHit;
    [SerializeField] EnemyStunned enemyStunned;
+   [SerializeField] EnemyShocked enemyShocked;
    
    [Header("State")]
    public EnemyState currentState;
@@ -163,7 +164,7 @@ public class EnemyMain : MonoBehaviour
 
          if (playerMain.currentState == PlayerState.Attacking)
          {
-            if (currentState != EnemyState.Stun)
+            if (currentState != EnemyState.Stun && currentState != EnemyState.Hit)
             {
                DamagePlayer();
             }
@@ -202,7 +203,7 @@ public class EnemyMain : MonoBehaviour
    {
       if (currentState == EnemyState.Patrol && IsPlayerSpotted())
       {
-         currentState = EnemyState.Chase;
+         currentState = EnemyState.Shocked;
       }
 
       if (currentState == EnemyState.Chase)
@@ -227,13 +228,26 @@ public class EnemyMain : MonoBehaviour
          case EnemyState.Chase:
             patrolState.enabled = false;
             enemyStunned.enabled = false;
+            enemyHit.enabled = false;
+            enemyShocked.enabled = false;
             
             chaseState.enabled = true;
+            break;
+         
+         case EnemyState.Shocked:
+            patrolState.enabled = false;
+            enemyStunned.enabled = false;
+            enemyHit.enabled = false;
+            chaseState.enabled = false;
+            
+            enemyShocked.enabled = true;
             break;
            
          case EnemyState.Patrol:
             chaseState.enabled = false;
             enemyStunned.enabled = false;
+            enemyHit.enabled = false;
+            enemyShocked.enabled = false;
             
             patrolState.enabled = true;
             break;
@@ -241,8 +255,19 @@ public class EnemyMain : MonoBehaviour
          case EnemyState.Stun:
             chaseState.enabled = false;
             patrolState.enabled = false;
+            enemyHit.enabled = false;
+            enemyShocked.enabled = false;
 
             enemyStunned.enabled = true;
+            break;
+         
+         case EnemyState.Hit:
+            chaseState.enabled = false;
+            patrolState.enabled = false;
+            enemyStunned.enabled = false;
+            enemyShocked.enabled = false;
+
+            enemyHit.enabled = true;
             break;
       }
    }
