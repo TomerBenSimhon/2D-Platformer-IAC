@@ -17,6 +17,7 @@ public class PlayerMain : MonoBehaviour
     [SerializeField] PlayerActions playerActions;
     [SerializeField] PlayerHit playerHit;
     [SerializeField] PlayerInvincable playerInvincable;
+    [SerializeField] PlayerDeath playerDeath;
     [SerializeField] Health health;
     
     [SerializeField] Animator playerAnimator;
@@ -32,39 +33,11 @@ public class PlayerMain : MonoBehaviour
     void Update()
     {
         StateControl();
+        SwitchState();
     }
 
     void StateControl()
     {
-        /*if (currentState == PlayerState.Hit)
-        {
-            playerActions.enabled = false;
-            playerMovement.enabled = false;
-            playerHit.enabled = true;
-        }
-        else
-        {
-            playerActions.enabled = true;
-            playerHit.enabled = false;
-            if (currentState == PlayerState.Attacking)
-            {
-                playerMovement.enabled = false;
-            }
-            else
-            {
-                playerMovement.enabled = true;
-            }
-
-            if (currentState == PlayerState.God)
-            {
-                playerInvincable.enabled = true;
-            }
-            else
-            {
-                playerInvincable.enabled = false;
-            }
-            
-        }*/
 
         switch (currentState)
         {
@@ -99,6 +72,23 @@ public class PlayerMain : MonoBehaviour
                 playerActions.enabled = true;
                 playerMovement.enabled = true;
                 break;
+            
+            case PlayerState.Dead:
+                playerActions.enabled = false;
+                playerMovement.enabled = false;
+                playerInvincable.enabled = false;
+                playerHit.enabled = false;
+                
+                playerDeath.enabled = true;
+                break;
+        }
+    }
+
+    void SwitchState()
+    {
+        if (health.isDead)
+        {
+            currentState = PlayerState.Dead;
         }
     }
 

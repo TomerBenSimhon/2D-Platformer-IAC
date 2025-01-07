@@ -238,6 +238,7 @@ GameObject:
   - component: {fileID: 80624616600947535}
   - component: {fileID: 2473242210087955841}
   - component: {fileID: 7920703477536067125}
+  - component: {fileID: 1451459360513752260}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -301,7 +302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c09883e3ea56a54f8a67296ba052472, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100000
+  health: 20
   isDead: 0
 --- !u!114 &2479679264051426135
 MonoBehaviour:
@@ -319,6 +320,7 @@ MonoBehaviour:
   playerActions: {fileID: 80624616600947535}
   playerHit: {fileID: 2473242210087955841}
   playerInvincable: {fileID: 7920703477536067125}
+  playerDeath: {fileID: 1451459360513752260}
   health: {fileID: 4752713709747794386}
   playerAnimator: {fileID: 1367880062298235773}
   swordAnimator: {fileID: 5940477011508567067}
@@ -418,6 +420,26 @@ MonoBehaviour:
   invisableTime: 0.1
   playerSprite: {fileID: 3509609553006067281}
   swordSprite: {fileID: 8088426165872214327}
+--- !u!114 &1451459360513752260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5409484533724600042}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e893d041f2a5d0a4a99425ea53c9af71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerAnimator: {fileID: 1367880062298235773}
+  swordRenderer: {fileID: 8088426165872214327}
+  deathForce: 10
+  slowForce: 10
+  objectsDestroyOnDeath:
+  - {fileID: 5549558310623312729}
+  - {fileID: 8593771556756206928}
+  - {fileID: 742879944119804926}
 --- !u!1 &5549558310623312729
 GameObject:
   m_ObjectHideFlags: 0
