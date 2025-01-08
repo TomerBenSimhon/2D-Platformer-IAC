@@ -235,8 +235,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectsDestroyOnDeath:
-  - {fileID: 6687868308473220861}
   - {fileID: 2679401903106729954}
+  - {fileID: 3457602908699488274}
+  - {fileID: 8803303004225785432}
 --- !u!1 &2679401903106729954
 GameObject:
   m_ObjectHideFlags: 0

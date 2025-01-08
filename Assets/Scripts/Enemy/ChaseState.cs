@@ -40,17 +40,17 @@ public class ChaseState : MonoBehaviour
       enemyMain = GetComponent<EnemyMain>();  
    }
 
-   private void OnEnable()
+   private void OnDisable()
    {
-      if(spotCoroutine != null) {StopCoroutine(spotCoroutine);}
-      spotCoroutine = StartCoroutine(SpotPlayer());
+      target = 0;
+      moveAxisToPlayer = 0;
    }
 
 
    void Update()
    {
-      HandleAnimation();
       HandleAttack();
+      HandleAnimation();
    }
    private void FixedUpdate()
    {
@@ -58,56 +58,50 @@ public class ChaseState : MonoBehaviour
    }
 
    
-
-
-   Coroutine spotCoroutine;
-   IEnumerator SpotPlayer()
-   {
-      float elapsedTime = 0;
-      while (elapsedTime < animator.GetCurrentAnimatorStateInfo(0).length)
-      {
-         elapsedTime += Time.deltaTime;
-        
-         yield return new WaitForEndOfFrame();
-      }
-   }
+   
 
 
    void ChasePlayer()
    {
       rb.velocity = new Vector2(HandleMoveToPlayer() * chaseSpeed, rb.velocity.y);
       
-      if (!enemyMain.CanSeePlayer())
+      if (!enemyMain.CanSeePlayer() && !searchingPlayer)
       {
          searchingPlayer = true;
+         lastKnownTargetPosition = player.transform.position.x;
       }
-      else
+      else if (searchingPlayer && enemyMain.CanSeePlayer())
       {
          searchingPlayer = false;
       }
    }
 
-   float directionToPlayer;
+   float xDistanceToPlayer;
    float moveAxisToPlayer;
    private float target;
+   float lastKnownTargetPosition;
    float HandleMoveToPlayer()
    {
-      directionToPlayer = Mathf.Sign(player.transform.position.x - transform.position.x);
-      float distanceToPlayerX = player.transform.position.x - transform.position.x;
+      xDistanceToPlayer = player.transform.position.x - transform.position.x;
       
-      if (searchingPlayer || isAttacking)
+      if (isAttacking)
       {
          target = 0;
       }
+      else if (searchingPlayer)
+      {
+         target = CalcPlayersLastKnownPosition();
+      }
       else
       {
-         if ((directionToPlayer < 0 && BarrierDetection() == "L") || (directionToPlayer > 0 && BarrierDetection() == "R") || Mathf.Abs(distanceToPlayerX) < 1f)
+         if ((xDistanceToPlayer < 0 && BarrierDetection() == "L") || (xDistanceToPlayer > 0 && BarrierDetection() == "R") || Mathf.Abs(xDistanceToPlayer) < 1f)
          {
             target = 0;
          }
          else
          {
-            target = directionToPlayer;
+            target = Mathf.Sign(xDistanceToPlayer);
+            HandleVisualsFlip();
          }
       }
       
@@ -116,15 +110,29 @@ public class ChaseState : MonoBehaviour
       return moveAxisToPlayer;
    }
 
+   float CalcPlayersLastKnownPosition()
+   {
+      float direction = Mathf.Sign(lastKnownTargetPosition - transform.position.x);
+      if ((direction < 0 && BarrierDetection() == "L") || (direction > 0 && BarrierDetection() == "R"))
+      {
+         return 0;
+      }
+
+      if (Mathf.Abs(transform.position.x - lastKnownTargetPosition) > 0.5f)
+      {
+         return direction;
+      }
+      return 0;
+   }
+
    void HandleAttack()
    {
       if (Vector2.Distance(transform.position, player.transform.position) < attackRange && !isAttacking && !searchingPlayer)
       {
-         if (attackCoroutine != null)
+         if (attackCoroutine == null)
          {
-            StopCoroutine(attackCoroutine);
+            attackCoroutine = StartCoroutine(AttackVisuals());
          }
-         attackCoroutine = StartCoroutine(AttackVisuals());
       }
    }
 
@@ -134,16 +142,28 @@ public class ChaseState : MonoBehaviour
    the attack hit box method is in enemyMain and is called in the attack animation in an event*/
    IEnumerator AttackVisuals()
    {
-      isAttacking = true;
+      yield return null;
       
+      isAttacking = true;
       float elapsedTime = 0;
-      while (elapsedTime < animator.GetCurrentAnimatorStateInfo(0).length)
+      
+      animator.Play("Attack");
+      animator.speed = 1f;
+      
+      yield return null;
+      
+      float animationTime = animator.GetCurrentAnimatorStateInfo(0).length;
+      
+      
+      while (elapsedTime < animationTime)
       {
          elapsedTime += Time.deltaTime;
          
          yield return null;
       }
       isAttacking = false;
+      
+      attackCoroutine = null;
    }
 
   
@@ -152,7 +172,7 @@ public class ChaseState : MonoBehaviour
 
    void HandleVisualsFlip()
    {
-      visuals.transform.localScale = new Vector3(Mathf.Sign(directionToPlayer), 1, 1);
+      visuals.transform.localScale = new Vector3(Mathf.Sign(xDistanceToPlayer), 1, 1);
    }
 
    
@@ -191,7 +211,7 @@ public class ChaseState : MonoBehaviour
       {
          animator.Play("Run");
          animator.speed = 1.2f;
-         HandleVisualsFlip();
+         
       }
       else
       {
