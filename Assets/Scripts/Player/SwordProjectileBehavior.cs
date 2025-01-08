@@ -41,6 +41,10 @@ public class SwordProjectileBehavior : MonoBehaviour
         WallChecking();
     }
 
+    
+
+    
+
     void MoveToMouse()
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -116,8 +120,8 @@ public class SwordProjectileBehavior : MonoBehaviour
         
     }
 
-    bool wallTouchingRight;
-    bool wallTouchingLeft;
+    Collider2D wallTouchingRight;
+    Collider2D wallTouchingLeft;
     
     void WallChecking()
     {
@@ -142,8 +146,6 @@ public class SwordProjectileBehavior : MonoBehaviour
             
         }
     }
-    
-   
 
-  
+    
 }

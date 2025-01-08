@@ -131,6 +131,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   swordProjectile: {fileID: 2016219074476896885, guid: 7f5be27a963917b4d9719eb0ac65206b, type: 3}
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!1 &3423346266557042164
 GameObject:
   m_ObjectHideFlags: 0

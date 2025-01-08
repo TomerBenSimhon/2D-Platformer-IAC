@@ -207,11 +207,6 @@ Transform:
   - {fileID: 608119864}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &176488253 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2679401903106729954, guid: 1bf1251ac35c4fa44a07e5425113f17a, type: 3}
-  m_PrefabInstance: {fileID: 796742777977508560}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -502,11 +497,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &614964807 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8803303004225785432, guid: 1bf1251ac35c4fa44a07e5425113f17a, type: 3}
-  m_PrefabInstance: {fileID: 796742777977508560}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -720,11 +710,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &656705833 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3457602908699488274, guid: 1bf1251ac35c4fa44a07e5425113f17a, type: 3}
-  m_PrefabInstance: {fileID: 796742777977508560}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &682983899
 GameObject:
   m_ObjectHideFlags: 0
@@ -1517,22 +1502,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: SlimeEnemy
       objectReference: {fileID: 0}
-    - target: {fileID: 5161152022490284425, guid: 1bf1251ac35c4fa44a07e5425113f17a, type: 3}
-      propertyPath: objectsDestroyOnDeath.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5161152022490284425, guid: 1bf1251ac35c4fa44a07e5425113f17a, type: 3}
-      propertyPath: objectsDestroyOnDeath.Array.data[0]
-      value: 
-      objectReference: {fileID: 176488253}
-    - target: {fileID: 5161152022490284425, guid: 1bf1251ac35c4fa44a07e5425113f17a, type: 3}
-      propertyPath: objectsDestroyOnDeath.Array.data[1]
-      value: 
-      objectReference: {fileID: 656705833}
-    - target: {fileID: 5161152022490284425, guid: 1bf1251ac35c4fa44a07e5425113f17a, type: 3}
-      propertyPath: objectsDestroyOnDeath.Array.data[2]
-      value: 
-      objectReference: {fileID: 614964807}
     - target: {fileID: 6354146114177326206, guid: 1bf1251ac35c4fa44a07e5425113f17a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.9083595
