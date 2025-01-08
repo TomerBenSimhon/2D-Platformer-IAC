@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.Tilemaps;
 
 public class SwordProjectileBehavior : MonoBehaviour
 {
@@ -123,6 +124,8 @@ public class SwordProjectileBehavior : MonoBehaviour
     Collider2D wallTouchingRight;
     Collider2D wallTouchingLeft;
     
+    
+    
     void WallChecking()
     {
         if (!isRetriving)
@@ -130,17 +133,27 @@ public class SwordProjectileBehavior : MonoBehaviour
             wallTouchingRight = Physics2D.OverlapArea(wallCheckRight.bounds.min, wallCheckRight.bounds.max, walls);
             wallTouchingLeft = Physics2D.OverlapArea(wallCheckLeft.bounds.min, wallCheckLeft.bounds.max, walls);
 
+            Tilemap wallTilemap;
+
             if (wallTouchingRight && rb.velocity.x > 0)
             {
-                GameObject instant = Instantiate(swordPlatform, new Vector2(transform.position.x,transform.position.y + yOffset), Quaternion.identity);
+                wallTilemap = wallTouchingRight.GetComponent<Tilemap>();
+                Vector3 cellPos = wallTilemap.WorldToCell(transform.position);
+                
+                GameObject instant = Instantiate(swordPlatform, new Vector2(cellPos.x + 0.3f,transform.position.y + yOffset), Quaternion.identity);
                 instant.transform.localScale = new Vector3(1, 1, 1);
+                
                 Destroy(gameObject);
             }
 
             if (wallTouchingLeft && rb.velocity.x < 0)
             {
-                GameObject instant = Instantiate(swordPlatform, new Vector2(transform.position.x,transform.position.y + yOffset), Quaternion.identity);
+                wallTilemap = wallTouchingLeft.GetComponent<Tilemap>();
+                Vector3 cellPos = wallTilemap.WorldToCell(transform.position + Vector3.right);
+                
+                GameObject instant = Instantiate(swordPlatform, new Vector2(cellPos.x - 0.3f,transform.position.y + yOffset), Quaternion.identity);
                 instant.transform.localScale = new Vector3(-1, 1, 1);
+                
                 Destroy(gameObject);
             }
             

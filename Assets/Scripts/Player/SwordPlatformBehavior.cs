@@ -12,7 +12,7 @@ public class SwordPlatformBehavior : MonoBehaviour
     private void Start()
     {
         myCollider = GetComponentInChildren<Collider2D>();
-        StartCoroutine(AdjustPosition());
+        
     }
 
     void Update()
@@ -27,32 +27,7 @@ public class SwordPlatformBehavior : MonoBehaviour
     }
 
 
-    bool isTouchingWall;
-    IEnumerator AdjustPosition()
-    {
-        isTouchingWall = true;
-
-        if (transform.localScale.x > 0)
-        {
-            while (isTouchingWall)
-            {
-                isTouchingWall = Physics2D.OverlapArea(myCollider.bounds.min, myCollider.bounds.max, wallLayer);
-                transform.position += Vector3.left * Time.deltaTime;
-            }
-
-            yield return null;
-        }
-        else if (transform.localScale.x < 0)
-        {
-            while (isTouchingWall)
-            {
-                isTouchingWall = Physics2D.OverlapArea(myCollider.bounds.min, myCollider.bounds.max, wallLayer);
-                transform.position += Vector3.right * Time.deltaTime;
-            }
-            yield return null;
-        }
-        yield return null;
-    }
+ 
     
     
     
