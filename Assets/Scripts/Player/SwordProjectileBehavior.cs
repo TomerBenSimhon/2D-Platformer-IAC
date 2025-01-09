@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
+using Random = UnityEngine.Random;
 
 public class SwordProjectileBehavior : MonoBehaviour
 {
    GameObject player;
    Rigidbody2D rb;
+   [SerializeField] Collider2D myCollider;
    
    [Header("Throw")]
    [SerializeField] float maxDistance = 20f; 
@@ -32,6 +34,9 @@ public class SwordProjectileBehavior : MonoBehaviour
         player = FindObjectOfType<PlayerMovement>().gameObject;
         rb = GetComponent<Rigidbody2D>();
         
+        ricochetVelocity = Vector2.zero;
+        hitEnemy = false;
+        
         MoveToMouse();
     }
 
@@ -40,6 +45,7 @@ public class SwordProjectileBehavior : MonoBehaviour
     {
         RetrieveToPlayer();
         WallChecking();
+        GroundChecking();
     }
 
     
@@ -72,7 +78,7 @@ public class SwordProjectileBehavior : MonoBehaviour
         
         if (isRetriving)
         {
-            rb.velocity = DirectionToPlayer().normalized * retrivingSpeed;
+            rb.velocity = DirectionToPlayer().normalized * retrivingSpeed + ricochetVelocity/2;
             retrivingSpeed += retrivingAccel * Time.deltaTime;
 
         }
@@ -81,6 +87,8 @@ public class SwordProjectileBehavior : MonoBehaviour
 
     
     //Collisions
+
+    bool hitEnemy;
     private void OnTriggerStay2D(Collider2D other)
     {
         if (isRetriving && other.CompareTag("Player"))
@@ -89,9 +97,17 @@ public class SwordProjectileBehavior : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (!isRetriving && other.CompareTag("Enemy"))
+        if (!hitEnemy && other.CompareTag("Enemy"))
         {
+            hitEnemy = true;
+            
             EnemyMain enemyMain = other.transform.parent.parent.GetComponent<EnemyMain>();
+            
+            Vector2 normal = (myCollider.transform.position - other.transform.position).normalized;
+            Vector2 reflectedVelocity = (rb.velocity - 2 * Vector2.Dot(rb.velocity, normal) * normal);
+            
+            ricochetVelocity = new Vector2(Random.Range(reflectedVelocity.x * 0.75f, reflectedVelocity.x * 1.5f),
+                                            Random.Range(reflectedVelocity.y, reflectedVelocity.y * 2f));
 
             if (enemyMain.currentState == EnemyState.Stun)
             {
@@ -157,6 +173,27 @@ public class SwordProjectileBehavior : MonoBehaviour
                 Destroy(gameObject);
             }
             
+        }
+    }
+
+    
+    Vector2 ricochetVelocity;
+    RaycastHit2D groundHit;
+    void GroundChecking()
+    {
+        groundHit = Physics2D.Raycast(myCollider.transform.position, Vector2.down, 0.5f, LayerMask.GetMask("Ground"));
+
+        if (groundHit && !isRetriving)
+        {
+            if (Mathf.Abs(rb.velocity.y) < 10)
+            {
+                ricochetVelocity = new Vector2(Random.Range(0.75f * rb.velocity.x, 1.5f * rb.velocity.x),-Random.Range(2f * rb.velocity.y, 4f * rb.velocity.y)); 
+            }
+            else
+            {
+                ricochetVelocity = new Vector2(Random.Range(0.75f * rb.velocity.x, 1.5f * rb.velocity.x),-Random.Range(rb.velocity.y, 2f * rb.velocity.y)); 
+            }
+            isRetriving = true;
         }
     }
 

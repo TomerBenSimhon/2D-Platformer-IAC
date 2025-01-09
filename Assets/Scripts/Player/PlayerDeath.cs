@@ -40,13 +40,16 @@ public class PlayerDeath : MonoBehaviour
         playerAnimator.speed = 1f;
 
         StartCoroutine(DeathMovement());
-      
+        StartCoroutine(RestartSceneDelay());
+        
         playerMain.enabled = false;
       
         foreach (GameObject obj in objectsDestroyOnDeath)
         {
             obj.SetActive(false);
         }
+        
+        
 
     }
     
@@ -59,5 +62,11 @@ public class PlayerDeath : MonoBehaviour
             rb.velocity = Vector2.MoveTowards(rb.velocity, Vector2.zero, slowForce * Time.deltaTime);
             yield return null;
         }
+    }
+
+    IEnumerator RestartSceneDelay()
+    {
+        yield return new WaitForSeconds(2f);
+        GameManager.Instance.RestartScene();
     }
 }

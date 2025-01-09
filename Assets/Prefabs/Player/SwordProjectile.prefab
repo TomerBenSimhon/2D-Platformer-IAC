@@ -74,8 +74,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e056fcf6d9228d4c83db9a1ce209f72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myCollider: {fileID: 7311999430766870131}
   maxDistance: 20
-  retrivingAccel: 75
+  retrivingAccel: 100
   moveSpeed: 40
   isRetriving: 0
   wallCheckRight: {fileID: 1701775922927475659}

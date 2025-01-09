@@ -28,6 +28,8 @@ public class PlayerMain : MonoBehaviour
     private void Start()
     {
         currentState = PlayerState.Default;
+
+        transform.position = GameManager.Instance.currentCheckpoint;
     }
 
     void Update()
