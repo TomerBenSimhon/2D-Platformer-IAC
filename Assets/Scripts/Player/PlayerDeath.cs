@@ -34,7 +34,7 @@ public class PlayerDeath : MonoBehaviour
 
     void Die()
     {
-        swordRenderer.enabled = false;
+        playerMain.SwordVisualsEnabled(false);
           
         playerAnimator.Play("Death");
         playerAnimator.speed = 1f;

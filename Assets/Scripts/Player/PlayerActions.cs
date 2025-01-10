@@ -92,18 +92,14 @@ public class PlayerActions : MonoBehaviour
         if (throwAvail)
         {
             throwAvail = false;
-            swordVisuals.enabled = false;
+            playerMain.SwordVisualsEnabled(false);
             playerMain.currentState = PlayerState.Default;
             
             Instantiate(swordProjectile, transform.position, Quaternion.identity);
            
         }
     }
-
-    public void SwordVisuallsActive(bool active)
-    {
-        swordVisuals.enabled = active;
-    }
+    
     
 
     #endregion

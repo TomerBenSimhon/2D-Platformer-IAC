@@ -8,6 +8,8 @@ public class EventManager : MonoBehaviour
     public static EventManager Instance;
     
     TextMeshProUGUI eventText;
+    
+    [SerializeField] float freezeLerpDuration = 0.5f;
 
     void Start()
     {
@@ -26,16 +28,34 @@ public class EventManager : MonoBehaviour
         Instance = this;
     }
 
-    public void StartDisplayEvent(string[] messages)
+    public void StartDisplayEvent(string[] messages,  bool isFreezeTime)
     {
         if (displayEventCoroutine != null) {StopCoroutine(displayEventCoroutine);}
 
-        displayEventCoroutine = StartCoroutine(DisplayEventMessages(messages));
+        displayEventCoroutine = StartCoroutine(DisplayEventMessages(messages, isFreezeTime));
     }
 
+    
+    float elapsedTime = 0f;
+    
     Coroutine displayEventCoroutine;
-    IEnumerator DisplayEventMessages(string[] messages)
+    IEnumerator DisplayEventMessages(string[] messages, bool isFreezeTime)
     {
+        if (isFreezeTime)
+        {
+            elapsedTime = 0f;
+            while (elapsedTime < freezeLerpDuration)
+            {
+                elapsedTime += Time.unscaledDeltaTime;
+                Time.timeScale = Mathf.Lerp(1, 0, elapsedTime / freezeLerpDuration);
+                yield return null;
+            }
+
+            Time.timeScale = 0;
+            elapsedTime = 0;
+        }
+        
+
         eventText.text = "";
         foreach (string message in messages)
         {
@@ -44,10 +64,25 @@ public class EventManager : MonoBehaviour
                 eventText.text += letter;
                 yield return new WaitForSecondsRealtime(0.05f);
             }
+
             eventText.text += "\n" + "\n";
             yield return new WaitForSecondsRealtime(0.5f);
         }
-        
+
+        if (isFreezeTime)
+        {
+            while (elapsedTime < freezeLerpDuration && isFreezeTime)
+            {
+                elapsedTime += Time.unscaledDeltaTime;
+                Time.timeScale = Mathf.Lerp(0, 1, elapsedTime / freezeLerpDuration);
+                yield return null;
+            }
+
+            Time.timeScale = 1;
+            elapsedTime = 0;   
+        }
+       
+
         yield return new WaitForSeconds(4f);
         eventText.text = "";
     }

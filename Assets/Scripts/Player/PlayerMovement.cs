@@ -111,7 +111,7 @@ public class PlayerMovement : MonoBehaviour
     {
         isGrounded = Physics2D.OverlapArea(groundCheck.bounds.min, groundCheck.bounds.max, groundLayer);
 
-        if (isGrounded && rb.velocity.y == 0)
+        if (isGrounded && Mathf.Abs(rb.velocity.y) <0.5f)
         {
             didJump = false;
             canCoyote = true;

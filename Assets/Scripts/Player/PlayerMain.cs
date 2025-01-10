@@ -23,6 +23,8 @@ public class PlayerMain : MonoBehaviour
     [SerializeField] Animator playerAnimator;
     [SerializeField] Animator swordAnimator;
     [SerializeField] SpriteRenderer swordVisuals;
+    private GameObject swordTrail;
+    ParticleSystem swordTrailParticles;
     
     public PlayerState currentState;
     private void Start()
@@ -30,13 +32,19 @@ public class PlayerMain : MonoBehaviour
         currentState = PlayerState.Default;
 
         transform.position = GameManager.Instance.currentCheckpoint;
+        
+        swordTrail = swordAnimator.transform.GetChild(0).gameObject;
+        swordTrailParticles = swordTrail.GetComponent<ParticleSystem>();
     }
 
     void Update()
     {
         StateControl();
         SwitchState();
+        HandleSwordTrail();
     }
+   
+   
 
     void StateControl()
     {
@@ -94,6 +102,23 @@ public class PlayerMain : MonoBehaviour
         }
     }
 
+    
+    void HandleSwordTrail()
+    {
+        if (swordVisuals.enabled == true)
+        {
+            var main = swordTrailParticles.main;
+            if (transform.localScale.x > 0)
+            {
+                main.startRotation = 50f * Mathf.Deg2Rad;
+            }
+            else if (transform.localScale.x < 0)
+            {
+                main.startRotation = -50f * Mathf.Deg2Rad;
+            }
+        }
+    }
+
     public void PlayAnimations(string name, bool isTime, float time)
     {
         if (!isTime)
@@ -109,5 +134,20 @@ public class PlayerMain : MonoBehaviour
             swordAnimator.speed = 0;
         }
     }
+
+    public void SwordVisualsEnabled(bool isEnabled)
+    {
+        if (isEnabled)
+        {
+            swordVisuals.enabled = true;
+            swordTrail.SetActive(true);
+        }
+        else
+        {
+            swordVisuals.enabled = false;
+            swordTrail.SetActive(false);
+        }
+    }
+    
 
 }

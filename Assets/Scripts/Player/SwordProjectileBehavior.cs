@@ -26,6 +26,8 @@ public class SwordProjectileBehavior : MonoBehaviour
 
    [SerializeField] private float yOffset;
    
+   [Header("Effect")]
+   [SerializeField] ParticleSystem hitSparks;
    
    
    
@@ -93,7 +95,7 @@ public class SwordProjectileBehavior : MonoBehaviour
     {
         if (isRetriving && other.CompareTag("Player"))
         {
-            player.GetComponent<PlayerActions>().SwordVisuallsActive(true);
+            player.GetComponent<PlayerMain>().SwordVisualsEnabled(true);
             Destroy(gameObject);
         }
 
@@ -153,6 +155,7 @@ public class SwordProjectileBehavior : MonoBehaviour
 
             if (wallTouchingRight && rb.velocity.x > 0)
             {
+                
                 wallTilemap = wallTouchingRight.GetComponent<Tilemap>();
                 Vector3 cellPos = wallTilemap.WorldToCell(transform.position);
                 
@@ -164,6 +167,7 @@ public class SwordProjectileBehavior : MonoBehaviour
 
             if (wallTouchingLeft && rb.velocity.x < 0)
             {
+                
                 wallTilemap = wallTouchingLeft.GetComponent<Tilemap>();
                 Vector3 cellPos = wallTilemap.WorldToCell(transform.position + Vector3.right);
                 
@@ -185,6 +189,8 @@ public class SwordProjectileBehavior : MonoBehaviour
 
         if (groundHit && !isRetriving)
         {
+            PlayHitSparks(30f, 0);
+            
             if (Mathf.Abs(rb.velocity.y) < 10)
             {
                 ricochetVelocity = new Vector2(Random.Range(0.75f * rb.velocity.x, 1.5f * rb.velocity.x),-Random.Range(2f * rb.velocity.y, 4f * rb.velocity.y)); 
@@ -195,6 +201,16 @@ public class SwordProjectileBehavior : MonoBehaviour
             }
             isRetriving = true;
         }
+    }
+
+    void PlayHitSparks(float rotation, float xPos)
+    {
+        hitSparks.transform.rotation = Quaternion.Euler(0, 0, rotation);
+        hitSparks.transform.position += new Vector3(xPos, 0, 0);
+        
+        hitSparks.Play();
+        hitSparks.transform.parent = null;
+        Destroy(hitSparks.gameObject, 1f);
     }
 
     
