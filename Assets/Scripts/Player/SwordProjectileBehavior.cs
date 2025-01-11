@@ -110,6 +110,8 @@ public class SwordProjectileBehavior : MonoBehaviour
             
             ricochetVelocity = new Vector2(Random.Range(reflectedVelocity.x * 0.75f, reflectedVelocity.x * 1.5f),
                                             Random.Range(reflectedVelocity.y, reflectedVelocity.y * 2f));
+            
+            PlayHitSparks(30f, 0);
 
             if (enemyMain.currentState == EnemyState.Stun)
             {
@@ -189,7 +191,7 @@ public class SwordProjectileBehavior : MonoBehaviour
 
         if (groundHit && !isRetriving)
         {
-            PlayHitSparks(30f, 0);
+            
             
             if (Mathf.Abs(rb.velocity.y) < 10)
             {
@@ -200,6 +202,11 @@ public class SwordProjectileBehavior : MonoBehaviour
                 ricochetVelocity = new Vector2(Random.Range(0.75f * rb.velocity.x, 1.5f * rb.velocity.x),-Random.Range(rb.velocity.y, 2f * rb.velocity.y)); 
             }
             isRetriving = true;
+            
+            if (rb.velocity.y < 0) {PlayHitSparks(30f, 0);}
+            else {PlayHitSparks(-120f, 0);}
+            
+            
         }
     }
 

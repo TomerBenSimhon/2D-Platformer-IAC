@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class EnemyHit : MonoBehaviour
 {
@@ -8,7 +9,9 @@ public class EnemyHit : MonoBehaviour
     Animator animator;
     Rigidbody2D rb;
     
-    [SerializeField] float stopTime;
+    [SerializeField] float stopAccel;
+
+    [SerializeField] ParticleSystem hitEffect;
 
     float elapsedTime;
     
@@ -27,6 +30,8 @@ public class EnemyHit : MonoBehaviour
         
         if (hitRoutine != null) { StopCoroutine(hitRoutine); }
         hitRoutine = StartCoroutine(HitRoutine());
+        
+        hitEffect.Play();
     }
     
     private void OnDisable()
@@ -41,7 +46,7 @@ public class EnemyHit : MonoBehaviour
 
     void StopMovement()
     {
-        rb.velocity = Vector2.MoveTowards(rb.velocity, Vector2.zero, stopTime * Time.deltaTime);
+        rb.velocity = Vector2.MoveTowards(rb.velocity, Vector2.zero, stopAccel * Time.deltaTime);
     }
     
     Coroutine hitRoutine;
