@@ -9,6 +9,7 @@ using Random = UnityEngine.Random;
 public class SwordProjectileBehavior : MonoBehaviour
 {
    GameObject player;
+   PlayerActions playerActions;
    Rigidbody2D rb;
    [SerializeField] Collider2D myCollider;
    
@@ -33,7 +34,8 @@ public class SwordProjectileBehavior : MonoBehaviour
    
     void Start()
     {
-        player = FindObjectOfType<PlayerMovement>().gameObject;
+        player = FindObjectOfType<PlayerMain>().gameObject;
+        playerActions = player.GetComponent<PlayerActions>();
         rb = GetComponent<Rigidbody2D>();
         
         ricochetVelocity = Vector2.zero;
@@ -58,10 +60,27 @@ public class SwordProjectileBehavior : MonoBehaviour
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0;
+
+        Vector2 direction = mousePos - transform.position;
+        if (!playerActions.groundDetected)
+        {
+            direction = (mousePos - transform.position);
+        }
+        else
+        {
+            if (direction.y < 0)
+            {
+                direction = new Vector2(direction.x, 0);
+            }
+            else
+            {
+                direction = mousePos - transform.position;
+            }
+        }
         
-        Vector2 direction = (mousePos - transform.position).normalized;
         
-        rb.velocity = direction * moveSpeed;
+        
+        rb.velocity = direction.normalized * moveSpeed;
         
     }
 

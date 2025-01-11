@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerActions : MonoBehaviour
 { 
@@ -18,6 +19,8 @@ public class PlayerActions : MonoBehaviour
     
     [SerializeField] SpriteRenderer swordVisuals;
     [SerializeField] GameObject swordProjectile;
+    [SerializeField] Collider2D edgeCheckCollider;
+    [SerializeField] LayerMask edgeCheckLayers;
     [SerializeField] float maxDistance;
     
     
@@ -89,9 +92,9 @@ public class PlayerActions : MonoBehaviour
 
     #region Sword Throw
 
-    
-    
-    
+
+
+     public bool groundDetected;
     void HandleSwordThrow()
     {
         if (throwAvail)
@@ -99,6 +102,8 @@ public class PlayerActions : MonoBehaviour
             throwAvail = false;
             playerMain.SwordVisualsEnabled(false);
             playerMain.currentState = PlayerState.Default;
+            
+            groundDetected = Physics2D.OverlapArea(edgeCheckCollider.bounds.min, edgeCheckCollider.bounds.max, edgeCheckLayers);
             
             Instantiate(swordProjectile, transform.position, Quaternion.identity);
            
