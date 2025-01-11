@@ -54,7 +54,8 @@ public class GameManager : MonoBehaviour
 
    public void HitStopScale(float time)
    {
-      StartCoroutine(HitStopScaleCoroutine(time));
+      if (hitStopScaleCoroutine != null) { StopCoroutine(hitStopScaleCoroutine); }
+      hitStopScaleCoroutine = StartCoroutine(HitStopScaleCoroutine(time));
    }
 
    IEnumerator HitStopCoroutine(float time)
@@ -64,6 +65,7 @@ public class GameManager : MonoBehaviour
       Time.timeScale = 1;
    }
 
+   Coroutine hitStopScaleCoroutine;
    IEnumerator HitStopScaleCoroutine(float time)
    {
       Time.timeScale = 0;
