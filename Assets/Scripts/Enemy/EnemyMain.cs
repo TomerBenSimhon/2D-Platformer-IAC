@@ -163,11 +163,13 @@ public class EnemyMain : MonoBehaviour
             if (currentState == EnemyState.Chase || currentState == EnemyState.Shocked)
             {
                DamagePlayer(10,onTouchKnockback);
+               GameManager.Instance.HitStop(0.1f);
             }
          }
          else
          {
             DamagePlayer(10,onTouchKnockback);
+            GameManager.Instance.HitStop(0.1f);
          }
       }
    }
@@ -182,6 +184,7 @@ public class EnemyMain : MonoBehaviour
       if (playerHitAttack && playerMain.currentState != PlayerState.Hit && playerMain.currentState != PlayerState.God)
       {
         DamagePlayer(50, attackKnockback);
+        GameManager.Instance.HitStop(0.2f);
       }
    }
 

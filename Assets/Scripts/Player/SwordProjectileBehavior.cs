@@ -114,6 +114,7 @@ public class SwordProjectileBehavior : MonoBehaviour
             float angle = Vector2.Angle(normal, Vector2.right);
             
             PlayHitSparks(angle - 30f, 0);
+            GameManager.Instance.HitStop(0.05f);
 
             if (enemyMain.currentState == EnemyState.Stun)
             {

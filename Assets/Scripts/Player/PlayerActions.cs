@@ -8,6 +8,7 @@ public class PlayerActions : MonoBehaviour
 { 
     Rigidbody2D rb;
     PlayerMain playerMain;
+    PlayerMovement playerMovement;
 
     [SerializeField] Collider2D attackCollider;
     [SerializeField] Animator playerAnimator;
@@ -38,6 +39,7 @@ public class PlayerActions : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         playerMain = GetComponent<PlayerMain>();
+        playerMovement = GetComponent<PlayerMovement>();
     }
 
     
@@ -248,6 +250,8 @@ public class PlayerActions : MonoBehaviour
                     
                     enemyMain.currentState = EnemyState.Hit;
                     enemyHealth.TakeDamage(50);
+                    
+                    GameManager.Instance.HitStopScale(0.5f);
                 }
             }
         }

@@ -44,5 +44,43 @@ public class GameManager : MonoBehaviour
    public Vector2 currentCheckpoint = Vector2.zero;
 
    #endregion
+
+   #region Effects
+
+   public void HitStop(float time)
+   {
+      StartCoroutine(HitStopCoroutine(time));
+   }
+
+   public void HitStopScale(float time)
+   {
+      StartCoroutine(HitStopScaleCoroutine(time));
+   }
+
+   IEnumerator HitStopCoroutine(float time)
+   {
+      Time.timeScale = 0;
+      yield return new WaitForSecondsRealtime(time);
+      Time.timeScale = 1;
+   }
+
+   IEnumerator HitStopScaleCoroutine(float time)
+   {
+      Time.timeScale = 0;
+      float elapsedTime = 0;
+
+      while (elapsedTime < time)
+      {
+         elapsedTime += Time.unscaledDeltaTime;
+         
+         Time.timeScale = elapsedTime / time < 1 ? elapsedTime / time : Time.timeScale;
+         
+         yield return null;
+      }
+      
+      Time.timeScale = 1;
+   }
+
+   #endregion
    
 }
