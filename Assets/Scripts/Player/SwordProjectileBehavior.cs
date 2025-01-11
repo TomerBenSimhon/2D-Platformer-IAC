@@ -111,7 +111,9 @@ public class SwordProjectileBehavior : MonoBehaviour
             ricochetVelocity = new Vector2(Random.Range(reflectedVelocity.x * 0.75f, reflectedVelocity.x * 1.5f),
                                             Random.Range(reflectedVelocity.y, reflectedVelocity.y * 2f));
             
-            PlayHitSparks(30f, 0);
+            float angle = Vector2.Angle(normal, Vector2.right);
+            
+            PlayHitSparks(angle - 30f, 0);
 
             if (enemyMain.currentState == EnemyState.Stun)
             {

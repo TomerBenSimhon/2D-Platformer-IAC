@@ -28,6 +28,9 @@ public class PlayerActions : MonoBehaviour
     [SerializeField] float endDashDelay;
     [SerializeField] float attackRate;
     [SerializeField] LayerMask enemyLayer;
+
+    [Header("Effects")]
+    [SerializeField] GameObject ghostEffect;
     
     
     
@@ -152,6 +155,9 @@ public class PlayerActions : MonoBehaviour
         Vector2 dash = new Vector2(dashForce * Mathf.Sign(transform.localScale.x), 0);
         rb.velocity = dash;
         elapsedTime = 0;
+        
+        isGhostEffect = true;
+        StartCoroutine(GhostDashEffect());
 
         while (elapsedTime < dashDuration)
         {
@@ -160,6 +166,7 @@ public class PlayerActions : MonoBehaviour
             AttackHitBox();
             yield return new WaitForEndOfFrame();
         }
+        
         
         
         elapsedTime = 0;
@@ -175,6 +182,8 @@ public class PlayerActions : MonoBehaviour
         
         rb.velocity = Vector2.zero;
         hitEnemies.Clear();
+        
+        isGhostEffect = false;
         
         playerMain.currentState = PlayerState.Default;
     }
@@ -192,6 +201,30 @@ public class PlayerActions : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    bool isGhostEffect;
+    GameObject lastGhost;
+    IEnumerator GhostDashEffect()
+    {
+        while (isGhostEffect)
+        {
+            if (lastGhost == null)
+            {
+                lastGhost = Instantiate(ghostEffect, transform.position, Quaternion.identity);
+            }
+            else
+            {
+                if (Vector2.Distance(lastGhost.transform.position, transform.position) > 2)
+                {
+                    lastGhost = Instantiate(ghostEffect, transform.position, Quaternion.identity);
+                }
+            }
+            yield return null;
+            
+        }
+
+        lastGhost = null;
     }
 
     Collider2D[] isEnemyHit;

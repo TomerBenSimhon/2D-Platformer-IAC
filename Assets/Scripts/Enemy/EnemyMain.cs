@@ -157,27 +157,17 @@ public class EnemyMain : MonoBehaviour
           currentState != EnemyState.Dead && 
           playerMain.currentState != PlayerState.Hit && playerMain.currentState != PlayerState.God)
       {
-         void DamagePlayer()
-         {
-            float directionToPlayer = Mathf.Sign(playerTransform.position.x - transform.position.x);
-            
-            playerHitScript.knockbacDirection = new Vector2(directionToPlayer, 1);
-            playerHitScript.knockbackForce = onTouchKnockback;
-            
-            playerMain.currentState = PlayerState.Hit;
-            playerHealth.TakeDamage(10);
-         }
 
          if (playerMain.currentState == PlayerState.Attacking)
          {
-            if (currentState != EnemyState.Stun && currentState != EnemyState.Hit)
+            if (currentState == EnemyState.Chase || currentState == EnemyState.Shocked)
             {
-               DamagePlayer();
+               DamagePlayer(10,onTouchKnockback);
             }
          }
          else
          {
-            DamagePlayer();
+            DamagePlayer(10,onTouchKnockback);
          }
       }
    }
@@ -188,18 +178,23 @@ public class EnemyMain : MonoBehaviour
    void AttackHitBox()
    {
       playerHitAttack = Physics2D.OverlapArea(attackCollider.bounds.min, attackCollider.bounds.max, playerLayer);
-      
+
       if (playerHitAttack && playerMain.currentState != PlayerState.Hit && playerMain.currentState != PlayerState.God)
+      {
+        DamagePlayer(50, attackKnockback);
+      }
+   }
+
+   void DamagePlayer(int damage, float knockbackForce)
       {
          float directionToPlayer = Mathf.Sign(playerTransform.position.x - transform.position.x);
             
          playerHitScript.knockbacDirection = new Vector2(directionToPlayer, 1);
-         playerHitScript.knockbackForce = attackKnockback;
-         
+         playerHitScript.knockbackForce = knockbackForce;
+            
          playerMain.currentState = PlayerState.Hit;
-         playerHealth.TakeDamage(50);
+         playerHealth.TakeDamage(damage);
       }
-   }
 
    #endregion
 

@@ -379,6 +379,7 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 8192
+  ghostEffect: {fileID: 3681669077166217285, guid: fc2fcdd12c86d364cbe16b3132bf7a63, type: 3}
 --- !u!114 &2473242210087955841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1387,7 +1388,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 17.6
+      scalar: 0
       minScalar: 10
       maxCurve:
         serializedVersion: 2
