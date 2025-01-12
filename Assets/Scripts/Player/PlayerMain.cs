@@ -105,7 +105,7 @@ public class PlayerMain : MonoBehaviour
     
     void HandleSwordTrail()
     {
-        if (swordVisuals.enabled == true)
+        if (swordVisuals.enabled)
         {
             var main = swordTrailParticles.main;
             if (transform.localScale.x > 0)

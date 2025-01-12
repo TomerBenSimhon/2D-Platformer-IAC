@@ -52,7 +52,7 @@ public class MainVC : MonoBehaviour
     {
         if (playerRB.velocity.y < -1)
         {
-            transposer.m_YDamping = Mathf.SmoothDamp(transposer.m_YDamping, 0.2f, ref yDampVelocity, 75f * Time.deltaTime);
+            transposer.m_YDamping = Mathf.SmoothDamp(transposer.m_YDamping, 0.2f, ref yDampVelocity, 225f * Time.deltaTime);
         }
         else
         {
