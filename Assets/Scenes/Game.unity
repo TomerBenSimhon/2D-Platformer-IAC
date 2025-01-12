@@ -136,7 +136,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6354146114177326206, guid: 1bf1251ac35c4fa44a07e5425113f17a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 16.599009
+      value: 3.75
       objectReference: {fileID: 0}
     - target: {fileID: 6354146114177326206, guid: 1bf1251ac35c4fa44a07e5425113f17a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -734,6 +734,67 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 566678693}
   m_CullTransparentMesh: 1
+--- !u!1001 &589553769
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 42651091784271807, guid: 1bf1251ac35c4fa44a07e5425113f17a, type: 3}
+      propertyPath: m_Name
+      value: SlimeEnemy (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 42651091784271807, guid: 1bf1251ac35c4fa44a07e5425113f17a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6354146114177326206, guid: 1bf1251ac35c4fa44a07e5425113f17a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 11.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6354146114177326206, guid: 1bf1251ac35c4fa44a07e5425113f17a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.0799966
+      objectReference: {fileID: 0}
+    - target: {fileID: 6354146114177326206, guid: 1bf1251ac35c4fa44a07e5425113f17a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.00045009362
+      objectReference: {fileID: 0}
+    - target: {fileID: 6354146114177326206, guid: 1bf1251ac35c4fa44a07e5425113f17a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6354146114177326206, guid: 1bf1251ac35c4fa44a07e5425113f17a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6354146114177326206, guid: 1bf1251ac35c4fa44a07e5425113f17a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6354146114177326206, guid: 1bf1251ac35c4fa44a07e5425113f17a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6354146114177326206, guid: 1bf1251ac35c4fa44a07e5425113f17a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6354146114177326206, guid: 1bf1251ac35c4fa44a07e5425113f17a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6354146114177326206, guid: 1bf1251ac35c4fa44a07e5425113f17a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1bf1251ac35c4fa44a07e5425113f17a, type: 3}
 --- !u!1 &629349495
 GameObject:
   m_ObjectHideFlags: 0
@@ -1164,7 +1225,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_ImpulseDuration: 0.3
+    m_ImpulseDuration: 0.2
     m_ImpulseType: 0
     m_DissipationRate: 0.25
     m_RawSignal: {fileID: 0}
@@ -1195,7 +1256,7 @@ MonoBehaviour:
     m_DissipationMode: 2
     m_DissipationDistance: 100
     m_PropagationSpeed: 343
-  m_DefaultVelocity: {x: 0, y: -1, z: 0}
+  m_DefaultVelocity: {x: 0, y: -0.5, z: 0}
 --- !u!1 &639227021
 GameObject:
   m_ObjectHideFlags: 0
@@ -1798,11 +1859,15 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 9513a21cbd387fd4a8e5364d104fd5fe, type: 2}
   - m_RefCount: 4
     m_Data: {fileID: 11400000, guid: 8a8e2edc50928394ab7bfb0a2985a3d1, type: 2}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   m_TileSpriteArray:
   - m_RefCount: 26
     m_Data: {fileID: -232711101, guid: dfb160ddc5596284f90ba86a88c8316c, type: 3}
   - m_RefCount: 4
     m_Data: {fileID: -879745782, guid: dfb160ddc5596284f90ba86a88c8316c, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   m_TileMatrixArray:
   - m_RefCount: 30
     m_Data:
@@ -2106,7 +2171,7 @@ Transform:
   m_GameObject: {fileID: 1044823484}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.5704489, y: 2.1056101, z: -10}
+  m_LocalPosition: {x: -5.569995, y: 2.1056101, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2127,7 +2192,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vcam: {fileID: 1044823486}
   xOffsetTarget: 2
-  lerpSmoothing: 150
+  lerpSmoothing: 200
   defaultYDamping: 2
 --- !u!114 &1044823489
 MonoBehaviour:
@@ -13829,11 +13894,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 42651091784271807, guid: 1bf1251ac35c4fa44a07e5425113f17a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6354146114177326206, guid: 1bf1251ac35c4fa44a07e5425113f17a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 20.099009
+      value: 8.5
       objectReference: {fileID: 0}
     - target: {fileID: 6354146114177326206, guid: 1bf1251ac35c4fa44a07e5425113f17a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -14111,7 +14176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ad980451443d70438faac0bc6c235a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TrackedObjectOffset: {x: 1.999551, y: 0, z: 0}
+  m_TrackedObjectOffset: {x: -1.999995, y: 0, z: 0}
   m_LookaheadTime: 0.05
   m_LookaheadSmoothing: 1
   m_LookaheadIgnoreY: 1
@@ -14420,7 +14485,7 @@ Transform:
   m_GameObject: {fileID: 2051843759}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.5704489, y: 2.1056101, z: -10}
+  m_LocalPosition: {x: -5.569995, y: 2.1056101, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14504,3 +14569,4 @@ SceneRoots:
   - {fileID: 558289620}
   - {fileID: 26178122}
   - {fileID: 1458561910}
+  - {fileID: 589553769}

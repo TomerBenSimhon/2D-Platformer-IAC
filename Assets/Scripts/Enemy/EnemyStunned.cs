@@ -11,6 +11,7 @@ public class EnemyStunned : MonoBehaviour
 
     [SerializeField] float stunDuration;
     [SerializeField] float stopTime;
+    [SerializeField] ParticleSystem stunParticles;
     
     float elapsedTime = 0f;
     void Awake()
@@ -28,6 +29,8 @@ public class EnemyStunned : MonoBehaviour
         
         if (hitRoutine != null) { StopCoroutine(hitRoutine); }
         hitRoutine = StartCoroutine(HitRoutine());
+        
+        stunParticles.Play();
     }
 
     private void OnDisable()

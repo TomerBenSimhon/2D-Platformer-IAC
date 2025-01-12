@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Animator swordAnimator;
     [SerializeField] SpriteRenderer swordVisuals;
     
+    
     PlayerMain playerMain;
     void Awake()
     {
@@ -102,6 +103,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Collider2D groundCheck;
     [SerializeField] LayerMask groundLayer;
     
+    
+    
     bool isGrounded;
     bool isCoyote;
     bool canCoyote;
@@ -154,7 +157,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float jumpBufferTime = 0.2f;
     [SerializeField] float coyoteTime = 0.1f;
     
-    
+    [SerializeField] ParticleSystem jumpEffect;
     void HandleJump()
     {
         if (CanJump())
@@ -163,6 +166,8 @@ public class PlayerMovement : MonoBehaviour
             didJump = true;
             
             jumpAvail = false;
+            
+            jumpEffect.Play();
         }
 
        
@@ -192,11 +197,23 @@ public class PlayerMovement : MonoBehaviour
     
     void HandleGravity()
     {
-        
+        if (isGrounded)
+        {
+            currentGravity = 0;
+            return;
+        }
         
         if (!jumpHeld || rb.velocity.y < -apexThreshHold)
         {
-            currentGravity = fastGravity;
+            if (rb.velocity.y > -maxFallSpeed/2)
+            {
+                currentGravity = fastGravity;
+            }
+            else
+            {
+                currentGravity = Helpers.MapValue(rb.velocity.y, -maxFallSpeed, -maxFallSpeed/2, 0, fastGravity);
+            }
+            
         }
         else if (MathF.Abs(rb.velocity.y) < apexThreshHold && jumpHeld)
         {
@@ -208,7 +225,7 @@ public class PlayerMovement : MonoBehaviour
         }
         
         
-        rb.velocity += new Vector2(rb.velocity.x, currentGravity * Physics2D.gravity.y * Time.fixedDeltaTime);
+        rb.velocity += new Vector2(0, currentGravity * Physics2D.gravity.y * Time.fixedDeltaTime);
         rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -maxFallSpeed, Mathf.Infinity));
     }
     
@@ -242,6 +259,8 @@ public class PlayerMovement : MonoBehaviour
         }
         
     }
+    
+    
 
     
 
