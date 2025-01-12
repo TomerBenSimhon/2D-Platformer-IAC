@@ -28,11 +28,7 @@ public class ChaseState : MonoBehaviour
    [Header("Attack")] 
    [SerializeField] float attackRange;
 
-
-   void Start()
-   {
-      
-   }
+   
 
    private void Awake()
    {

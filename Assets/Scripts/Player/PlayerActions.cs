@@ -31,6 +31,7 @@ public class PlayerActions : MonoBehaviour
     [SerializeField] float dashDuration;
     [SerializeField] float endDashDelay;
     [SerializeField] float attackRate;
+    [SerializeField] float attackBuffer;
     [SerializeField] LayerMask enemyLayer;
 
     [Header("Effects")]
@@ -78,9 +79,9 @@ public class PlayerActions : MonoBehaviour
         {
             attacAvail = true;
             
-            if (attackBuffer != null) {StopCoroutine(attackBuffer);}
+            if (attackBufferRoutine != null) {StopCoroutine(attackBufferRoutine);}
 
-            attackBuffer = StartCoroutine(AttackBuffer());
+            attackBufferRoutine = StartCoroutine(AttackBuffer());
         }
 
         if (throwInput && swordVisuals.enabled && (playerMain.currentState == PlayerState.Default || playerMain.currentState == PlayerState.God))
@@ -130,10 +131,10 @@ public class PlayerActions : MonoBehaviour
         }
     }
 
-    Coroutine attackBuffer;
+    Coroutine attackBufferRoutine;
     IEnumerator AttackBuffer()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(attackBuffer);
         attacAvail = false;
     }
 
