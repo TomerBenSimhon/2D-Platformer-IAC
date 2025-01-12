@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 
 public enum EnemyState
@@ -43,6 +44,11 @@ public class EnemyMain : MonoBehaviour
    [SerializeField] LayerMask playerLayer;
    [SerializeField] float onTouchKnockback;
    [SerializeField] float attackKnockback;
+
+   [Header("Effects")] 
+   public CinemachineImpulseSource attackImpulse;
+   public ParticleSystem attackRumble;
+   public CinemachineImpulseSource touchImpulse;
 
    
 
@@ -103,7 +109,7 @@ public class EnemyMain : MonoBehaviour
       
       
       //checks LOS
-      bool playerInLOS = !Physics2D.Raycast(transform.position,directionToPlayer, distanceToPlayer, obstacleLayer);
+      bool playerInLOS = !Physics2D.Raycast(transform.position, directionToPlayer, distanceToPlayer, obstacleLayer);
 
       if (!playerInLOS)
       {
@@ -164,12 +170,14 @@ public class EnemyMain : MonoBehaviour
             {
                DamagePlayer(10,onTouchKnockback);
                GameManager.Instance.HitStop(0.1f);
+               CameraManager.Instance.CameraShake(touchImpulse);
             }
          }
          else
          {
             DamagePlayer(10,onTouchKnockback);
             GameManager.Instance.HitStop(0.1f);
+            CameraManager.Instance.CameraShake(touchImpulse);
          }
       }
    }
@@ -186,6 +194,12 @@ public class EnemyMain : MonoBehaviour
         DamagePlayer(50, attackKnockback);
         GameManager.Instance.HitStop(0.2f);
       }
+   }
+   //used in the same event in the attack animation
+   void PlayAttackEffect()
+   {
+      attackRumble.Play();
+      CameraManager.Instance.CameraShake(attackImpulse);
    }
 
    void DamagePlayer(int damage, float knockbackForce)
