@@ -94,6 +94,10 @@ public class ChaseState : MonoBehaviour
          {
             target = 0;
          }
+         else if (BarrierDetection() == "Both")
+         {
+            target = 0;
+         }
          else
          {
             target = Mathf.Sign(xDistanceToPlayer);
@@ -185,6 +189,10 @@ public class ChaseState : MonoBehaviour
       wallL = Physics2D.Raycast(edgeCheckerL.bounds.center, Vector2.left, 0.1f, ground);
       wallR = Physics2D.Raycast(edgeCheckerR.bounds.center, Vector2.right, 0.1f, ground);
 
+      if ((noEdgeL || wallL) && (noEdgeR || wallR))
+      {
+         return "Both";
+      }
       if (noEdgeL || wallL)
       {
          return "L";
