@@ -22,9 +22,17 @@ public class Event : MonoBehaviour
       if (other.CompareTag("Player"))
       {
          EventManager.Instance.StartDisplayEvent(messages, isFreezeTime);
-         
-         if (destroyOnPlay) {eventCollider.enabled = false;}
       }
       
+   }
+
+   void OnTriggerExit2D(Collider2D other)
+   {
+      if (other.CompareTag("Player"))
+      {
+         EventManager.Instance.StopDisplayEvent();
+         
+         if(destroyOnPlay) {eventCollider.enabled = false;}
+      }
    }
 }

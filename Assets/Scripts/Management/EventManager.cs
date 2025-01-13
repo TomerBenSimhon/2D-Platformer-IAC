@@ -19,13 +19,11 @@ public class EventManager : MonoBehaviour
     void Awake()
     {
         // Ensure there's only one instance
-        if (Instance != null && Instance != this)
+        if (Instance == null)
         {
-            Destroy(gameObject); // Destroy duplicate
-            return;
+            Instance = this;
         }
-
-        Instance = this;
+        
     }
 
     public void StartDisplayEvent(string[] messages,  bool isFreezeTime)
@@ -33,6 +31,12 @@ public class EventManager : MonoBehaviour
         if (displayEventCoroutine != null) {StopCoroutine(displayEventCoroutine);}
 
         displayEventCoroutine = StartCoroutine(DisplayEventMessages(messages, isFreezeTime));
+    }
+
+    public void StopDisplayEvent()
+    {
+        if (displayEventCoroutine != null) {StopCoroutine(displayEventCoroutine);}
+        eventText.text = "";
     }
 
     

@@ -7,7 +7,6 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
    public static GameManager Instance;
-   TextMeshProUGUI eventText;
 
    void Awake()
    {
@@ -21,10 +20,6 @@ public class GameManager : MonoBehaviour
       DontDestroyOnLoad(this);
    }
    
-   void Start()
-   {
-      eventText = FindObjectOfType<Canvas>().transform.Find("EventText").GetComponent<TextMeshProUGUI>();
-   }
 
    void Update()
    {
@@ -36,6 +31,8 @@ public class GameManager : MonoBehaviour
 
    public void RestartScene()
    {
+      EventManager.Instance.StopDisplayEvent();
+      Time.timeScale = 1;
       SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
    }
 

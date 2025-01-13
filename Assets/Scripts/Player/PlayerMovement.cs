@@ -53,6 +53,8 @@ public class PlayerMovement : MonoBehaviour
     private bool jumpAvail;
     void HandleInputs()
     {
+        if(Time.timeScale < 0.1f) {return;}
+        
         moveHorizontal = Input.GetAxis("Horizontal");
         
         jumpDown = Input.GetButtonDown("Jump");

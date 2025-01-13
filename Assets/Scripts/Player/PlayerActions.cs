@@ -72,9 +72,11 @@ public class PlayerActions : MonoBehaviour
     
     void HandelInputs()
     {
+        if(Time.timeScale < 0.1f) {return;}
+        
         attackInput = Input.GetButtonDown("Fire1");
         throwInput = Input.GetButtonDown("Fire2");
-
+        
         if (attackInput && Time.time > currentAttackTime + attackRate)
         {
             attacAvail = true;
