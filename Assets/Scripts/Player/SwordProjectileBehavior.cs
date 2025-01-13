@@ -63,11 +63,7 @@ public class SwordProjectileBehavior : MonoBehaviour
     {
         GroundChecking();
     }
-
-    private void OnDestroy()
-    {
-        Destroy(hitSparks.gameObject);
-    }
+    
 
 
     void MoveToMouse()
@@ -157,7 +153,7 @@ public class SwordProjectileBehavior : MonoBehaviour
             float angle = Vector2.Angle(normal, Vector2.right);
             
             hitSparks.transform.position = other.transform.position;
-            PlayHitSparks(angle - 30f, 0);
+            PlayHitSparks(angle - 30f, 0, 0);
             GameManager.Instance.HitStop(0.08f);
 
             if (enemyMain.currentState == EnemyState.Stun)
@@ -298,39 +294,49 @@ public class SwordProjectileBehavior : MonoBehaviour
 
     bool hasTouchedGround;
     Vector2 ricochetVelocity;
-    RaycastHit2D groundHit;
+    RaycastHit2D groundHitDown;
+    RaycastHit2D groundHitUp;
+    RaycastHit2D groundHitLeft;
+    RaycastHit2D groundHitRight;
     void GroundChecking()
     {
-        groundHit = Physics2D.Raycast(myCollider.transform.position, Vector2.down, 0.5f, LayerMask.GetMask("Ground"));
+        groundHitDown = Physics2D.Raycast(myCollider.transform.position, Vector2.down, 0.5f, LayerMask.GetMask("Ground"));
+        groundHitUp = Physics2D.Raycast(myCollider.transform.position, Vector2.up, 0.5f, LayerMask.GetMask("Ground"));
+        groundHitLeft = Physics2D.Raycast(myCollider.transform.position, Vector2.left, 0.8f, LayerMask.GetMask("Ground"));
+        groundHitRight = Physics2D.Raycast(myCollider.transform.position, Vector2.right, 0.8f, LayerMask.GetMask("Ground"));
+        
+        bool isHit = groundHitDown || groundHitUp || groundHitLeft || groundHitRight;
 
-        if (groundHit && !isRetriving && !hasTouchedGround)
+        if (isHit && !isRetriving && !hasTouchedGround)
         {
             hasTouchedGround = true;
-            if (Mathf.Abs(rb.velocity.y) < 10)
+
+            if (groundHitDown || groundHitUp)
             {
-                ricochetVelocity = new Vector2(Random.Range(0.75f * rb.velocity.x, 1.5f * rb.velocity.x),-Random.Range(2f * rb.velocity.y, 4f * rb.velocity.y)); 
+                ricochetVelocity = new Vector2(Random.Range(0.75f * rb.velocity.x, 1.5f * rb.velocity.x),-Random.Range(1.5f * rb.velocity.y, 3f * rb.velocity.y));  
+                if (rb.velocity.y < 0) {PlayHitSparks(30f, 0, -0.5f);}
+                else {PlayHitSparks(-120f, 0, 0.5f);}
             }
-            else
+            else if (groundHitLeft || groundHitRight)
             {
-                ricochetVelocity = new Vector2(Random.Range(0.75f * rb.velocity.x, 1.5f * rb.velocity.x),-Random.Range(rb.velocity.y, 2f * rb.velocity.y)); 
+                ricochetVelocity = new Vector2(-Random.Range(1.5f * rb.velocity.x, 3f * rb.velocity.x),Random.Range(0.75f * rb.velocity.y, 1.5f * rb.velocity.y));  
+                if (rb.velocity.x < 0) {PlayHitSparks(-60f, -0.8f, 0);}
+                else {PlayHitSparks(120f, 0.8f, 0);}
             }
+            
             isRetriving = true;
-            
-            if (rb.velocity.y < 0) {PlayHitSparks(30f, 0);}
-            else {PlayHitSparks(-120f, 0);}
-            
         }
     }
 
-    void PlayHitSparks(float rotation, float xPos)
+    void PlayHitSparks(float rotation, float xPos, float yPos)
     {
         hitSparks.transform.rotation = Quaternion.Euler(0, 0, rotation);
-        hitSparks.transform.position += new Vector3(xPos, 0, 0);
+        hitSparks.transform.position += new Vector3(xPos, yPos, 0);
         
         hitSparks.Play();
         hitSparks.transform.parent = null;
         
-        //destroys onDestroy
+       Destroy(hitSparks.gameObject, 5f);
     }
 
     

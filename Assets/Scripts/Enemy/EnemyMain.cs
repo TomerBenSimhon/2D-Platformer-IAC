@@ -161,21 +161,21 @@ public class EnemyMain : MonoBehaviour
       
       if (playerHitTouch && 
           currentState != EnemyState.Dead && 
-          playerMain.currentState != PlayerState.Hit && playerMain.currentState != PlayerState.God)
+          playerMain.currentState != PlayerState.Hit && playerMain.currentState != PlayerState.God && playerMain.currentState != PlayerState.Dead)
       {
 
          if (playerMain.currentState == PlayerState.Attacking)
          {
             if (currentState == EnemyState.Chase || currentState == EnemyState.Shocked)
             {
-               DamagePlayer(10,onTouchKnockback);
+               DamagePlayer(32,onTouchKnockback);
                GameManager.Instance.HitStop(0.1f);
                CameraManager.Instance.CameraShake(touchImpulse);
             }
          }
          else
          {
-            DamagePlayer(10,onTouchKnockback);
+            DamagePlayer(32,onTouchKnockback);
             GameManager.Instance.HitStop(0.1f);
             CameraManager.Instance.CameraShake(touchImpulse);
          }
@@ -189,9 +189,9 @@ public class EnemyMain : MonoBehaviour
    {
       playerHitAttack = Physics2D.OverlapArea(attackCollider.bounds.min, attackCollider.bounds.max, playerLayer);
 
-      if (playerHitAttack && playerMain.currentState != PlayerState.Hit && playerMain.currentState != PlayerState.God)
+      if (playerHitAttack && playerMain.currentState != PlayerState.Hit && playerMain.currentState != PlayerState.God && playerMain.currentState != PlayerState.Dead)
       {
-        DamagePlayer(50, attackKnockback);
+        DamagePlayer(64, attackKnockback);
         GameManager.Instance.HitStop(0.2f);
       }
    }

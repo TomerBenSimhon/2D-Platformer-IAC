@@ -47,6 +47,7 @@ public class PlayerHit : MonoBehaviour
         //reset those just in case
         knockbacDirection = Vector2.zero;
         knockbackForce = 0;
+        StopAllCoroutines();
     }
 
 

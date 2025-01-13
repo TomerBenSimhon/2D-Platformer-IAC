@@ -14,8 +14,9 @@ public class PatrolState : MonoBehaviour
     [Header("Patrol Settings")]
     [SerializeField] float patrolSpeed = 2f;
     [SerializeField] float patrolTime = 0.5f;
-
     [SerializeField] float idleTime = 2f;
+    
+    [SerializeField] bool isIdle = false;
 
     [Header("Edge Checks")]
     [SerializeField] Collider2D edgeCheckerR;
@@ -48,7 +49,7 @@ public class PatrolState : MonoBehaviour
         while (true)
         {
             elapsedTime = 0f;
-            while (elapsedTime < patrolTime)
+            while (elapsedTime < patrolTime && !isIdle)
             {
                 elapsedTime += Time.deltaTime;
                 HandleDirectionChange();
@@ -68,6 +69,7 @@ public class PatrolState : MonoBehaviour
                 yield return new WaitForEndOfFrame();
             }
         }
+        
     }
 
 

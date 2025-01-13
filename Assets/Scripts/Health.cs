@@ -9,10 +9,29 @@ public class Health : MonoBehaviour
     
     public bool isDead = false;
     
+    HealthBar healthBar;
+
+    [SerializeField] bool isPlayer;
+
+    void Start()
+    {
+        if (isPlayer)
+        {
+            healthBar = FindObjectOfType<HealthBar>();
+            healthBar.SetMaxHealth(health);
+        }
+    }
+    
 
     public void TakeDamage(int damage)
     {
         health -= damage;
+        
+        if (isPlayer)
+        {
+            healthBar.SetHealth(health);
+        }
+        
         if (health <= 0)
         {
             isDead = true;
