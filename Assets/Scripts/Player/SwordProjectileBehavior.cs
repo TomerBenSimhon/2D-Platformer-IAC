@@ -295,29 +295,25 @@ public class SwordProjectileBehavior : MonoBehaviour
     bool hasTouchedGround;
     Vector2 ricochetVelocity;
     RaycastHit2D groundHitVert;
-    RaycastHit2D groundHitUp;
     RaycastHit2D groundHitHorz;
-    RaycastHit2D groundHitRight;
     void GroundChecking()
     {
-        groundHitVert = Physics2D.Raycast(myCollider.transform.position, Vector2.down, 0.5f, LayerMask.GetMask("Ground"));
-        groundHitUp = Physics2D.Raycast(myCollider.transform.position, Vector2.up, 0.5f, LayerMask.GetMask("Ground"));
-        groundHitHorz = Physics2D.Raycast(myCollider.transform.position, Vector2.left, 0.8f, LayerMask.GetMask("Ground"));
-        groundHitRight = Physics2D.Raycast(myCollider.transform.position, Vector2.right, 0.8f, LayerMask.GetMask("Ground"));
+        groundHitVert = Physics2D.Raycast(myCollider.transform.position, new Vector2(0, Mathf.Sign(rb.velocity.y)), 0.5f, LayerMask.GetMask("Ground"));
+        groundHitHorz = Physics2D.Raycast(myCollider.transform.position, new Vector2(Mathf.Sign(rb.velocity.x), 0), 0.8f, LayerMask.GetMask("Ground"));
         
-        bool isHit = groundHitVert || groundHitUp || groundHitHorz || groundHitRight;
+        bool isHit = groundHitVert || groundHitHorz;
 
         if (isHit && !isRetriving && !hasTouchedGround)
         {
             hasTouchedGround = true;
 
-            if (groundHitVert || groundHitUp)
+            if (groundHitVert)
             {
                 ricochetVelocity = new Vector2(Random.Range(0.75f * rb.velocity.x, 1.5f * rb.velocity.x),-Random.Range(1.5f * rb.velocity.y, 3f * rb.velocity.y));  
                 if (rb.velocity.y < 0) {PlayHitSparks(30f, 0, -0.5f);}
                 else {PlayHitSparks(-120f, 0, 0.5f);}
             }
-            else if (groundHitHorz || groundHitRight)
+            else if (groundHitHorz)
             {
                 ricochetVelocity = new Vector2(-Random.Range(1.5f * rb.velocity.x, 3f * rb.velocity.x),Random.Range(0.75f * rb.velocity.y, 1.5f * rb.velocity.y));  
                 if (rb.velocity.x < 0) {PlayHitSparks(-60f, -0.8f, 0);}
