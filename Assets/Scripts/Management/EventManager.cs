@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -9,11 +10,15 @@ public class EventManager : MonoBehaviour
     
     TextMeshProUGUI eventText;
     
+    GameObject[] eventObjects;
+    
     [SerializeField] float freezeLerpDuration = 0.5f;
 
     void Start()
     {
         eventText = FindObjectOfType<Canvas>().transform.Find("EventText").GetComponent<TextMeshProUGUI>();
+        
+        eventObjects = FindObjectsOfType<Event>().Select(eventObject => eventObject.gameObject).ToArray();
     }
 
     void Awake()
@@ -37,6 +42,14 @@ public class EventManager : MonoBehaviour
     {
         if (displayEventCoroutine != null) {StopCoroutine(displayEventCoroutine);}
         eventText.text = "";
+    }
+
+    public void DisableEvents()
+    {
+        foreach (GameObject eventObject in eventObjects)
+        {
+            eventObject.SetActive(false);
+        }
     }
 
     

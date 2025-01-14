@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Animator playerAnimator;
     [SerializeField] Animator swordAnimator;
     [SerializeField] SpriteRenderer swordVisuals;
+    [SerializeField] Collider2D playerCollider;
     
     
     PlayerMain playerMain;
@@ -70,9 +71,10 @@ public class PlayerMovement : MonoBehaviour
             jumpBufferCoroutine = StartCoroutine(JumpBuffer());
         }
 
-        if (jumpUp && rb.velocity.y > 0)
+        if (jumpUp && canHalf && !isJumpingDown && rb.velocity.y > 0)
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
+            canHalf = false;
         }
     }
     
@@ -111,6 +113,7 @@ public class PlayerMovement : MonoBehaviour
     bool isCoyote;
     bool canCoyote;
     bool didJump;
+    bool canHalf;
 
     void GroundCheck()
     {
@@ -120,6 +123,7 @@ public class PlayerMovement : MonoBehaviour
         {
             didJump = false;
             canCoyote = true;
+            canHalf = true;
         }
     }
     bool CanJump()
@@ -164,7 +168,16 @@ public class PlayerMovement : MonoBehaviour
     {
         if (CanJump())
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            if (Input.GetKey(KeyCode.S))
+            {
+                rb.velocity = new Vector2(rb.velocity.x, 8);
+                StartCoroutine(JumpDownPlatform());
+            }
+            else
+            {
+                rb.velocity = new Vector2(rb.velocity.x, jumpForce); 
+            }
+           
             didJump = true;
             
             jumpAvail = false;
@@ -180,6 +193,16 @@ public class PlayerMovement : MonoBehaviour
     {
         yield return new WaitForSeconds(jumpBufferTime);
         jumpAvail = false;
+    }
+
+    private bool isJumpingDown;
+    IEnumerator JumpDownPlatform()
+    {
+        isJumpingDown = true;
+        playerCollider.excludeLayers |= 1 << LayerMask.NameToLayer("Platform");
+        yield return new WaitForSeconds(0.7f);
+        playerCollider.excludeLayers &= ~(1 << LayerMask.NameToLayer("Platform"));
+        isJumpingDown = false;
     }
 
    
@@ -204,6 +227,7 @@ public class PlayerMovement : MonoBehaviour
             currentGravity = 0;
             return;
         }
+
         
         if (!jumpHeld || rb.velocity.y < -apexThreshHold)
         {

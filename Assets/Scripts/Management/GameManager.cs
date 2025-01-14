@@ -32,9 +32,12 @@ public class GameManager : MonoBehaviour
    public void RestartScene()
    {
       EventManager.Instance.StopDisplayEvent();
+      EventManager.Instance.DisableEvents();
       Time.timeScale = 1;
+      
       SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
    }
+   
 
    #region Checkpoint Manager
 

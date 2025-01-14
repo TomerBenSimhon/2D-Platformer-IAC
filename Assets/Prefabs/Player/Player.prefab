@@ -453,6 +453,7 @@ MonoBehaviour:
   playerAnimator: {fileID: 1367880062298235773}
   swordAnimator: {fileID: 5940477011508567067}
   swordVisuals: {fileID: 8088426165872214327}
+  playerCollider: {fileID: 5244618525324531053}
   moveSpeed: 12
   groundCheck: {fileID: 7663622767977409771}
   groundLayer:

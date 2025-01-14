@@ -30,9 +30,13 @@ public class Event : MonoBehaviour
    {
       if (other.CompareTag("Player"))
       {
-         EventManager.Instance.StopDisplayEvent();
+         if (!isFreezeTime)
+         {
+            EventManager.Instance.StopDisplayEvent();
+         }
          
          if(destroyOnPlay) {eventCollider.enabled = false;}
       }
    }
+   
 }
