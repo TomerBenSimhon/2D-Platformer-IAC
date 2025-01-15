@@ -41,7 +41,9 @@ public class PlayerMovement : MonoBehaviour
         HandleMovement();
         HandleGravity();
         HandleJump();
+        
     }
+    
     
 
     #region Inputs

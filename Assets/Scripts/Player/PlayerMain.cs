@@ -25,6 +25,8 @@ public class PlayerMain : MonoBehaviour
     [SerializeField] SpriteRenderer swordVisuals;
     private GameObject swordTrail;
     ParticleSystem swordTrailParticles;
+
+    private float gridSize = 0.0625f;
     
     public PlayerState currentState;
     private void Start()
@@ -117,6 +119,13 @@ public class PlayerMain : MonoBehaviour
                 main.startRotation = -50f * Mathf.Deg2Rad;
             }
         }
+    }
+
+    public Vector2 SnapToGrid(Vector2 position)
+    {
+        float x = Mathf.Round(position.x / gridSize) * gridSize;
+        float y = Mathf.Round(position.y / gridSize) * gridSize;
+        return new Vector2(x, y);
     }
 
     public void PlayAnimations(string name, bool isTime, float time)
