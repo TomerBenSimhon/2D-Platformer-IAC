@@ -49,7 +49,8 @@ public class PlayerDeath : MonoBehaviour
             obj.SetActive(false);
         }
         
-        
+        AudioManager.Instance.PlayPlayerSFX("Player_Killed", 0.05f,1f, 1f);
+        AudioManager.Instance.LowerMusicOnDeath();
 
     }
     

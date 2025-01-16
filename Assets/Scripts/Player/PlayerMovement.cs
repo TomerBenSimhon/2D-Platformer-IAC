@@ -175,12 +175,12 @@ public class PlayerMovement : MonoBehaviour
             {
                 rb.velocity = new Vector2(rb.velocity.x, 8);
                 StartCoroutine(JumpDownPlatform());
-                AudioManager.Instance.PlaySFX("Player_Jump", 0.3f, Random.Range(0.8f, 1.2f));
+                AudioManager.Instance.PlayPlayerSFX("Player_Jump", 0.6f, 0.6f, 0.7f);
             }
             else
             {
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce); 
-                AudioManager.Instance.PlaySFX("Player_Jump", 0.6f, Random.Range(0.8f, 1.2f));
+                AudioManager.Instance.PlayPlayerSFX("Player_Jump", 0.6f, 0.9f, 1.2f);
             }
            
             didJump = true;

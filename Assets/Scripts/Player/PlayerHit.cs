@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = Unity.Mathematics.Random;
 
 public class PlayerHit : MonoBehaviour
 {
@@ -40,6 +41,8 @@ public class PlayerHit : MonoBehaviour
         if(hitRoutine != null) {StopCoroutine(hitRoutine);}
         hitRoutine = StartCoroutine(HitRoutine());
         TakeKnockback(knockbacDirection, knockbackForce);
+        
+        
     }
 
     private void OnDisable()
@@ -68,6 +71,8 @@ public class PlayerHit : MonoBehaviour
         elapsedTime = 0;
         
         yield return null;
+        
+        AudioManager.Instance.PlayPlayerSFX("Player_Hit", 0.6f,0.8f, 1.2f);
         
         float lastFrameTime = Time.deltaTime;
         float time = playerAnimator.GetCurrentAnimatorStateInfo(0).length;

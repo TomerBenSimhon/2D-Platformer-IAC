@@ -32,7 +32,7 @@ public class EnemyStunned : MonoBehaviour
         hitRoutine = StartCoroutine(HitRoutine());
         
         stunParticles.Play();
-        AudioManager.Instance.PlaySFX("Enemy_Hit", 0.6f, Random.Range(0.7f, 1.3f));
+        AudioManager.Instance.PlayPlayerSFX("Enemy_Hit", 0.6f, 0.8f, 1.2f);
     }
 
     private void OnDisable()

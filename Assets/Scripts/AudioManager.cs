@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class AudioManager : MonoBehaviour
 {
-   [SerializeField] AudioSource sfxSource;
+   [SerializeField] AudioSource playerSfxSource;
+   [SerializeField] AudioSource enemySfxSource;
    [SerializeField] AudioSource musicSource;
    
    
@@ -15,16 +17,61 @@ public class AudioManager : MonoBehaviour
       if (Instance == null)
       {
          Instance = this;
+         DontDestroyOnLoad(this);
+      }
+      else
+      {
+         Destroy(gameObject);
       }
    }
 
-   public void PlaySFX(string sfxName, float volume, float pitch)
+   public void PlayPlayerSFX(string sfxName, float volume, float minPitch, float maxPitch)
    {
-      sfxSource.pitch = pitch;
-      sfxSource.volume = volume;
+      playerSfxSource.pitch = Random.Range(minPitch, maxPitch);
+      playerSfxSource.volume = volume * 2f;
       
       
       AudioClip clip = Resources.Load<AudioClip>("SFX/" + sfxName);
-      sfxSource.PlayOneShot(clip);
+      playerSfxSource.PlayOneShot(clip);
+   }
+
+   public void PlayEnemySFX(string sfxName, float volume, float minPitch, float maxPitch)
+   {
+      enemySfxSource.pitch = Random.Range(minPitch, maxPitch);
+      enemySfxSource.volume = volume * 2f;
+      
+      
+      AudioClip clip = Resources.Load<AudioClip>("SFX/" + sfxName);
+      enemySfxSource.PlayOneShot(clip);
+   }
+   public void LowerMusicOnDeath()
+   {
+      if(lowerMusicCoroutine != null) { StopCoroutine(lowerMusicCoroutine); }
+      
+      lowerMusicCoroutine = StartCoroutine(LowerMusicOnDeathRoutine());
+   }
+
+   Coroutine lowerMusicCoroutine;
+   IEnumerator LowerMusicOnDeathRoutine()
+   {
+      float elapsedTime = 0f;
+      float volume = musicSource.volume;
+
+      while (elapsedTime < 0.15f)
+      {
+         musicSource.volume = Mathf.Lerp(volume, 0f, elapsedTime / 0.15f);
+         elapsedTime += Time.deltaTime;
+         yield return null;
+      }
+      
+      yield return new WaitForSeconds(1.5f);
+      elapsedTime = 0f;
+      
+      while (elapsedTime < 0.15f)
+      {
+         musicSource.volume = Mathf.Lerp(0, volume, elapsedTime / 0.15f);
+         elapsedTime += Time.deltaTime;
+         yield return null;
+      }
    }
 }

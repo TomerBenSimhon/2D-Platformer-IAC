@@ -200,6 +200,7 @@ public class EnemyMain : MonoBehaviour
    {
       attackRumble.Play();
       CameraManager.Instance.CameraShake(attackImpulse);
+      AudioManager.Instance.PlayEnemySFX("Enemy_Attack", 0.12f, 0.9f, 1.1f);
    }
 
    void DamagePlayer(int damage, float knockbackForce)

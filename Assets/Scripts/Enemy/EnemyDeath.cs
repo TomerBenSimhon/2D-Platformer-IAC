@@ -18,7 +18,7 @@ public class EnemyDeath : MonoBehaviour
    private void OnEnable()
    {
       Die();
-      AudioManager.Instance.PlaySFX("Enemy_Killed", 0.6f, Random.Range(0.9f, 1.1f));
+      AudioManager.Instance.PlayEnemySFX("Enemy_Killed", 0.6f, 0.8f, 1.2f);
    }
    
    void Die()

@@ -27,7 +27,7 @@ public class SwordPlatformBehavior : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire2"))
         {
-            AudioManager.Instance.PlaySFX("Sword_Throw", 0.6f, Random.Range(0.8f, 1f));
+            AudioManager.Instance.PlayPlayerSFX("Sword_Throw", 0.6f, 0.8f, 1f);
             
             GameObject instant = Instantiate(swordProjectile, transform.position, Quaternion.identity);
        

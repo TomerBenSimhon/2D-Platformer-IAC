@@ -273,7 +273,7 @@ public class SwordProjectileBehavior : MonoBehaviour
                 GameObject instant = Instantiate(swordPlatform, new Vector2(cellPos.x + 0.3f,transform.position.y + yOffset), Quaternion.identity);
                 instant.transform.localScale = new Vector3(1, 1, 1);
                 
-                AudioManager.Instance.PlaySFX("Sword_Wood_Hit", 0.4f, Random.Range(0.8f, 1.2f));
+                AudioManager.Instance.PlayPlayerSFX("Sword_Wood_Hit", 0.12f, 0.8f, 1.2f);
                 
                 Destroy(gameObject);
             }
@@ -287,7 +287,7 @@ public class SwordProjectileBehavior : MonoBehaviour
                 GameObject instant = Instantiate(swordPlatform, new Vector2(cellPos.x - 0.3f,transform.position.y + yOffset), Quaternion.identity);
                 instant.transform.localScale = new Vector3(-1, 1, 1);
                 
-                AudioManager.Instance.PlaySFX("Sword_Wood_Hit", 0.4f, Random.Range(0.8f, 1.2f));
+                AudioManager.Instance.PlayPlayerSFX("Sword_Wood_Hit", 0.12f, 0.8f, 1.2f);
                 
                 Destroy(gameObject);
             }
@@ -301,8 +301,8 @@ public class SwordProjectileBehavior : MonoBehaviour
     RaycastHit2D groundHitHorz;
     void GroundChecking()
     {
-        groundHitVert = Physics2D.Raycast(myCollider.transform.position, new Vector2(0, Mathf.Sign(rb.velocity.y)), 0.5f, LayerMask.GetMask("Ground"));
-        groundHitHorz = Physics2D.Raycast(myCollider.transform.position, new Vector2(Mathf.Sign(rb.velocity.x), 0), 0.8f, LayerMask.GetMask("Ground"));
+        groundHitVert = Physics2D.Raycast(myCollider.transform.position, new Vector2(0, Mathf.Sign(rb.velocity.y)), 0.5f, LayerMask.GetMask("Ground", "Spikes"));
+        groundHitHorz = Physics2D.Raycast(myCollider.transform.position, new Vector2(Mathf.Sign(rb.velocity.x), 0), 0.8f, LayerMask.GetMask("Ground", "Spikes"));
         
         bool isHit = groundHitVert || groundHitHorz;
 
@@ -315,12 +315,16 @@ public class SwordProjectileBehavior : MonoBehaviour
                 ricochetVelocity = new Vector2(Random.Range(0.75f * rb.velocity.x, 1.5f * rb.velocity.x),-Random.Range(1.5f * rb.velocity.y, 3f * rb.velocity.y));  
                 if (rb.velocity.y < 0) {PlayHitSparks(30f, 0, -0.5f);}
                 else {PlayHitSparks(-120f, 0, 0.5f);}
+                
+                AudioManager.Instance.PlayPlayerSFX("Sword_Wall_Hit", 0.2f, 0.8f, 1.2f);
             }
             else if (groundHitHorz)
             {
                 ricochetVelocity = new Vector2(-Random.Range(1.5f * rb.velocity.x, 3f * rb.velocity.x),Random.Range(0.75f * rb.velocity.y, 1.5f * rb.velocity.y));  
                 if (rb.velocity.x < 0) {PlayHitSparks(-60f, -0.8f, 0);}
                 else {PlayHitSparks(120f, 0.8f, 0);}
+                
+                AudioManager.Instance.PlayPlayerSFX("Sword_Wall_Hit", 0.2f, 0.8f, 1.2f);
             }
             
             isRetriving = true;

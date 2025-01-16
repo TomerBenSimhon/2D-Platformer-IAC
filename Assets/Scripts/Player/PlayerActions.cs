@@ -111,7 +111,7 @@ public class PlayerActions : MonoBehaviour
             
             Instantiate(swordProjectile, transform.position, Quaternion.identity);
             
-            AudioManager.Instance.PlaySFX("Sword_Throw", 0.6f, Random.Range(1f, 1.3f));
+            AudioManager.Instance.PlayPlayerSFX("Sword_Throw", 0.6f, 1f, 1.3f);
            
         }
     }
@@ -165,7 +165,7 @@ public class PlayerActions : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
-        AudioManager.Instance.PlaySFX("Player_Dash", 0.4f, Random.Range(1.1f, 1.3f));
+        AudioManager.Instance.PlayPlayerSFX("Player_Dash", 0.4f, 1.1f, 1.3f);
         Vector2 dash = new Vector2(dashForce * Mathf.Sign(transform.localScale.x), 0);
         rb.velocity = dash;
         elapsedTime = 0;
