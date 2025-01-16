@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EnemyStunned : MonoBehaviour
 {
@@ -31,6 +32,7 @@ public class EnemyStunned : MonoBehaviour
         hitRoutine = StartCoroutine(HitRoutine());
         
         stunParticles.Play();
+        AudioManager.Instance.PlaySFX("Enemy_Hit", 0.6f, Random.Range(0.7f, 1.3f));
     }
 
     private void OnDisable()

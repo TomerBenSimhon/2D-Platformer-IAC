@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class PlayerActions : MonoBehaviour
 { 
@@ -109,6 +110,8 @@ public class PlayerActions : MonoBehaviour
             groundDetected = Physics2D.OverlapArea(edgeCheckCollider.bounds.min, edgeCheckCollider.bounds.max, edgeCheckLayers);
             
             Instantiate(swordProjectile, transform.position, Quaternion.identity);
+            
+            AudioManager.Instance.PlaySFX("Sword_Throw", 0.6f, Random.Range(1f, 1.3f));
            
         }
     }
@@ -162,6 +165,7 @@ public class PlayerActions : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
+        AudioManager.Instance.PlaySFX("Player_Dash", 0.4f, Random.Range(1.1f, 1.3f));
         Vector2 dash = new Vector2(dashForce * Mathf.Sign(transform.localScale.x), 0);
         rb.velocity = dash;
         elapsedTime = 0;

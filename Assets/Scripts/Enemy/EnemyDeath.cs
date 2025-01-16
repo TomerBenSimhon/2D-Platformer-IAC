@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EnemyDeath : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class EnemyDeath : MonoBehaviour
    private void OnEnable()
    {
       Die();
+      AudioManager.Instance.PlaySFX("Enemy_Killed", 0.6f, Random.Range(0.9f, 1.1f));
    }
    
    void Die()

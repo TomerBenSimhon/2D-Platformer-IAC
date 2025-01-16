@@ -47,7 +47,6 @@ public class SwordProjectileBehavior : MonoBehaviour
         
         hitEnemies.Clear();
         
-        
         MoveToMouse();
     }
 
@@ -274,6 +273,8 @@ public class SwordProjectileBehavior : MonoBehaviour
                 GameObject instant = Instantiate(swordPlatform, new Vector2(cellPos.x + 0.3f,transform.position.y + yOffset), Quaternion.identity);
                 instant.transform.localScale = new Vector3(1, 1, 1);
                 
+                AudioManager.Instance.PlaySFX("Sword_Wood_Hit", 0.4f, Random.Range(0.8f, 1.2f));
+                
                 Destroy(gameObject);
             }
 
@@ -285,6 +286,8 @@ public class SwordProjectileBehavior : MonoBehaviour
                 
                 GameObject instant = Instantiate(swordPlatform, new Vector2(cellPos.x - 0.3f,transform.position.y + yOffset), Quaternion.identity);
                 instant.transform.localScale = new Vector3(-1, 1, 1);
+                
+                AudioManager.Instance.PlaySFX("Sword_Wood_Hit", 0.4f, Random.Range(0.8f, 1.2f));
                 
                 Destroy(gameObject);
             }

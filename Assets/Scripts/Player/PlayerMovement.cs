@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PlayerMovement : MonoBehaviour
 { 
@@ -174,10 +175,12 @@ public class PlayerMovement : MonoBehaviour
             {
                 rb.velocity = new Vector2(rb.velocity.x, 8);
                 StartCoroutine(JumpDownPlatform());
+                AudioManager.Instance.PlaySFX("Player_Jump", 0.3f, Random.Range(0.8f, 1.2f));
             }
             else
             {
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce); 
+                AudioManager.Instance.PlaySFX("Player_Jump", 0.6f, Random.Range(0.8f, 1.2f));
             }
            
             didJump = true;

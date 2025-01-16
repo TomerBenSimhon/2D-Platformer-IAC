@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class SwordPlatformBehavior : MonoBehaviour
 {
@@ -26,10 +27,12 @@ public class SwordPlatformBehavior : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire2"))
         {
-           GameObject instant = Instantiate(swordProjectile, transform.position, Quaternion.identity);
-           
-           instant.GetComponent<SwordProjectileBehavior>().isRetriving = true;
-           Destroy(gameObject);
+            AudioManager.Instance.PlaySFX("Sword_Throw", 0.6f, Random.Range(0.8f, 1f));
+            
+            GameObject instant = Instantiate(swordProjectile, transform.position, Quaternion.identity);
+       
+            instant.GetComponent<SwordProjectileBehavior>().isRetriving = true;
+            Destroy(gameObject);
         }
     }
 
