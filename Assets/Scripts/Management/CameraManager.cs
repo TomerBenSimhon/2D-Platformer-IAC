@@ -8,7 +8,8 @@ public class CameraManager : MonoBehaviour
 {
    public static CameraManager Instance;
    
-   
+   [Header("Main Camera")]
+   [SerializeField] CinemachineVirtualCamera mainVCam;
    private void Awake()
    {
       if (Instance == null)
@@ -16,6 +17,7 @@ public class CameraManager : MonoBehaviour
          Instance = this;
       }
    }
+   
 
    public void CameraShake(CinemachineImpulseSource impulseSource)
    {

@@ -79,11 +79,11 @@ public class EventManager : MonoBehaviour
             foreach (char letter in message)
             {
                 eventText.text += letter;
-                yield return new WaitForSecondsRealtime(0.05f);
+                yield return new WaitForSecondsRealtime(0.03f);
             }
 
             eventText.text += "\n" + "\n";
-            yield return new WaitForSecondsRealtime(0.5f);
+            yield return new WaitForSecondsRealtime(0.4f);
         }
 
         if (isFreezeTime)

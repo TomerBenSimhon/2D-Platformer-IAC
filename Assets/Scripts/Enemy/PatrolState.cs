@@ -16,7 +16,7 @@ public class PatrolState : MonoBehaviour
     [SerializeField] float patrolTime = 0.5f;
     [SerializeField] float idleTime = 2f;
     
-    [SerializeField] bool isIdle = false;
+    public bool isIdle = false;
 
     [Header("Edge Checks")]
     [SerializeField] Collider2D edgeCheckerR;

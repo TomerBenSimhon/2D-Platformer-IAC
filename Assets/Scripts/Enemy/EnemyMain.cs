@@ -224,6 +224,7 @@ public class EnemyMain : MonoBehaviour
       {
          if (currentState == EnemyState.Patrol && IsPlayerSpotted())
          {
+            patrolState.isIdle = false;
             currentState = EnemyState.Shocked;
          }
 

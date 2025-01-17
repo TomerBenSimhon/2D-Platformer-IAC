@@ -165,7 +165,7 @@ public class PlayerActions : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
-        AudioManager.Instance.PlayPlayerSFX("Player_Dash", 0.4f, 1.1f, 1.3f);
+        AudioManager.Instance.PlayPlayerSFX("Player_Dash", 0.4f, 0.9f, 1.1f);
         Vector2 dash = new Vector2(dashForce * Mathf.Sign(transform.localScale.x), 0);
         rb.velocity = dash;
         elapsedTime = 0;

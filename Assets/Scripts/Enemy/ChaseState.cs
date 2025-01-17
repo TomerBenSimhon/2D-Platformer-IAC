@@ -87,16 +87,19 @@ public class ChaseState : MonoBehaviour
       else if (searchingPlayer)
       {
          target = CalcPlayersLastKnownPosition();
+         visuals.transform.localScale = new Vector3(Mathf.Sign(target), 1, 1);
       }
       else
       {
          if ((xDistanceToPlayer < 0 && BarrierDetection() == "L") || (xDistanceToPlayer > 0 && BarrierDetection() == "R") || Mathf.Abs(xDistanceToPlayer) < 1f)
          {
             target = 0;
+            HandleVisualsFlip();
          }
          else if (BarrierDetection() == "Both")
          {
             target = 0;
+            HandleVisualsFlip();
          }
          else
          {
@@ -214,13 +217,13 @@ public class ChaseState : MonoBehaviour
       else if (Mathf.Abs(rb.velocity.x) > 0.1f)
       {
          animator.Play("Run");
-         animator.speed = 1.2f;
+         animator.speed = 1.25f;
          
       }
       else
       {
          animator.Play("Idle");
-         animator.speed = 1f;
+         animator.speed = 1.25f;
       }
    }
 
