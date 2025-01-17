@@ -121,15 +121,14 @@ public class PlayerActions : MonoBehaviour
     #endregion
 
     #region Sword Attack
-
     
     void HandleAttack()
     {
-        if (attacAvail && swordVisuals.enabled && (playerMain.currentState == PlayerState.Default || playerMain.currentState == PlayerState.God))
+        if (attacAvail && playerMain.dashCount < 1 && swordVisuals.enabled && (playerMain.currentState == PlayerState.Default || playerMain.currentState == PlayerState.God))
         {
             attacAvail = false;
             currentAttackTime = Time.time;
-            
+            playerMain.dashCount++;
             
             attackDashRoutine = StartCoroutine(AttackDash());
             attackAnimRoutine = StartCoroutine(AttackDashAnim());

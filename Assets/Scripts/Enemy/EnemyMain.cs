@@ -171,6 +171,10 @@ public class EnemyMain : MonoBehaviour
                DamagePlayer(32,onTouchKnockback);
                GameManager.Instance.HitStop(0.1f);
                CameraManager.Instance.CameraShake(touchImpulse);
+               if (currentState != EnemyState.Chase)
+               {
+                  currentState = EnemyState.Shocked;
+               }
             }
          }
          else
@@ -178,6 +182,10 @@ public class EnemyMain : MonoBehaviour
             DamagePlayer(32,onTouchKnockback);
             GameManager.Instance.HitStop(0.1f);
             CameraManager.Instance.CameraShake(touchImpulse);
+            if (currentState != EnemyState.Chase)
+            {
+               currentState = EnemyState.Shocked;
+            }
          }
       }
    }

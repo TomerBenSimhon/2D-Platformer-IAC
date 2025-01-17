@@ -28,6 +28,9 @@ public class PlayerMain : MonoBehaviour
 
     private float gridSize = 0.0625f;
     
+    //used for the dash attack so there wont be infinite dashes in air
+    public int dashCount = 0;
+    
     public PlayerState currentState;
     private void Start()
     {

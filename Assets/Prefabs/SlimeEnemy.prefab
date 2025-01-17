@@ -108,6 +108,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 50
   isDead: 0
+  isPlayer: 0
 --- !u!114 &2783688521908548654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,6 +161,7 @@ MonoBehaviour:
   patrolSpeed: 2
   patrolTime: 6
   idleTime: 2
+  isIdle: 0
   edgeCheckerR: {fileID: 6744228647322365287}
   edgeCheckerL: {fileID: 3301945232633586781}
   ground:
@@ -193,7 +195,7 @@ MonoBehaviour:
   animator: {fileID: 2191958685403067074}
   visuals: {fileID: 7452606287007091171}
   chaseSpeed: 6
-  chaseAccel: 4
+  chaseAccel: 6
   edgeCheckerR: {fileID: 6744228647322365287}
   edgeCheckerL: {fileID: 3301945232633586781}
   ground:

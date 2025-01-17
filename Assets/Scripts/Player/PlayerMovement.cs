@@ -127,6 +127,7 @@ public class PlayerMovement : MonoBehaviour
             didJump = false;
             canCoyote = true;
             canHalf = true;
+            playerMain.dashCount = 0;
         }
     }
     bool CanJump()
