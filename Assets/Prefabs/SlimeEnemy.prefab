@@ -160,7 +160,7 @@ MonoBehaviour:
   visuals: {fileID: 7452606287007091171}
   patrolSpeed: 2
   patrolTime: 6
-  idleTime: 2
+  idleTime: 3
   isIdle: 0
   edgeCheckerR: {fileID: 6744228647322365287}
   edgeCheckerL: {fileID: 3301945232633586781}
@@ -179,6 +179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 573d12ae68a527642b9cfcbd647f0dae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stopTime: 30
 --- !u!114 &4662806074704699307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,7 +196,7 @@ MonoBehaviour:
   animator: {fileID: 2191958685403067074}
   visuals: {fileID: 7452606287007091171}
   chaseSpeed: 6
-  chaseAccel: 6
+  chaseAccel: 9
   edgeCheckerR: {fileID: 6744228647322365287}
   edgeCheckerL: {fileID: 3301945232633586781}
   ground:
@@ -229,7 +230,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stunDuration: 2
-  stopTime: 20
+  stopTime: 30
   stunParticles: {fileID: 7394049572987254258}
 --- !u!114 &5161152022490284425
 MonoBehaviour:
@@ -496,7 +497,7 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.15}
   serializedVersion: 2
   m_Radius: 0.7
 --- !u!1 &5005875184312212161
@@ -563,7 +564,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.07623792, y: -0.3608892}
+  m_Offset: {x: -0.07623792, y: -0.48}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}

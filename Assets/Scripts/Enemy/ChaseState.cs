@@ -84,11 +84,6 @@ public class ChaseState : MonoBehaviour
       {
          target = 0;
       }
-      else if (searchingPlayer)
-      {
-         target = CalcPlayersLastKnownPosition();
-         visuals.transform.localScale = new Vector3(Mathf.Sign(target), 1, 1);
-      }
       else
       {
          if ((xDistanceToPlayer < 0 && BarrierDetection() == "L") || (xDistanceToPlayer > 0 && BarrierDetection() == "R") || Mathf.Abs(xDistanceToPlayer) < 1f)
@@ -103,8 +98,16 @@ public class ChaseState : MonoBehaviour
          }
          else
          {
-            target = Mathf.Sign(xDistanceToPlayer);
-            HandleVisualsFlip();
+            if (searchingPlayer)
+            {
+               target = CalcPlayersLastKnownPosition();
+               visuals.transform.localScale = new Vector3(Mathf.Sign(target), 1, 1);
+            }
+            else
+            {
+               target = Mathf.Sign(xDistanceToPlayer);
+               HandleVisualsFlip();
+            }
          }
       }
       

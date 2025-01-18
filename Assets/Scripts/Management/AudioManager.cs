@@ -7,6 +7,7 @@ public class AudioManager : MonoBehaviour
 {
    [SerializeField] AudioSource playerSfxSource;
    [SerializeField] AudioSource enemySfxSource;
+   [SerializeField] AudioSource environmentSfxSource;
    [SerializeField] AudioSource musicSource;
    
    
@@ -43,6 +44,16 @@ public class AudioManager : MonoBehaviour
       
       AudioClip clip = Resources.Load<AudioClip>("SFX/" + sfxName);
       enemySfxSource.PlayOneShot(clip);
+   }
+   
+   public void PlayEnviromentSFX(string sfxName, float volume, float minPitch, float maxPitch)
+   {
+      environmentSfxSource.pitch = Random.Range(minPitch, maxPitch);
+      environmentSfxSource.volume = volume * 2f;
+      
+      
+      AudioClip clip = Resources.Load<AudioClip>("SFX/" + sfxName);
+      environmentSfxSource.PlayOneShot(clip);
    }
    public void LowerMusicOnDeath()
    {

@@ -56,6 +56,8 @@ public class SwordProjectileBehavior : MonoBehaviour
         RetrieveToPlayer();
         WallChecking();
         
+        //makes sure the sword is not moving too fast
+        rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x, -moveSpeed, moveSpeed), Mathf.Clamp(rb.velocity.y, -moveSpeed, moveSpeed));
     }
 
     void LateUpdate()
@@ -146,8 +148,8 @@ public class SwordProjectileBehavior : MonoBehaviour
             Vector2 normal = (myCollider.transform.position - other.transform.position).normalized;
             Vector2 reflectedVelocity = (rb.velocity - 2 * Vector2.Dot(rb.velocity, normal) * normal);
             
-            ricochetVelocity = new Vector2(Random.Range(reflectedVelocity.x * 0.75f, reflectedVelocity.x * 1.5f),
-                                            Random.Range(reflectedVelocity.y, reflectedVelocity.y * 2f));
+            ricochetVelocity = new Vector2(Random.Range(reflectedVelocity.x * 0.5f, reflectedVelocity.x), 
+                                           Random.Range(reflectedVelocity.x * 0.5f, reflectedVelocity.x));
             
             float angle = Vector2.Angle(normal, Vector2.right);
             

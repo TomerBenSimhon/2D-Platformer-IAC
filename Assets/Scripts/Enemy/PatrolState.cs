@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PatrolState : MonoBehaviour
 {
@@ -48,8 +49,11 @@ public class PatrolState : MonoBehaviour
     {
         while (true)
         {
+            float randomPatrolTime = Random.Range(patrolTime * 0.5f, patrolTime * 2f);
+            float randomIdleTime = Random.Range(idleTime * 0.5f, idleTime * 2f);
+            
             elapsedTime = 0f;
-            while (elapsedTime < patrolTime && !isIdle)
+            while (elapsedTime < randomPatrolTime && !isIdle)
             {
                 elapsedTime += Time.deltaTime;
                 HandleDirectionChange();
@@ -60,7 +64,7 @@ public class PatrolState : MonoBehaviour
             }
         
             elapsedTime = 0f;
-            while (elapsedTime < idleTime)
+            while (elapsedTime < randomIdleTime)
             {
                 elapsedTime += Time.deltaTime;
                 rb.velocity = new Vector2(0f, rb.velocity.y);

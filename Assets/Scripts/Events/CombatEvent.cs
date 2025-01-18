@@ -41,14 +41,17 @@ public class CombatEvent : MonoBehaviour
    IEnumerator BreakTiles()
    {
       yield return new WaitForSeconds(2f);
+      AudioManager.Instance.PlayEnviromentSFX("Door_Break", 0.4f, 0.9f, 1.1f);
 
       foreach (Transform transform in tilesToBreak)
       {
          Vector3Int cell = doorTilemap.WorldToCell(transform.position);
+         ParticleSystem effect = transform.gameObject.GetComponent<ParticleSystem>();
          
          if (doorTilemap.HasTile(cell))
          {
             doorTilemap.SetTile(cell, null); // Removes the tile at the specified position
+            effect.Play();
             Debug.Log("Tile broken at: " + cell);
          }
          else
@@ -57,6 +60,6 @@ public class CombatEvent : MonoBehaviour
          }
       }
       
-      Destroy(gameObject);
+      Destroy(gameObject, 5f);
    }
 }

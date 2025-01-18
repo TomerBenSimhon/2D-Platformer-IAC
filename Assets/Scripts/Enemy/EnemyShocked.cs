@@ -8,11 +8,15 @@ public class EnemyShocked : MonoBehaviour
     
      Animator animator;
     EnemyMain enemyMain;
+    Rigidbody2D rb;
+    
+    [SerializeField] float stopTime;
     
     private void Awake()
     {
         enemyMain = GetComponent<EnemyMain>(); 
         animator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
     }
     
     private void OnEnable()
@@ -24,6 +28,11 @@ public class EnemyShocked : MonoBehaviour
     private void OnDisable()
     {
         StopAllCoroutines();
+    }
+
+    void Update()
+    {
+        StopMovement();
     }
 
 
@@ -46,5 +55,10 @@ public class EnemyShocked : MonoBehaviour
         }
 
         enemyMain.currentState = EnemyState.Chase;
+    }
+    
+    void StopMovement()
+    {
+        rb.velocity = Vector2.MoveTowards(rb.velocity, Vector2.zero, stopTime * Time.deltaTime);
     }
 }
