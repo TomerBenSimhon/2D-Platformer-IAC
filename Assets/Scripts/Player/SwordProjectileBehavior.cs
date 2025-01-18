@@ -54,6 +54,7 @@ public class SwordProjectileBehavior : MonoBehaviour
     void Update()
     {
         RetrieveToPlayer();
+        GroundChecking();
         WallChecking();
         
         //makes sure the sword is not moving too fast
@@ -62,14 +63,14 @@ public class SwordProjectileBehavior : MonoBehaviour
 
     void LateUpdate()
     {
-        GroundChecking();
+       
     }
     
 
 
     void MoveToMouse()
     {
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0f, yOffset, 0f);
         mousePos.z = 0;
 
         Vector2 direction = mousePos - transform.position;
@@ -270,9 +271,9 @@ public class SwordProjectileBehavior : MonoBehaviour
             {
                 
                 wallTilemap = wallTouchingRight.GetComponent<Tilemap>();
-                Vector3 cellPos = wallTilemap.WorldToCell(transform.position);
+                Vector3 cellPos = wallTilemap.WorldToCell(transform.position + Vector3.left * 0.1f);
                 
-                GameObject instant = Instantiate(swordPlatform, new Vector2(cellPos.x + 0.3f,transform.position.y + yOffset), Quaternion.identity);
+                GameObject instant = Instantiate(swordPlatform, new Vector2(cellPos.x + 0.3f,transform.position.y - 0.3f), Quaternion.identity);
                 instant.transform.localScale = new Vector3(1, 1, 1);
                 
                 AudioManager.Instance.PlayPlayerSFX("Sword_Wood_Hit", 0.12f, 0.8f, 1.2f);
@@ -286,7 +287,7 @@ public class SwordProjectileBehavior : MonoBehaviour
                 wallTilemap = wallTouchingLeft.GetComponent<Tilemap>();
                 Vector3 cellPos = wallTilemap.WorldToCell(transform.position + Vector3.right);
                 
-                GameObject instant = Instantiate(swordPlatform, new Vector2(cellPos.x - 0.3f,transform.position.y + yOffset), Quaternion.identity);
+                GameObject instant = Instantiate(swordPlatform, new Vector2(cellPos.x - 0.3f,transform.position.y - 0.3f), Quaternion.identity);
                 instant.transform.localScale = new Vector3(-1, 1, 1);
                 
                 AudioManager.Instance.PlayPlayerSFX("Sword_Wood_Hit", 0.12f, 0.8f, 1.2f);
@@ -303,8 +304,8 @@ public class SwordProjectileBehavior : MonoBehaviour
     RaycastHit2D groundHitHorz;
     void GroundChecking()
     {
-        groundHitVert = Physics2D.Raycast(myCollider.transform.position, new Vector2(0, Mathf.Sign(rb.velocity.y)), 0.5f, LayerMask.GetMask("Ground", "Spikes"));
-        groundHitHorz = Physics2D.Raycast(myCollider.transform.position, new Vector2(Mathf.Sign(rb.velocity.x), 0), 0.8f, LayerMask.GetMask("Ground", "Spikes"));
+        groundHitVert = Physics2D.Raycast(myCollider.transform.position - new Vector3(0, 0.32f,0), new Vector2(0, Mathf.Sign(rb.velocity.y)), 0.3f, LayerMask.GetMask("Ground", "Spikes"));
+        groundHitHorz = Physics2D.Raycast(myCollider.transform.position - new Vector3(0, 0.32f,0), new Vector2(Mathf.Sign(rb.velocity.x), 0), 0.8f, LayerMask.GetMask("Ground", "Spikes"));
         
         bool isHit = groundHitVert || groundHitHorz;
 
@@ -315,12 +316,12 @@ public class SwordProjectileBehavior : MonoBehaviour
             if (groundHitVert)
             {
                 ricochetVelocity = new Vector2(Random.Range(0.75f * rb.velocity.x, 1.5f * rb.velocity.x),-Random.Range(1.5f * rb.velocity.y, 3f * rb.velocity.y));  
-                if (rb.velocity.y < 0) {PlayHitSparks(30f, 0, -0.5f);}
-                else {PlayHitSparks(-120f, 0, 0.5f);}
+                if (rb.velocity.y < 0) {PlayHitSparks(30f, 0, -0.8f);}
+                else {PlayHitSparks(-120f, 0, 0.8f);}
                 
                 AudioManager.Instance.PlayPlayerSFX("Sword_Wall_Hit", 0.2f, 0.8f, 1.2f);
             }
-            else if (groundHitHorz)
+            if (groundHitHorz)
             {
                 ricochetVelocity = new Vector2(-Random.Range(1.5f * rb.velocity.x, 3f * rb.velocity.x),Random.Range(0.75f * rb.velocity.y, 1.5f * rb.velocity.y));  
                 if (rb.velocity.x < 0) {PlayHitSparks(-60f, -0.8f, 0);}

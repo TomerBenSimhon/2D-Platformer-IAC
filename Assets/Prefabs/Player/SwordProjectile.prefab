@@ -168,7 +168,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   swordPlatform: {fileID: 3142171865383693851, guid: 81f50409ded4c3745823874958123d6a, type: 3}
-  yOffset: 0
+  yOffset: 0.3
   hitSparks: {fileID: 3824456238869137096}
 --- !u!1 &3042524590560837280
 GameObject:
@@ -446,7 +446,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.66483366, y: -0.3253407}
+  m_Offset: {x: 0.65, y: -0.3253407}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -457,7 +457,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.2622912, y: 0.18508863}
+  m_Size: {x: 0.2622912, y: 0.1}
   m_EdgeRadius: 0
 --- !u!1 &5776720096963091925
 GameObject:
@@ -5563,7 +5563,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.2622912, y: 0.18508863}
+  m_Size: {x: 0.2622912, y: 0.1}
   m_EdgeRadius: 0
 --- !u!1 &8935503984834661418
 GameObject:
