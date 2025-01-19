@@ -53,6 +53,12 @@ public class GameManager : MonoBehaviour
       
       SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
    }
+
+   public void NextScene(Vector2 startPos)
+   {
+      SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+      currentCheckpoint = startPos;
+   }
    
 
    #region Checkpoint Manager

@@ -55,6 +55,13 @@ public class AudioManager : MonoBehaviour
       AudioClip clip = Resources.Load<AudioClip>("SFX/" + sfxName);
       environmentSfxSource.PlayOneShot(clip);
    }
+
+   public void SetMusic(string musicName, float volume)
+   {
+      musicSource.clip = Resources.Load<AudioClip>("Music/" + musicName);
+      musicSource.volume = volume;
+      musicSource.Play();
+   }
    public void LowerMusicOnDeath()
    {
       if(lowerMusicCoroutine != null) { StopCoroutine(lowerMusicCoroutine); }

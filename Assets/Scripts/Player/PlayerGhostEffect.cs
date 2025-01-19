@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.Serialization;
 
 public class PlayerGhostEffect : MonoBehaviour
 {
    [SerializeField] SpriteRenderer spriteRenderer1;
    [SerializeField] SpriteRenderer spriteRenderer2;
-   [SerializeField] Light2D light;
+   [SerializeField] Light2D ghostLight;
    
    SpriteRenderer playerSpriteRenderer;
    SpriteRenderer swordSpriteRenderer;
@@ -45,7 +46,7 @@ public class PlayerGhostEffect : MonoBehaviour
          {
             elapsedTime += Time.deltaTime;
             spriteColor.a = (1 - elapsedTime / (ghostDuration / 2)) / 3;
-            light.intensity = Mathf.Lerp(light.intensity, 0, elapsedTime / ghostDuration / 2);
+            ghostLight.intensity = Mathf.Lerp(ghostLight.intensity, 0, elapsedTime / ghostDuration / 2);
             
             spriteRenderer1.color = spriteColor;
             spriteRenderer2.color = spriteColor;

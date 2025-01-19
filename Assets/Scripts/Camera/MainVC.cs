@@ -46,18 +46,18 @@ public class MainVC : MonoBehaviour
 
 
     private float xOffset;
-    private float xOffsetVelocity;
+    private float xOffsetVelocity = 0;
     void OffsetLerp()
     {
         xOffset = Mathf.SmoothDamp(
             xOffset, 
             player.transform.localScale.x * xOffsetTarget, 
             ref xOffsetVelocity, // SmoothDamp tracks velocity internally
-            lerpSmoothing * Time.deltaTime
+            lerpSmoothing
         );        
         
         
-        transposer.m_TrackedObjectOffset = new Vector3(xOffset, 0, 0);
+        transposer.m_TrackedObjectOffset = new Vector3(xOffset, transposer.m_TrackedObjectOffset.y, 0);
     }
 
     
@@ -66,7 +66,7 @@ public class MainVC : MonoBehaviour
     {
         if (playerRB.velocity.y < -1)
         {
-            transposer.m_YDamping = Mathf.SmoothDamp(transposer.m_YDamping, 0.2f, ref yDampVelocity, lerpSmoothing*1.5f * Time.deltaTime);
+            transposer.m_YDamping = Mathf.SmoothDamp(transposer.m_YDamping, 0.2f, ref yDampVelocity, lerpSmoothing*1.5f);
         }
         else
         {

@@ -40,7 +40,7 @@ public class PlayerActions : MonoBehaviour
     
     
     
-    void Start()
+    void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         playerMain = GetComponent<PlayerMain>();

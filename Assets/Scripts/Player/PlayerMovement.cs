@@ -11,7 +11,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Animator playerAnimator;
     [SerializeField] Animator swordAnimator;
     [SerializeField] SpriteRenderer swordVisuals;
-    [SerializeField] Collider2D playerCollider;
+
+    [SerializeField] GameObject playerColliderObject;
+    Collider2D[] playerColliders;
     
     
     PlayerMain playerMain;
@@ -21,6 +23,8 @@ public class PlayerMovement : MonoBehaviour
         if (rb == null) {Debug.LogError("rb is null in PlayerMovement");}
         
         playerMain = GetComponent<PlayerMain>();
+        
+        playerColliders = playerColliderObject.GetComponents<Collider2D>();
     }
 
     void OnEnable()
@@ -223,9 +227,18 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator JumpDownPlatform()
     {
         isJumpingDown = true;
-        playerCollider.excludeLayers |= 1 << LayerMask.NameToLayer("Platform");
+        foreach (Collider2D collider in playerColliders)
+        {
+            collider.excludeLayers |= 1 << LayerMask.NameToLayer("Platform");
+        }
+        
         yield return new WaitForSeconds(0.7f);
-        playerCollider.excludeLayers &= ~(1 << LayerMask.NameToLayer("Platform"));
+        
+        foreach (Collider2D collider in playerColliders)
+        {
+            collider.excludeLayers &= ~(1 << LayerMask.NameToLayer("Platform"));
+        }
+        
         isJumpingDown = false;
     }
 

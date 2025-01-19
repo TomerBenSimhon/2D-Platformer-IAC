@@ -267,5 +267,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer1: {fileID: 849401670817551645}
   spriteRenderer2: {fileID: 6582339688354485214}
-  light: {fileID: 2210830226724081833}
+  ghostLight: {fileID: 2210830226724081833}
   ghostDuration: 0.5

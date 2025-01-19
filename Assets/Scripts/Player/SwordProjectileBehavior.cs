@@ -306,7 +306,7 @@ public class SwordProjectileBehavior : MonoBehaviour
     void GroundChecking()
     {
         groundHitVert = Physics2D.Raycast(myCollider.transform.position - new Vector3(0, 0.32f,0), new Vector2(0, Mathf.Sign(rb.velocity.y)), 0.3f, LayerMask.GetMask("Ground", "Spikes"));
-        groundHitHorz = Physics2D.Raycast(myCollider.transform.position - new Vector3(0, 0.32f,0), new Vector2(Mathf.Sign(rb.velocity.x), 0), 0.4f, LayerMask.GetMask("Ground", "Spikes"));
+        groundHitHorz = Physics2D.Raycast(myCollider.transform.position - new Vector3(0, 0.32f,0), new Vector2(Mathf.Sign(rb.velocity.x), 0), 0.7f, LayerMask.GetMask("Ground", "Spikes"));
         
         bool isHit = groundHitVert || groundHitHorz;
 
@@ -322,7 +322,7 @@ public class SwordProjectileBehavior : MonoBehaviour
                 
                 AudioManager.Instance.PlayPlayerSFX("Sword_Wall_Hit", 0.2f, 0.8f, 1.2f);
             }
-            if (groundHitHorz)
+            else if (groundHitHorz)
             {
                 ricochetVelocity = new Vector2(-Random.Range(1.5f * rb.velocity.x, 3f * rb.velocity.x),Random.Range(0.75f * rb.velocity.y, 1.5f * rb.velocity.y));  
                 if (rb.velocity.x < 0) {PlayHitSparks(-60f, -0.8f, 0);}

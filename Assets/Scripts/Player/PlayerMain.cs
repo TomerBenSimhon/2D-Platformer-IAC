@@ -6,7 +6,7 @@ using UnityEngine;
 
 public enum PlayerState 
 {
-    Hit, Attacking, Default, God, Dead
+    Hit, Attacking, Default, God, Dead, Start
 }
 
 
@@ -34,8 +34,11 @@ public class PlayerMain : MonoBehaviour
     public PlayerState currentState;
     private void Start()
     {
-        currentState = PlayerState.Default;
-
+        if (currentState != PlayerState.Start)
+        {
+            currentState = PlayerState.Default;
+        }
+        
         transform.position = GameManager.Instance.currentCheckpoint;
         
         swordTrail = swordAnimator.transform.GetChild(0).gameObject;
@@ -95,6 +98,14 @@ public class PlayerMain : MonoBehaviour
                 playerHit.enabled = false;
                 
                 playerDeath.enabled = true;
+                break;
+            
+            case PlayerState.Start:
+                playerHit.enabled = false;
+                playerInvincable.enabled = false;
+                playerActions.enabled = false;
+                
+                playerMovement.enabled = true;
                 break;
         }
     }
