@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
@@ -36,6 +37,11 @@ public class GameManager : MonoBehaviour
       if (Input.GetKeyDown(KeyCode.R))
       {
          RestartScene();
+      }
+
+      if (Input.GetKeyDown(KeyCode.Escape))
+      {
+         EditorApplication.isPaused = !EditorApplication.isPaused;
       }
    }
 

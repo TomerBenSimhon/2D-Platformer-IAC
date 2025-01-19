@@ -44,4 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d0c4584cde097c4d995dc6ecac98b80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentCheckpoint: {x: 0, y: 0}
+  cursorTexture: {fileID: 2800000, guid: d2eaecc796c9f9e4da1432eb916018f3, type: 3}
+  currentCheckpoint: {x: -7, y: 7}

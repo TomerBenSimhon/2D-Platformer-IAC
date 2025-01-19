@@ -255,7 +255,7 @@ public class SwordProjectileBehavior : MonoBehaviour
 
     Collider2D wallTouchingRight;
     Collider2D wallTouchingLeft;
-
+    
 
    
     void WallChecking()
@@ -264,6 +264,7 @@ public class SwordProjectileBehavior : MonoBehaviour
         {
             wallTouchingRight = Physics2D.OverlapArea(wallCheckRight.bounds.min, wallCheckRight.bounds.max, walls);
             wallTouchingLeft = Physics2D.OverlapArea(wallCheckLeft.bounds.min, wallCheckLeft.bounds.max, walls);
+            
 
             Tilemap wallTilemap;
 
@@ -305,7 +306,7 @@ public class SwordProjectileBehavior : MonoBehaviour
     void GroundChecking()
     {
         groundHitVert = Physics2D.Raycast(myCollider.transform.position - new Vector3(0, 0.32f,0), new Vector2(0, Mathf.Sign(rb.velocity.y)), 0.3f, LayerMask.GetMask("Ground", "Spikes"));
-        groundHitHorz = Physics2D.Raycast(myCollider.transform.position - new Vector3(0, 0.32f,0), new Vector2(Mathf.Sign(rb.velocity.x), 0), 0.8f, LayerMask.GetMask("Ground", "Spikes"));
+        groundHitHorz = Physics2D.Raycast(myCollider.transform.position - new Vector3(0, 0.32f,0), new Vector2(Mathf.Sign(rb.velocity.x), 0), 0.4f, LayerMask.GetMask("Ground", "Spikes"));
         
         bool isHit = groundHitVert || groundHitHorz;
 

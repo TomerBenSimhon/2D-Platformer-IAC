@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnEnable()
     {
-        //playerMain.currentState = PlayerState.Default;
+        moveHorizontal = 0;
     }
 
     // Update is called once per frame
@@ -49,17 +49,17 @@ public class PlayerMovement : MonoBehaviour
 
     #region Inputs
 
-    float moveHorizontal;
+    float moveInput;
 
     bool jumpDown;
     bool jumpHeld;
     bool jumpUp;
-    private bool jumpAvail;
+    bool jumpAvail;
     void HandleInputs()
     {
         if(Time.timeScale < 0.1f) {return;}
         
-        moveHorizontal = Input.GetAxis("Horizontal");
+        moveInput = Input.GetAxis("Horizontal");
         
         jumpDown = Input.GetButtonDown("Jump");
         jumpHeld = Input.GetButton("Jump"); 
@@ -90,15 +90,33 @@ public class PlayerMovement : MonoBehaviour
     
     [Header("Movement")]
     [SerializeField] float moveSpeed = 12f;
+    [SerializeField] float accel = 6;
+
+    [SerializeField] LayerMask wallLayer;
+    
+    float moveHorizontal;
+    
     void HandleMovement()
     {
+        moveHorizontal = Mathf.MoveTowards(moveHorizontal, moveInput, accel * Time.fixedDeltaTime);
         rb.velocity = new Vector2(moveHorizontal * moveSpeed, rb.velocity.y);
+        
+        bool isTouchingWall = Physics2D.Raycast(transform.position, Vector2.right * Mathf.Sign(rb.velocity.x), 0.3f, wallLayer);
+
+        if (isTouchingWall && Mathf.Abs(rb.velocity.x) > 0.1f)
+        {
+            moveHorizontal = 0;
+        }
+        
     }
+
+    
+   
 
     void HandleSpriteFlip()
     {
-        if(moveHorizontal == 0) {return;}
-        transform.localScale = new Vector3(Mathf.Sign(moveHorizontal), 1, 1);
+        if(moveInput == 0) {return;}
+        transform.localScale = new Vector3(Mathf.Sign(moveInput), 1, 1);
     }
     
     #endregion
@@ -273,7 +291,7 @@ public class PlayerMovement : MonoBehaviour
         {
             playerAnimator.speed = 1;
             if(swordVisuals.enabled) {swordAnimator.speed = 1;}
-            if (Mathf.Abs(moveHorizontal) > 0)
+            if (Mathf.Abs(moveInput) > 0)
             {
                 playerMain.PlayAnimations("Run",  false, 0);
             }
