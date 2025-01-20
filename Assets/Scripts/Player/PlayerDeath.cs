@@ -67,7 +67,7 @@ public class PlayerDeath : MonoBehaviour
 
     IEnumerator RestartSceneDelay()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         GameManager.Instance.RestartScene();
     }
 }

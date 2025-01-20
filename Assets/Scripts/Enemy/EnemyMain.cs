@@ -48,6 +48,7 @@ public class EnemyMain : MonoBehaviour
    [Header("Effects")] 
    public CinemachineImpulseSource attackImpulse;
    public ParticleSystem attackRumble;
+   public ParticleSystem attackJump;
    public CinemachineImpulseSource touchImpulse;
 
    
@@ -209,6 +210,12 @@ public class EnemyMain : MonoBehaviour
       attackRumble.Play();
       CameraManager.Instance.CameraShake(attackImpulse);
       AudioManager.Instance.PlayEnemySFX("Enemy_Attack", 0.12f, 0.9f, 1.1f);
+   }
+
+   //called in the start of the attack animation
+   void PlayAttackJumpEffect()
+   {
+      attackJump.Play();
    }
 
    void DamagePlayer(int damage, float knockbackForce)

@@ -160,7 +160,7 @@ MonoBehaviour:
   myCollider: {fileID: 7311999430766870131}
   maxDistance: 18
   retrivingAccel: 200
-  moveSpeed: 50
+  moveSpeed: 40
   isRetriving: 0
   wallCheckRight: {fileID: 1701775922927475659}
   wallCheckLeft: {fileID: 8028166524822390133}
@@ -170,6 +170,9 @@ MonoBehaviour:
   swordPlatform: {fileID: 3142171865383693851, guid: 81f50409ded4c3745823874958123d6a, type: 3}
   yOffset: 0.3
   hitSparks: {fileID: 3824456238869137096}
+  ricochetLOS:
+    serializedVersion: 2
+    m_Bits: 34304
 --- !u!1 &3042524590560837280
 GameObject:
   m_ObjectHideFlags: 0

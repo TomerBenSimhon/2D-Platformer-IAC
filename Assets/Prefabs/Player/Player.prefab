@@ -641,7 +641,7 @@ MonoBehaviour:
   swordVisuals: {fileID: 8088426165872214327}
   playerColliderObject: {fileID: 5222849417931055597}
   moveSpeed: 12
-  accel: 6
+  accel: 8
   wallLayer:
     serializedVersion: 2
     m_Bits: 1536
@@ -710,7 +710,7 @@ MonoBehaviour:
     m_Bits: 1536
   groundFriction: 40
   gravityForce: 4
-  maxFallVelocity: 25
+  maxFallVelocity: 18
   knockbacDirection: {x: 0, y: 0}
   knockbackForce: 0
 --- !u!114 &7920703477536067125
@@ -726,7 +726,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMain: {fileID: 2479679264051426135}
-  invincibilityDuration: 1
+  invincibilityDuration: 1.5
   visableTime: 0.2
   invisableTime: 0.1
   playerSprite: {fileID: 3509609553006067281}
@@ -1807,9 +1807,9 @@ ParticleSystem:
       time: 0
       countCurve:
         serializedVersion: 2
-        minMaxState: 0
-        scalar: 15
-        minScalar: 30
+        minMaxState: 3
+        scalar: 20
+        minScalar: 10
         maxCurve:
           serializedVersion: 2
           m_Curve:
@@ -2381,14 +2381,14 @@ ParticleSystem:
     x:
       serializedVersion: 2
       minMaxState: 2
-      scalar: 0.1
+      scalar: 1
       minScalar: 0.1
       maxCurve:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: -0.2421875
+          value: -0.5053406
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -2397,7 +2397,7 @@ ParticleSystem:
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 0
+          value: -0.36842346
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -2412,7 +2412,7 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0.171875
+          value: 0.42845154
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -2421,7 +2421,7 @@ ParticleSystem:
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 0
+          value: 0.17105103
           inSlope: 0
           outSlope: 0
           tangentMode: 0

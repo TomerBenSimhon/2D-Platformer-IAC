@@ -123,7 +123,7 @@ public class SwordProjectileBehavior : MonoBehaviour
 
     List<GameObject> hitEnemies = new List<GameObject>();
     GameObject currenEnemyToRicochet;
-    LayerMask ricochetLOS;
+    [SerializeField] LayerMask ricochetLOS;
 
     private List<GameObject> enemiesInScene = new List<GameObject>();
     
@@ -151,6 +151,8 @@ public class SwordProjectileBehavior : MonoBehaviour
             
             ricochetVelocity = new Vector2(Random.Range(reflectedVelocity.x * 0.5f, reflectedVelocity.x), 
                                            Random.Range(reflectedVelocity.x * 0.5f, reflectedVelocity.x));
+            
+            ricochetVelocity = new Vector2(ricochetVelocity.x, Mathf.Clamp(ricochetVelocity.y, 0, Mathf.Infinity));
             
             float angle = Vector2.Angle(normal, Vector2.right);
             

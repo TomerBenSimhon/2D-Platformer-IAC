@@ -61,7 +61,10 @@ public class PlayerMovement : MonoBehaviour
     bool jumpAvail;
     void HandleInputs()
     {
-        if(Time.timeScale < 0.1f) {return;}
+        if (EventManager.Instance != null)
+        {
+            if(EventManager.Instance.isFreezeEventPlaying) {return;}
+        }
         
         moveInput = Input.GetAxis("Horizontal");
         

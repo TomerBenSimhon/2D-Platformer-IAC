@@ -73,7 +73,10 @@ public class PlayerActions : MonoBehaviour
     
     void HandelInputs()
     {
-        if(Time.timeScale < 0.1f) {return;}
+        if (EventManager.Instance != null)
+        {
+            if(EventManager.Instance.isFreezeEventPlaying) {return;}
+        }
         
         attackInput = Input.GetButtonDown("Fire1");
         throwInput = Input.GetButtonDown("Fire2");
@@ -262,7 +265,7 @@ public class PlayerActions : MonoBehaviour
                     enemyMain.currentState = EnemyState.Hit;
                     enemyHealth.TakeDamage(50);
                     
-                    GameManager.Instance.HitStopScale(0.5f);
+                    GameManager.Instance.HitStopScale(0.5f, 0.1f);
                 }
             }
         }

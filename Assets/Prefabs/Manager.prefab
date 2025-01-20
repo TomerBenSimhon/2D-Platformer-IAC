@@ -46,3 +46,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorTexture: {fileID: 2800000, guid: d2eaecc796c9f9e4da1432eb916018f3, type: 3}
   currentCheckpoint: {x: -7, y: 7}
+  blackBar: {fileID: 0}
+  fillDuration: 0.25

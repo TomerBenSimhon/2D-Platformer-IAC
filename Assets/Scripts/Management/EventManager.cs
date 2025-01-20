@@ -16,7 +16,7 @@ public class EventManager : MonoBehaviour
 
     void Start()
     {
-        eventText = FindObjectOfType<Canvas>().transform.Find("EventText").GetComponent<TextMeshProUGUI>();
+        eventText = GameObject.Find("EventText").GetComponent<TextMeshProUGUI>();
         
         eventObjects = FindObjectsOfType<Event>().Select(eventObject => eventObject.gameObject).ToArray();
     }
@@ -54,12 +54,16 @@ public class EventManager : MonoBehaviour
 
     
     float elapsedTime = 0f;
-    
+
+
+    public bool isFreezeEventPlaying;
     Coroutine displayEventCoroutine;
     IEnumerator DisplayEventMessages(string[] messages, bool isFreezeTime)
     {
         if (isFreezeTime)
         {
+            isFreezeEventPlaying = true;
+            
             elapsedTime = 0f;
             while (elapsedTime < freezeLerpDuration)
             {
@@ -88,6 +92,8 @@ public class EventManager : MonoBehaviour
 
         if (isFreezeTime)
         {
+            isFreezeEventPlaying = false;
+            
             while (elapsedTime < freezeLerpDuration && isFreezeTime)
             {
                 elapsedTime += Time.unscaledDeltaTime;
