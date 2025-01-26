@@ -152,6 +152,7 @@ public class PlayerMovement : MonoBehaviour
             didJump = false;
             canCoyote = true;
             canHalf = true;
+            isFastFalling = false;
             playerMain.dashCount = 0;
         }
     }
@@ -197,6 +198,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (CanJump())
         {
+            isFastFalling = false;
+            
             if (Input.GetKey(KeyCode.S))
             {
                 rb.velocity = new Vector2(rb.velocity.x, 8);
@@ -259,6 +262,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float apexThreshHold = 3f;
     
     float currentGravity;
+    bool isFastFalling;
     
     void HandleGravity()
     {
@@ -271,6 +275,8 @@ public class PlayerMovement : MonoBehaviour
         
         if (!jumpHeld || rb.velocity.y < -apexThreshHold)
         {
+            isFastFalling = true;
+            
             if (rb.velocity.y > -maxFallSpeed/2)
             {
                 currentGravity = fastGravity;
@@ -281,11 +287,11 @@ public class PlayerMovement : MonoBehaviour
             }
             
         }
-        else if (MathF.Abs(rb.velocity.y) < apexThreshHold && jumpHeld)
+        else if (MathF.Abs(rb.velocity.y) < apexThreshHold && jumpHeld && !isFastFalling)
         {
             currentGravity = defaultGravity * 0.5f;
         }
-        else
+        else if(!isFastFalling)
         {
             currentGravity = defaultGravity;
         }
