@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class EnemyHit : MonoBehaviour
+public class EnemyHit : MonoBehaviour, IEnemyState
 {
+    public EnemyState StateId => EnemyState.Hit;
+    public void Enter() => enabled = true;
+    public void Exit() => enabled = false;
+    
+    [SerializeField] float stopAccel;
+    [SerializeField] ParticleSystem hitEffect;
+
     EnemyMain enemyMain;
     Animator animator;
     Rigidbody2D rb;
     
-    [SerializeField] float stopAccel;
-
-    [SerializeField] ParticleSystem hitEffect;
-
     float elapsedTime;
     
     void Awake()
@@ -67,6 +70,6 @@ public class EnemyHit : MonoBehaviour
             yield return null;
         }
 
-        enemyMain.currentState = EnemyState.Chase;
+        enemyMain.ChangeState(EnemyState.Chase);
     }
 }

@@ -4,15 +4,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class EnemyStunned : MonoBehaviour
+public class EnemyStunned : MonoBehaviour, IEnemyState
 {
-    EnemyMain enemyMain;
-    Animator animator;
-    Rigidbody2D rb;
+    public EnemyState StateId => EnemyState.Stun;
+    public void Enter() => enabled = true;
+    public void Exit() => enabled = false;
 
     [SerializeField] float stunDuration;
     [SerializeField] float stopTime;
     [SerializeField] ParticleSystem stunParticles;
+    
+    EnemyMain enemyMain;
+    Animator animator;
+    Rigidbody2D rb;
     
     float elapsedTime = 0f;
     void Awake()
@@ -89,7 +93,7 @@ public class EnemyStunned : MonoBehaviour
             yield return null;
         }
 
-        enemyMain.currentState = EnemyState.Chase;
+        enemyMain.ChangeState(EnemyState.Chase);
     }
     
     

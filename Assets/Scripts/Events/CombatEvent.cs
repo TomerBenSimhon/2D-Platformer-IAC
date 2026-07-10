@@ -24,7 +24,7 @@ public class CombatEvent : MonoBehaviour
    {
       foreach (EnemyMain enemy in enemies)
       {
-         if (enemy.currentState == EnemyState.Dead)
+         if (enemy.CurrentState == EnemyState.Dead)
          {
             continue;
          }

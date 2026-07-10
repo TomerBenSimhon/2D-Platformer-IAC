@@ -6,17 +6,73 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class PlayerMovement : MonoBehaviour
-{ 
-    Rigidbody2D rb;
+{
+    // =================================================================
+    // Serialized Fields (visible/configurable in the Inspector)
+    // =================================================================
     [SerializeField] Animator playerAnimator;
     [SerializeField] Animator swordAnimator;
     [SerializeField] SpriteRenderer swordVisuals;
-
     [SerializeField] GameObject playerColliderObject;
+
+    [Header("Movement")]
+    [SerializeField] float moveSpeed = 12f;
+    [SerializeField] float accel = 6;
+    [SerializeField] LayerMask wallLayer;
+
+    [Header("GroundCheck")]
+    [SerializeField] Collider2D groundCheck;
+    [SerializeField] LayerMask groundLayer;
+
+    [Header("Jump")]
+    [SerializeField] float jumpForce = 5f;
+    [SerializeField] float jumpBufferTime = 0.2f;
+    [SerializeField] float coyoteTime = 0.1f;
+    [SerializeField] ParticleSystem jumpEffect;
+
+    [Header("Gravity")]
+    [SerializeField] float defaultGravity = 1;
+    [SerializeField] float fastGravity = 1;
+    [SerializeField] float maxFallSpeed = 20f;
+    [SerializeField] float apexThreshHold = 3f;
+
+
+    // =================================================================
+    // Private Fields (internal state, not exposed in the Inspector)
+    // =================================================================
+
+    // References
+    Rigidbody2D rb;
     Collider2D[] playerColliders;
-    
-    
     PlayerMain playerMain;
+
+    // Inputs
+    float moveInput;
+    bool jumpDown;
+    bool jumpHeld;
+    bool jumpUp;
+    bool jumpAvail;
+
+    // Movement
+    float moveHorizontal;
+
+    // Ground check
+    bool isGrounded;
+    bool isCoyote;
+    bool canCoyote;
+    bool didJump;
+    bool canHalf;
+
+    // Jump
+    Coroutine coyoteCoroutine;
+    Coroutine jumpBufferCoroutine;
+    bool isJumpingDown;
+
+    // Gravity
+    float currentGravity;
+    bool isFastFalling;
+
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -53,12 +109,6 @@ public class PlayerMovement : MonoBehaviour
 
     #region Inputs
 
-    float moveInput;
-
-    bool jumpDown;
-    bool jumpHeld;
-    bool jumpUp;
-    bool jumpAvail;
     void HandleInputs()
     {
         if (EventManager.Instance != null)
@@ -94,15 +144,6 @@ public class PlayerMovement : MonoBehaviour
     
     #region Movement
 
-    
-    [Header("Movement")]
-    [SerializeField] float moveSpeed = 12f;
-    [SerializeField] float accel = 6;
-
-    [SerializeField] LayerMask wallLayer;
-    
-    float moveHorizontal;
-    
     void HandleMovement()
     {
         moveHorizontal = Mathf.MoveTowards(moveHorizontal, moveInput, accel * Time.fixedDeltaTime);
@@ -129,19 +170,6 @@ public class PlayerMovement : MonoBehaviour
     #endregion
 
     #region Jump
-
-    [Header("GroundCheck")]
-    
-    [SerializeField] Collider2D groundCheck;
-    [SerializeField] LayerMask groundLayer;
-    
-    
-    
-    bool isGrounded;
-    bool isCoyote;
-    bool canCoyote;
-    bool didJump;
-    bool canHalf;
 
     void GroundCheck()
     {
@@ -179,7 +207,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    Coroutine coyoteCoroutine;
     IEnumerator CoyoteTimer()
     {
         yield return new WaitForSeconds(coyoteTime);
@@ -188,12 +215,6 @@ public class PlayerMovement : MonoBehaviour
     
     
 
-    [Header("Jump")]
-    [SerializeField] float jumpForce = 5f;
-    [SerializeField] float jumpBufferTime = 0.2f;
-    [SerializeField] float coyoteTime = 0.1f;
-    
-    [SerializeField] ParticleSystem jumpEffect;
     void HandleJump()
     {
         if (CanJump())
@@ -222,14 +243,12 @@ public class PlayerMovement : MonoBehaviour
        
     }
 
-    Coroutine jumpBufferCoroutine;
     IEnumerator JumpBuffer()
     {
         yield return new WaitForSeconds(jumpBufferTime);
         jumpAvail = false;
     }
 
-    private bool isJumpingDown;
     IEnumerator JumpDownPlatform()
     {
         isJumpingDown = true;
@@ -254,16 +273,6 @@ public class PlayerMovement : MonoBehaviour
 
     #region Gravity
 
-    [Header("Gravity")]
-    [SerializeField] float defaultGravity = 1;
-    [SerializeField] float fastGravity = 1;
-    
-    [SerializeField] float maxFallSpeed = 20f;
-    [SerializeField] float apexThreshHold = 3f;
-    
-    float currentGravity;
-    bool isFastFalling;
-    
     void HandleGravity()
     {
         if (isGrounded)
@@ -331,36 +340,7 @@ public class PlayerMovement : MonoBehaviour
         }
         
     }
-    
-    
-
-    
 
     #endregion
    
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

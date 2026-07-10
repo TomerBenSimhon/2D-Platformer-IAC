@@ -160,13 +160,13 @@ public class SwordProjectileBehavior : MonoBehaviour
             PlayHitSparks(angle - 30f, 0, 0);
             GameManager.Instance.HitStop(0.08f);
 
-            if (enemyMain.currentState == EnemyState.Stun)
+            if (enemyMain.CurrentState == EnemyState.Stun)
             {
                 StartCoroutine(ReStunEnemy(enemyMain));
             }
             else
             {
-                enemyMain.currentState = EnemyState.Stun; 
+                enemyMain.ChangeState(EnemyState.Stun); 
             }
 
             if (CanRicochetToEnemy())
@@ -197,7 +197,7 @@ public class SwordProjectileBehavior : MonoBehaviour
             {
                 Debug.Log("we hit 3 already");
             }
-            else if (enemyMain.currentState == EnemyState.Dead)
+            else if (enemyMain.CurrentState == EnemyState.Dead)
             {
                 Debug.Log("he is dead");
             }
@@ -242,9 +242,9 @@ public class SwordProjectileBehavior : MonoBehaviour
 
     IEnumerator ReStunEnemy(EnemyMain enemyMain)
     {
-        enemyMain.currentState = EnemyState.Shocked;
+        enemyMain.ChangeState(EnemyState.Shocked);
         yield return null;
-        enemyMain.currentState = EnemyState.Stun;
+        enemyMain.ChangeState(EnemyState.Stun);
     }
 
     Vector2 DirectionToPlayer()

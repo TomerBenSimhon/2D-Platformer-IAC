@@ -4,11 +4,6 @@ using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
 
-public enum EnemyState
-{
-   Patrol, Chase, Shocked, Hit, Stun, Dead
-}
-
 public class EnemyMain : MonoBehaviour
 {
    GameObject player;
@@ -21,15 +16,9 @@ public class EnemyMain : MonoBehaviour
    
    [SerializeField] GameObject visuals;
    
-   [SerializeField] PatrolState patrolState;
-   [SerializeField] ChaseState chaseState;
-   [SerializeField] EnemyHit enemyHit;
-   [SerializeField] EnemyStunned enemyStunned;
-   [SerializeField] EnemyShocked enemyShocked;
-   [SerializeField] EnemyDeath enemyDeath;
+   List<IEnemyState> allStates;
    
-   [Header("State")]
-   public EnemyState currentState;
+   [field: SerializeField] public EnemyState CurrentState { get; private set; }
    
    [Header("Player Detection")]
    [SerializeField] float maxDetectionDistance;
@@ -67,13 +56,18 @@ public class EnemyMain : MonoBehaviour
 
    private void Awake()
    {
-      patrolState.enabled = true;
-      chaseState.enabled = false;
+      // GetComponentsInChildren covers both cases — states living on
+      // this same GameObject, or split across child objects — so this
+      // works regardless of how the hierarchy is actually set up. If
+      // everything's confirmed to be on this one GameObject, plain
+      // GetComponents<IEnemyState>() would do the same job slightly
+      // cheaper, but the difference is a one-time, negligible cost here.
+      allStates = new List<IEnemyState>(GetComponentsInChildren<IEnemyState>());
+      ChangeState(EnemyState.Patrol);
    }
 
    void Update()
    {
-      SwitchState();
       StateControl();
       DamagePlayerOnTouch();
    }
@@ -161,20 +155,20 @@ public class EnemyMain : MonoBehaviour
       playerHitTouch = Physics2D.OverlapCircle(hitCollider.bounds.center, hitCollider.radius, playerLayer);
       
       if (playerHitTouch && 
-          currentState != EnemyState.Dead && 
+          CurrentState != EnemyState.Dead && 
           playerMain.currentState != PlayerState.Hit && playerMain.currentState != PlayerState.God && playerMain.currentState != PlayerState.Dead)
       {
 
          if (playerMain.currentState == PlayerState.Attacking)
          {
-            if (currentState == EnemyState.Chase || currentState == EnemyState.Shocked)
+            if (CurrentState == EnemyState.Chase || CurrentState == EnemyState.Shocked)
             {
                DamagePlayer(32,onTouchKnockback);
                GameManager.Instance.HitStop(0.1f);
                CameraManager.Instance.CameraShake(touchImpulse);
-               if (currentState == EnemyState.Patrol)
+               if (CurrentState == EnemyState.Patrol)
                {
-                  currentState = EnemyState.Shocked;
+                  ChangeState(EnemyState.Shocked);
                }
             }
          }
@@ -183,9 +177,9 @@ public class EnemyMain : MonoBehaviour
             DamagePlayer(32,onTouchKnockback);
             GameManager.Instance.HitStop(0.1f);
             CameraManager.Instance.CameraShake(touchImpulse);
-            if (currentState == EnemyState.Patrol)
+            if (CurrentState == EnemyState.Patrol)
             {
-               currentState = EnemyState.Shocked;
+               ChangeState(EnemyState.Shocked);
             }
          }
       }
@@ -237,13 +231,12 @@ public class EnemyMain : MonoBehaviour
    {
       if (!enemyHealth.isDead)
       {
-         if (currentState == EnemyState.Patrol && IsPlayerSpotted())
+         if (CurrentState == EnemyState.Patrol && IsPlayerSpotted())
          {
-            patrolState.isIdle = false;
-            currentState = EnemyState.Shocked;
+            ChangeState(EnemyState.Shocked);
          }
 
-         if (currentState == EnemyState.Chase)
+         if (CurrentState == EnemyState.Chase)
          {
             if (!CanSeePlayer() && chaseExitTimerRoutine == null)
             {
@@ -254,76 +247,28 @@ public class EnemyMain : MonoBehaviour
                StopCoroutine(chaseExitTimerRoutine);
                chaseExitTimerRoutine = null;
             }
-       
          }
       }
       else
       {
-         currentState = EnemyState.Dead;
+         ChangeState(EnemyState.Dead);
       }
-      
-      
    }
 
-   void SwitchState()
+   // Replaces the old per-frame switch statement. Only runs when the
+   // state actually changes (not every frame), and works for any number
+   // of states without needing a new case added each time one is created.
+   public void ChangeState(EnemyState newState)
    {
-      switch (currentState)
+      if (newState == CurrentState) return;
+
+      foreach (var state in allStates)
       {
-         case EnemyState.Chase:
-            patrolState.enabled = false;
-            enemyStunned.enabled = false;
-            enemyHit.enabled = false;
-            enemyShocked.enabled = false;
-            
-            chaseState.enabled = true;
-            break;
-         
-         case EnemyState.Shocked:
-            patrolState.enabled = false;
-            enemyStunned.enabled = false;
-            enemyHit.enabled = false;
-            chaseState.enabled = false;
-            
-            enemyShocked.enabled = true;
-            break;
-           
-         case EnemyState.Patrol:
-            chaseState.enabled = false;
-            enemyStunned.enabled = false;
-            enemyHit.enabled = false;
-            enemyShocked.enabled = false;
-            
-            patrolState.enabled = true;
-            break;
-         
-         case EnemyState.Stun:
-            chaseState.enabled = false;
-            patrolState.enabled = false;
-            enemyHit.enabled = false;
-            enemyShocked.enabled = false;
-
-            enemyStunned.enabled = true;
-            break;
-         
-         case EnemyState.Hit:
-            chaseState.enabled = false;
-            patrolState.enabled = false;
-            enemyStunned.enabled = false;
-            enemyShocked.enabled = false;
-
-            enemyHit.enabled = true;
-            break;
-         
-         case EnemyState.Dead:
-            chaseState.enabled = false;
-            patrolState.enabled = false;
-            enemyStunned.enabled = false;
-            enemyShocked.enabled = false;
-            enemyHit.enabled = false;
-            
-            enemyDeath.enabled = true;
-            break;
+         if (state.StateId == newState) state.Enter();
+         else state.Exit();
       }
+
+      CurrentState = newState;
    }
    
    
@@ -331,7 +276,7 @@ public class EnemyMain : MonoBehaviour
    IEnumerator ChaseStateExitTimer()
    {
       yield return new WaitForSeconds(chaseStateExitTime);
-      currentState = EnemyState.Patrol;
+      ChangeState(EnemyState.Patrol);
    }
    
 

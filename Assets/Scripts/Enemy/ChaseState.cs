@@ -4,17 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class ChaseState : MonoBehaviour
+public class ChaseState : MonoBehaviour, IEnemyState
 {
+   public EnemyState StateId => EnemyState.Chase;
+   public void Enter() => enabled = true;
+   public void Exit() => enabled = false;
+   
+   
    [SerializeField] Rigidbody2D rb;
    [SerializeField] Animator animator;
    [SerializeField] GameObject visuals;
-   
-   GameObject player;
-   EnemyMain enemyMain;
-   
-   bool searchingPlayer = false;
-   bool isAttacking = false;
    
    [Header("Chase Movement")]
    [SerializeField] float chaseSpeed = 5f;
@@ -28,6 +27,12 @@ public class ChaseState : MonoBehaviour
    [Header("Attack")] 
    [SerializeField] float attackRange;
    [SerializeField] float attackCooldown;
+
+   private GameObject player;
+   private EnemyMain enemyMain;
+
+   private bool searchingPlayer = false;
+   private bool isAttacking = false;
    
 
    private void Awake()
@@ -269,8 +274,6 @@ public class ChaseState : MonoBehaviour
          animator.speed = 1.25f;
       }
    }
-
-   
 }
 
 

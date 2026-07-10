@@ -4,11 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class PatrolState : MonoBehaviour
+public class PatrolState : MonoBehaviour, IEnemyState
 {
-    Rigidbody2D rb;
-    Animator animator;
-    EnemyMain enemyMain;
+    public EnemyState StateId => EnemyState.Patrol;
+    public void Enter() => enabled = true;
+    public void Exit()
+    {
+        enabled = false;
+        isIdle = false;
+    } 
     
     [SerializeField] private GameObject visuals;
     
@@ -16,18 +20,20 @@ public class PatrolState : MonoBehaviour
     [SerializeField] float patrolSpeed = 2f;
     [SerializeField] float patrolTime = 0.5f;
     [SerializeField] float idleTime = 2f;
-    
     public bool isIdle = false;
 
     [Header("Edge Checks")]
     [SerializeField] Collider2D edgeCheckerR;
     [SerializeField] Collider2D edgeCheckerL;
     [SerializeField] LayerMask ground;
+    
+    Rigidbody2D rb;
+    Animator animator;
+    
     void Awake()
     {
        rb = GetComponent<Rigidbody2D>(); 
        animator = GetComponent<Animator>();
-       enemyMain = GetComponent<EnemyMain>();
     }
 
     

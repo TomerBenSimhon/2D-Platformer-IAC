@@ -4,11 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class EnemyDeath : MonoBehaviour
+public class EnemyDeath : MonoBehaviour, IEnemyState
 {
-   private EnemyMain enemyMain;
+   public EnemyState StateId => EnemyState.Dead;
+   public void Enter() => enabled = true;
+   public void Exit() => enabled = false;
    
    [SerializeField] GameObject[] objectsDestroyOnDeath;
+   private EnemyMain enemyMain;
 
    private void Awake()
    {

@@ -3,14 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyShocked : MonoBehaviour
+public class EnemyShocked : MonoBehaviour, IEnemyState
 {
-    
-     Animator animator;
-    EnemyMain enemyMain;
-    Rigidbody2D rb;
+    public EnemyState StateId => EnemyState.Shocked;
+    public void Enter() => enabled = true;
+    public void Exit() => enabled = false;
     
     [SerializeField] float stopTime;
+    
+    Animator animator;
+    EnemyMain enemyMain;
+    Rigidbody2D rb;
     
     private void Awake()
     {
@@ -54,7 +57,7 @@ public class EnemyShocked : MonoBehaviour
             yield return null;
         }
 
-        enemyMain.currentState = EnemyState.Chase;
+        enemyMain.ChangeState(EnemyState.Chase);
     }
     
     void StopMovement()

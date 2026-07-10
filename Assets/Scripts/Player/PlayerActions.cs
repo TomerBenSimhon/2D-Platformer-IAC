@@ -258,11 +258,11 @@ public class PlayerActions : MonoBehaviour
                 
                 EnemyMain enemyMain = enemy.transform.parent.parent.GetComponent<EnemyMain>();
 
-                if (enemyMain.currentState == EnemyState.Stun || enemyMain.currentState == EnemyState.Patrol)
+                if (enemyMain.CurrentState == EnemyState.Stun || enemyMain.CurrentState == EnemyState.Patrol)
                 {
                     Health enemyHealth = enemyMain.GetComponent<Health>();
                     
-                    enemyMain.currentState = EnemyState.Hit;
+                    enemyMain.ChangeState(EnemyState.Hit);
                     enemyHealth.TakeDamage(50);
                     
                     GameManager.Instance.HitStopScale(0.5f, 0.1f);
